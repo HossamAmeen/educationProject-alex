@@ -12,6 +12,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UserSeeder::class);
+        $this->call([
+            UserSeed::class,
+        ]);
+        factory('App\Models\User',25)->create();
         \App\Models\Teacher::create([
             'full_name' => "hossam",
              'emaill'=> "hossam@gmail.com",
@@ -19,7 +23,7 @@ class DatabaseSeeder extends Seeder
               'password' => bcrypt('admin'),
               'phone' => "010"
         ]);
-
+       
         \App\Models\Teacher::create([
             'full_name' => "hossam2",
              'emaill'=> "hossam2@gmail.com",

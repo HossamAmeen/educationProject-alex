@@ -18,4 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('teachers' , "DashBoard\TeacherController");
+Route::prefix('admin')->namespace('DashBoard')->group(function(){
+
+    Route::resource('admins' , "AdminController");
+Route::resource('teachers' , "TeacherController");
+});
