@@ -21,5 +21,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('admin')->namespace('DashBoard')->group(function(){
 
     Route::resource('admins' , "AdminController");
-Route::resource('teachers' , "TeacherController");
+    Route::resource('teachers' , "TeacherController");
 });
