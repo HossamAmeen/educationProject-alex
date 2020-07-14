@@ -30,3 +30,8 @@ Route::prefix('admin')->namespace('DashBoard')->group(function(){
     });
    
 });
+
+Route::get('test' , function ()
+{
+    return "test";
+});
