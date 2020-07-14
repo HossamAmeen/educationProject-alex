@@ -16,8 +16,7 @@ class AdminController extends CRUDController
     }
 
     public function store(Request $request){
-    
-       
+        
         $requestArray = $request->all();
         if(isset($requestArray['password']) )
         $requestArray['password'] =  Hash::make($requestArray['password']);

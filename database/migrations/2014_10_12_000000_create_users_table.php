@@ -22,9 +22,9 @@ class CreateUsersTable extends Migration
             $table->string('email');
             $table->integer('role');
             /**
-             * 1 => master
+             * 1 => admin
              *
-             * 2 => admin
+             * 2 => master 
              *
              * 
              */

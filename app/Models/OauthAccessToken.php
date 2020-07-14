@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Teacher extends Model
+class OauthAccessToken extends Model
 {
-    protected $guarded = [];
+    //
 }

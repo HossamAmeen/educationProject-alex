@@ -22,4 +22,11 @@ Route::prefix('admin')->namespace('DashBoard')->group(function(){
 
     Route::resource('admins' , "AdminController");
     Route::resource('teachers' , "TeacherController");
+
+    Route::post('/login', 'APIAuthController@login')->name('admin.login');
+    
+    Route::middleware('checkLogin')->group(function () {
+        Route::post('/logout', 'APIAuthController@logout')->name('admin.logout');
+    });
+   
 });
