@@ -31,3 +31,40 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
         'user_id' => 1
     ];
 });
+
+
+$factory->define(App\Models\Teacher::class, function (Faker $faker) {
+
+    return [
+        'full_name' => "hossam student",
+        'email'=> "hossam_student@gmail.com",
+         'user_name' => "hossam_student",
+         'password' => bcrypt('admin'),
+         'phone' => "01010079798",
+         'user_id' => 1
+    ];
+});
+
+
+$factory->define(App\Models\Student::class, function (Faker $faker) {
+
+    return [
+        'full_name' => "hossam student",
+        'email'=> "hossam_student@gmail.com",
+         'user_name' => "hossam_student",
+         'password' => bcrypt('admin'),
+         'phone' => "01010079798",
+         'level'=>"secondary",
+         'user_id' => 1
+    ];
+});
+
+$factory->define(App\Models\Room::class, function (Faker $faker) {
+
+    return [
+        'name' => "room".rand(1,15),
+        'subject'=> "math",
+        'teacher_id'=>rand(1,15),
+         'user_id' => 1
+    ];
+});

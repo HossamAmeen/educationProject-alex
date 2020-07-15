@@ -20,15 +20,23 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::prefix('admin')->namespace('DashBoard')->group(function(){
 
-    Route::resource('admins' , "AdminController");
-    Route::resource('teachers' , "TeacherController");
-
     Route::post('/login', 'APIAuthController@login')->name('admin.login');
-    
     Route::middleware('checkLogin')->group(function () {
         Route::post('/logout', 'APIAuthController@logout')->name('admin.logout');
     });
+    
+    Route::resource('admins' , "AdminController");
+    Route::resource('teachers' , "TeacherController");
+    Route::resource('students' , "StudentController");
+    Route::resource('rooms' , "RoomController");
+
+    
    
+});
+        /////////// teacher /////////////
+Route::prefix('teacher')->namespace('Teacher')->group(function(){
+    Route::post('login', 'TeacherController@login')->name('teacher.login');
+    Route::post('logout', 'TeacherController@logout')->name('teacher.logout');
 });
 
 Route::get('test' , function ()

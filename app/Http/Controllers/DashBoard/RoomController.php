@@ -4,12 +4,12 @@ namespace App\Http\Controllers\DashBoard;
 use App\Http\Controllers\APIResponseTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Teacher;
-use Illuminate\Support\Facades\Hash;
-
-class TeacherController extends CRUDController
+use App\Models\Room;
+use Auth;
+class RoomController extends CRUDController
 {
-    public function __construct(Teacher $model)
+    use APIResponseTrait;
+    public function __construct(Room $model)
     {
         $this->model = $model;
     }
@@ -49,5 +49,8 @@ class TeacherController extends CRUDController
         $row->update($requestArray);
         return $this->APIResponse(null, null, 200);
     }
-
+    public function with()
+    {
+        return ["teacher"];
+    }
 }

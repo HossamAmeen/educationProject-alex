@@ -46,6 +46,17 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+
+        'teacher-api' => [
+            'driver' => 'passport',
+            'provider' => 'teachers',
+            'hash' => false,
+        ],
+        'student-api' => [
+            'driver' => 'passport',
+            'provider' => 'students',
+            'hash' => false,
+        ],
     ],
 
     /*
@@ -71,6 +82,15 @@ return [
             'model' => App\Models\User::class,
         ],
 
+        'teachers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Teacher::class,
+        ],
+
+        'students' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Student::class,
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',

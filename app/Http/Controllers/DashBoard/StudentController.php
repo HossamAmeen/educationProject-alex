@@ -1,15 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\DashBoard;
-use App\Http\Controllers\APIResponseTrait;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Teacher;
 use Illuminate\Support\Facades\Hash;
-
-class TeacherController extends CRUDController
+use App\Models\Student;
+class StudentController extends CRUDController
 {
-    public function __construct(Teacher $model)
+    public function __construct(Student $model)
     {
         $this->model = $model;
     }
@@ -49,5 +48,5 @@ class TeacherController extends CRUDController
         $row->update($requestArray);
         return $this->APIResponse(null, null, 200);
     }
-
+    
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTeachersTable extends Migration
+class CreateStudentRoomsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,15 @@ class CreateTeachersTable extends Migration
      */
     public function up()
     {
-        Schema::create('teachers', function (Blueprint $table) {
+        Schema::create('student_rooms', function (Blueprint $table) {
             $table->id();
-            $table->string('full_name');
-            $table->string('email');
-            $table->string('user_name');
-            $table->string('password');
-            $table->string('phone');
-            $table->enum('approvement' , ['under_revision' ,'accept','blocked'])->default('under_revision');
-            $table->string('block_reason')->nullable();
 
+            $table->bigInteger('student_id')->unsigned()->nullable();
+            $table->foreign('student_id')->references('id')->on('students')->onDelete('set null');
+            
+            // $table->bigInteger('user_id')->unsigned()->nullable();
+            // $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            
             $table->bigInteger('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
@@ -36,6 +35,6 @@ class CreateTeachersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('teachers');
+        Schema::dropIfExists('student_rooms');
     }
 }
