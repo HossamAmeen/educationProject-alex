@@ -4,12 +4,12 @@ namespace App\Http\Controllers\DashBoard;
 use App\Http\Controllers\APIResponseTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Room;
+use App\Models\FileRoom;
 use Auth;
-class RoomController extends CRUDController
+class FIleRoomController extends CRUDController
 {
     use APIResponseTrait;
-    public function __construct(Room $model)
+    public function __construct(FileRoom $model)
     {
         $this->model = $model;
     }
@@ -48,10 +48,5 @@ class RoomController extends CRUDController
         // $requestArray['user_id'] = Auth::user()->id;
         $row->update($requestArray);
         return $this->APIResponse(null, null, 200);
-    }
-    
-    public function with()
-    {
-        return ["teacher"];
     }
 }

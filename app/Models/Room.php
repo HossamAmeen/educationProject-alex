@@ -12,4 +12,9 @@ class Room extends Model
     {
         return $this->belongsTo(Teacher::class,'teacher_id')->select(['id' , 'full_name']);
     }
+
+    public function files()
+    {
+        return $this->hasMany(FileRoom::class , 'room_id');
+    }
 }

@@ -1,17 +1,28 @@
 <?php
 
-namespace App\Http\Controllers\Teacher;
+namespace App\Http\Controllers\Student;
+
 use App\Http\Controllers\APIResponseTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Teacher;
+use App\Models\Student;
 use App\Models\Room;
+use App\Models\StudentRoom;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Auth;
-class TeacherController extends Controller
+class StudentController extends Controller
 {
     use APIResponseTrait;
+
+    public function register(Request $request)
+    {
+        $requestArray = $request->all();
+        if(isset($requestArray['password']) )
+        $requestArray['password'] =  Hash::make($requestArray['password']);
+        Student::create($requestArray);
+        return $this->APIResponse(null, null, 200);
+    }
     public function login (Request $request) {
 
         $validator = Validator::make($request->all(), [
@@ -37,7 +48,7 @@ class TeacherController extends Controller
         $request->merge([$field => request('user_name')]);
 
     
-        $user = Teacher::where($field, request('user_name'))->first();
+        $user = Student::where($field, request('user_name'))->first();
 
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
@@ -52,32 +63,38 @@ class TeacherController extends Controller
         }
     }
 
+    
+    public function getRooms()
+    {
+        // return Auth::guard('teacher-api')->user()->id ; 
+      
+        return $this->APIResponse(Student::with('rooms')->find(Auth::guard('student-api')->user()->id), null, 200);
+       
+    }
+
+    public function getRoomDetials($roomId)
+    {
+        $room = Room::with('files')->find($roomId);
+        return $this->APIResponse($room, null, 200);
+    }
+    
+    public function joinRoom($room_id)
+    {
+        $requestArray['student_id'] = Auth::guard('student-api')->user()->id ;
+        $requestArray['room_id'] = $room_id ;
+        StudentRoom::create($requestArray);
+        return $this->APIResponse(null, null, 200);
+    }
     public function logout()
     { 
-        if (Auth::guard('teacher-api')->check()) {
+        if (Auth::guard('student-api')->check()) {
             // return Auth::guard('teacher-api')->user()->id;
-            Auth::guard('teacher-api')->user()->AauthAcessToken()->delete();
+            Auth::guard('student-api')->user()->AauthAcessToken()->delete();
             return $this->APIResponse(null, null, 200);
         }
         else
         {
             return $this->APIResponse(null, "the token is expired", 422);
         }
-    }
-
-    public function getRooms()
-    {
-        // return Auth::guard('teacher-api')->user()->id ; 
-        $rooms = Room::with('teacher')->where('teacher_id' , Auth::guard('teacher-api')->user()->id)->get();
-        return $this->APIResponse($rooms, null, 200);
-       
-    }
-
-   
-    public function createRoom(Request $request)
-    {
-        $request->teacher_id = Auth::guard('teacher-api')->user()->id ; 
-        Room::create($request->all());
-        return $this->APIResponse(null, null, 200);
     }
 }

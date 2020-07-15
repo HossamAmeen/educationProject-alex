@@ -36,7 +36,19 @@ Route::prefix('admin')->namespace('DashBoard')->group(function(){
         /////////// teacher /////////////
 Route::prefix('teacher')->namespace('Teacher')->group(function(){
     Route::post('login', 'TeacherController@login')->name('teacher.login');
+    Route::get('get-rooms', 'TeacherController@getRooms')->name('teacher.logout');
+    Route::post('create-room', 'TeacherController@createRoom');
     Route::post('logout', 'TeacherController@logout')->name('teacher.logout');
+});
+
+        //////////////// student //////////////
+Route::prefix('student')->namespace('Student')->group(function(){
+    Route::post('register', 'StudentController@register')->name('student.login');
+    Route::post('login', 'StudentController@login')->name('student.login');
+    Route::get('get-rooms', 'StudentController@getRooms');
+    Route::post('join-room/{id}', 'StudentController@joinRoom');
+    Route::get('show-room/{id}', 'StudentController@getRoomDetials');
+    Route::post('logout', 'StudentController@logout')->name('student.logout');
 });
 
 Route::get('test' , function ()

@@ -15,13 +15,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeed::class,
         ]);
-        factory('App\Models\User',25)->create();
-        factory('App\Models\Teacher',25)->create();
-        factory('App\Models\Student',25)->create();
-        factory('App\Models\Room',25)->create();
-
-
-
 
         \App\Models\Teacher::create([
             'full_name' => "hossam teacher",
@@ -53,6 +46,16 @@ class DatabaseSeeder extends Seeder
             'teacher_id'=>1,
              'user_id' => 1
         ]);
+        
+        factory('App\Models\User',25)->create();
+        factory('App\Models\Teacher',25)->create();
+        factory('App\Models\Student',25)->create();
+        factory('App\Models\Room',25)->create();
+
+
+
+
+       
        
 
     }

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class StudentRoom extends Model
+class RoomLive extends Model
 {
-    protected $guarded= [];
+    //
 }
