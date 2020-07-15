@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/makhjaib/sites/edu-profiles.com
+    - export DEPLOYPATH=/home/makhjaib/sites/edu-profiles2.com
     - /bin/cp * $DEPLOYPATH
