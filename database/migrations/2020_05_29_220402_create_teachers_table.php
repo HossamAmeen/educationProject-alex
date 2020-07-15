@@ -22,7 +22,8 @@ class CreateTeachersTable extends Migration
             $table->string('phone');
             $table->enum('approvement' , ['under_revision' ,'accept','blocked'])->default('under_revision');
             $table->string('block_reason')->nullable();
-
+            $table->string('image')->default('avatar.png')->nullable();
+            
             $table->bigInteger('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();

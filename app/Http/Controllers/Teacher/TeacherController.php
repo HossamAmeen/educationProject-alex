@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
 use App\Models\Room;
+use App\Models\PrivateRoom;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Auth;
@@ -67,17 +68,26 @@ class TeacherController extends Controller
 
     public function getRooms()
     {
-        // return Auth::guard('teacher-api')->user()->id ; 
-        $rooms = Room::with('teacher')->where('teacher_id' , Auth::guard('teacher-api')->user()->id)->get();
-        return $this->APIResponse($rooms, null, 200);
+        
+        $data['public_rooms'] = Room::with('teacher')->where('teacher_id' , Auth::guard('teacher-api')->user()->id)->get();
+        $data['private_rooms'] = PrivateRoom::with('teacher')->where('teacher_id' , Auth::guard('teacher-api')->user()->id)->get();
+        return $this->APIResponse($data, null, 200);
        
     }
 
    
+    public function createPublicRoom(Request $request)
+    {
+        $request['teacher_id'] = Auth::guard('teacher-api')->user()->id ; 
+        // $requestArray['']
+        Room::create($request->all());
+        return $this->APIResponse(null, null, 200);
+    }
+
     public function createRoom(Request $request)
     {
-        $request->teacher_id = Auth::guard('teacher-api')->user()->id ; 
-        Room::create($request->all());
+        $request['teacher_id'] = Auth::guard('teacher-api')->user()->id ;  
+        PrivateRoom::create($request->all());
         return $this->APIResponse(null, null, 200);
     }
 }

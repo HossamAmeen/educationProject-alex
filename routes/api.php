@@ -24,34 +24,45 @@ Route::prefix('admin')->namespace('DashBoard')->group(function(){
     Route::middleware('checkLogin')->group(function () {
         Route::post('/logout', 'APIAuthController@logout')->name('admin.logout');
     });
-    
+    Route::middleware('cors')->group(function () {
     Route::resource('admins' , "AdminController");
     Route::resource('teachers' , "TeacherController");
     Route::resource('students' , "StudentController");
     Route::resource('rooms' , "RoomController");
-
+    Route::resource('filesrooms' , "FileRoomController");
+});
     
    
 });
         /////////// teacher /////////////
 Route::prefix('teacher')->namespace('Teacher')->group(function(){
+
     Route::post('login', 'TeacherController@login')->name('teacher.login');
-    Route::get('get-rooms', 'TeacherController@getRooms')->name('teacher.logout');
-    Route::post('create-room', 'TeacherController@createRoom');
-    Route::post('logout', 'TeacherController@logout')->name('teacher.logout');
+
+    Route::middleware('checkLogin:teacher-api')->group(function () {
+
+        Route::get('get-rooms', 'TeacherController@getRooms');
+        Route::post('create-public-room', 'TeacherController@createPublicRoom');
+        Route::post('create-room', 'TeacherController@createRoom');
+
+       
+        Route::post('logout', 'TeacherController@logout');
+    });
 });
 
         //////////////// student //////////////
 Route::prefix('student')->namespace('Student')->group(function(){
     Route::post('register', 'StudentController@register')->name('student.login');
     Route::post('login', 'StudentController@login')->name('student.login');
-    Route::get('get-rooms', 'StudentController@getRooms');
-    Route::post('join-room/{id}', 'StudentController@joinRoom');
-    Route::get('show-room/{id}', 'StudentController@getRoomDetials');
-    Route::post('logout', 'StudentController@logout')->name('student.logout');
-});
+    Route::middleware('checkLogin:student-api')->group(function () {
 
-Route::get('test' , function ()
-{
-    return "test";
+       
+        Route::get('get-rooms', 'StudentController@getRooms');
+        Route::post('join-public-room/{id}', 'StudentController@joinPublicRoom');
+        Route::post('join-room/{id}', 'StudentController@joinRoom');
+        Route::get('show-public-room/{id}', 'StudentController@getPublicRoomDetials');
+        Route::get('show-room/{id}', 'StudentController@getRoomDetials');
+
+        Route::post('logout', 'StudentController@logout')->name('student.logout');
+    });
 });

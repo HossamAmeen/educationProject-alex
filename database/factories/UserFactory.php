@@ -65,7 +65,6 @@ $factory->define(App\Models\Room::class, function (Faker $faker) {
         'name' => "room".rand(1,15),
         'subject'=> "math",
         'teacher_id'=>rand(1,15),
-        'is_public'=>rand(0,1),
          'user_id' => 1
     ];
 });

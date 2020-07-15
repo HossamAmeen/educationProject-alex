@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRoomLivesTable extends Migration
+class CreatePrivateRoomLivesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateRoomLivesTable extends Migration
      */
     public function up()
     {
-        Schema::create('room_lives', function (Blueprint $table) {
+        Schema::create('private_room_lives', function (Blueprint $table) {
             $table->id();
             $table->string('appointment');
             $table->string('name');
@@ -21,8 +21,7 @@ class CreateRoomLivesTable extends Migration
             $table->text('description')->nullable();
 
             $table->bigInteger('room_id')->unsigned()->nullable();
-            $table->foreign('room_id')->references('id')->on('rooms')->onDelete('set null');
-            
+            $table->foreign('room_id')->references('id')->on('private_rooms')->onDelete('set null');
             $table->timestamps();
         });
     }
@@ -34,6 +33,6 @@ class CreateRoomLivesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('room_lives');
+        Schema::dropIfExists('private_room_lives');
     }
 }

@@ -14,9 +14,9 @@ class CheckLogin
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next , $guard = 'api')
     {
-        if (Auth::guard('api')->check() ) {
+        if (Auth::guard($guard)->check() ) {
             return $next($request);
         } else {
             return $this->APIResponse(null, "token is expired", 401);

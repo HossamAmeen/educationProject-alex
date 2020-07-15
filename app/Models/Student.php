@@ -11,8 +11,13 @@ class Student extends Authenticatable
     use HasApiTokens , Notifiable;
     protected $guarded = [];
 
-    public function rooms()
+    public function publicRooms()
     {
         return $this->hasMany(StudentRoom::class , 'student_id');
+    }
+
+    public function privateRooms()
+    {
+        return $this->hasMany(StudentPrivateRoom::class , 'student_id');
     }
 }

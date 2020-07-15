@@ -17,15 +17,15 @@ class FIleRoomController extends CRUDController
     public function store(Request $request){
         
         $requestArray = $request->all();
-        if(isset($requestArray['password']) )
-        $requestArray['password'] =  Hash::make($requestArray['password']);
-        if(isset($requestArray['image']) )
+        if(isset($requestArray['file']) )
         {
-            $fileName = $this->uploadImage($request );
-            $requestArray['image'] =  $fileName;
+           
+            $fileName = $this->storeFile($request->file , 'room-files');
+            $requestArray['path'] =  $fileName;
         }
        
         // $requestArray['user_id'] = Auth::user()->id;
+        // return $requestArray ;
         $this->model->create($requestArray);
         return $this->APIResponse(null, null, 200);
     }
@@ -34,15 +34,10 @@ class FIleRoomController extends CRUDController
        
         $row = $this->model->FindOrFail($id);
         $requestArray = $request->all();
-        if(isset($requestArray['password']) && $requestArray['password'] != ""){
-            $requestArray['password'] =  Hash::make($requestArray['password']);
-        }else{
-            unset($requestArray['password']);
-        }
-        if(isset($requestArray['image']) )
+        if(isset($requestArray['file']) )
         {
-            $fileName = $this->uploadImage($request );
-            $requestArray['image'] =  $fileName;
+            $fileName = $this->storeFile($request->file , 'room-files');
+            $requestArray['path'] =  $fileName;
         }
         
         // $requestArray['user_id'] = Auth::user()->id;

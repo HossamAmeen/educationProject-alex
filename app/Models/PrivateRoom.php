@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Room extends Model
+class PrivateRoom extends Model
 {
     protected $guarded = [];
 
@@ -15,6 +15,8 @@ class Room extends Model
 
     public function files()
     {
-        return $this->hasMany(FileRoom::class , 'room_id')->select(['id' , 'path' , 'name' , 'room_id']);
+        return $this->hasMany(FilePrivateRoom::class , 'room_id')->select(['id' , 'path' , 'name' , 'room_id']);
     }
+
+    
 }

@@ -44,6 +44,7 @@ class APIAuthController extends Controller
             if (Hash::check($request->password, $user->password)) {
             
                 $success['token'] = $user->createToken('token')->accessToken;
+                $success['user_name'] = $user->user_name;
                 return $this->APIResponse($success, null, 200);
             } else {
                 return $this->APIResponse(null, "Password mismatch", 422);  

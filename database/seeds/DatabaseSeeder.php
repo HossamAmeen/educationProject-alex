@@ -37,14 +37,14 @@ class DatabaseSeeder extends Seeder
             'name' => "math with hossam",
             'subject'=> "math",
             'teacher_id'=>1,
-             'user_id' => 1
+            'user_id' => 1
         ]);
 
         \App\Models\Room::create([
             'name' => "Science with hossam",
             'subject'=> "Science",
             'teacher_id'=>1,
-             'user_id' => 1
+            'user_id' => 1
         ]);
         
         factory('App\Models\User',25)->create();
