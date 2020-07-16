@@ -13,4 +13,9 @@ class Teacher extends Authenticatable
     public function AauthAcessToken(){
         return $this->hasMany(OauthAccessToken::class);
     }
+    public function getImageAttribute()
+    {
+        if($this->attributes['image'] == "avatar.png")
+        return asset($this->attributes['image']);
+    }
 }

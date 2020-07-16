@@ -20,4 +20,10 @@ class Student extends Authenticatable
     {
         return $this->hasMany(StudentPrivateRoom::class , 'student_id');
     }
+
+    public function getImageAttribute()
+    {
+        if($this->attributes['image'] == "avatar.png")
+        return asset($this->attributes['image']);
+    }
 }

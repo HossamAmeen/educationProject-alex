@@ -25,11 +25,11 @@ Route::prefix('admin')->namespace('DashBoard')->group(function(){
         Route::post('/logout', 'APIAuthController@logout')->name('admin.logout');
     });
     Route::middleware('cors')->group(function () {
-    Route::resource('admins' , "AdminController");
-    Route::resource('teachers' , "TeacherController");
-    Route::resource('students' , "StudentController");
-    Route::resource('rooms' , "RoomController");
-    Route::resource('filesrooms' , "FileRoomController");
+        Route::resource('admins' , "AdminController");
+        Route::resource('teachers' , "TeacherController");
+        Route::resource('students' , "StudentController");
+        Route::resource('rooms' , "RoomController");
+        Route::resource('filesrooms' , "FileRoomController");
 });
     
    
