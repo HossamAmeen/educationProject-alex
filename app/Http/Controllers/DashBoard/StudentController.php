@@ -20,7 +20,7 @@ class StudentController extends CRUDController
         $requestArray['password'] =  Hash::make($requestArray['password']);
         if(isset($requestArray['image']) )
         {
-            $fileName = $this->storeFile($request );
+            $fileName = $this->storeFile($request , 'students');
             $requestArray['image'] =  $fileName;
         }
        
@@ -40,7 +40,7 @@ class StudentController extends CRUDController
         }
         if(isset($requestArray['image']) )
         {
-            $fileName = $this->storeFile($request );
+            $fileName = $this->storeFile($request , 'students');
             $requestArray['image'] =  $fileName;
         }
         
