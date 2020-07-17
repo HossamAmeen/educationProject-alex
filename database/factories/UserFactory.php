@@ -68,3 +68,14 @@ $factory->define(App\Models\Room::class, function (Faker $faker) {
          'user_id' => 1
     ];
 });
+
+$factory->define(App\Models\PrivateRoom::class, function (Faker $faker) {
+
+    return [
+        'name' => "room".rand(1,15),
+        'subject'=> "math",
+        'teacher_id'=>rand(1,15),
+         'user_id' => 1
+    ];
+});
+

@@ -55,14 +55,18 @@ Route::prefix('student')->namespace('Student')->group(function(){
     Route::post('register', 'StudentController@register')->name('student.login');
     Route::post('login', 'StudentController@login')->name('student.login');
     Route::middleware('checkLogin:student-api')->group(function () {
-
-       
-        Route::get('get-rooms', 'StudentController@getRooms');
+                                ///// show rooms /////
+        Route::get('show-public-rooms', 'StudentRoomController@showPublicRooms');
+        Route::get('show-private-rooms', 'StudentRoomController@showPrivateRooms');
+        Route::get('show-rooms', 'StudentRoomController@showRooms');
+                                //// show registered room
+        Route::get('get-rooms', 'StudentController@getRooms');    ///////////// show all registered room 
         Route::post('join-public-room/{id}', 'StudentController@joinPublicRoom');
         Route::post('join-room/{id}', 'StudentController@joinRoom');
+        Route::get('show-private-room/{id}', 'StudentController@getPrivateRoomDetials');
         Route::get('show-public-room/{id}', 'StudentController@getPublicRoomDetials');
-        Route::get('show-room/{id}', 'StudentController@getRoomDetials');
 
         Route::post('logout', 'StudentController@logout')->name('student.logout');
     });
 });
+

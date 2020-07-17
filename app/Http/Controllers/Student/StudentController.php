@@ -105,13 +105,13 @@ class StudentController extends Controller
     
     public function getPublicRoomDetials($roomId)
     {
-        $room = Room::with('files')->find($roomId);
+        $room = Room::with(['files','lives'])->find($roomId);
         return $this->APIResponse($room, null, 200);
     }
     
-    public function getRoomDetials($roomId)
+    public function getPrivateRoomDetials($roomId)
     {
-        $room = PrivateRoom::with('files')->find($roomId);
+        $room = PrivateRoom::with(['files','lives'])->find($roomId);
         return $this->APIResponse($room, null, 200);
     }
   
