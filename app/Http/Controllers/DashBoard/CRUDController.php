@@ -43,6 +43,19 @@ class CRUDController extends Controller
         return $this->APIResponse($item, null, 200);
     }
 
+    public function edit($id)
+    {
+        $item = $this->model->FindOrFail($id);
+        $with = $this->with();
+        // return $with;
+        if (!empty($with))
+        {
+            $item = $this->model::with($with)->get()->find($id);
+            // $rows = $rows->with($with);
+        }
+        return $this->APIResponse($item, null, 200);
+    }
+
     public function destroy($id)
     {
 
