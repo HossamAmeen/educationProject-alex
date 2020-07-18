@@ -17,7 +17,7 @@ class CreateRoomsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('subject');
-
+            $table->string('image');
             $table->enum('approvement' , ['under_revision' ,'accept','blocked'])->default('accept');
             $table->string('block_reason')->nullable();
 
