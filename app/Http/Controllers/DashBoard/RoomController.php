@@ -4,7 +4,7 @@ namespace App\Http\Controllers\DashBoard;
 use App\Http\Controllers\APIResponseTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Room;
+use App\Models\{Room,PublicRoomTeacher};
 use Auth;
 class RoomController extends CRUDController
 {
@@ -17,16 +17,29 @@ class RoomController extends CRUDController
     public function store(Request $request){
         
         $requestArray = $request->all();
-        if(isset($requestArray['password']) )
-        $requestArray['password'] =  Hash::make($requestArray['password']);
         if(isset($requestArray['image']) )
         {
             $fileName = $this->uploadImage($request );
             $requestArray['image'] =  $fileName;
         }
-       
         // $requestArray['user_id'] = Auth::user()->id;
-        $this->model->create($requestArray);
+       $room =  $this->model->create($requestArray);
+       if(is_array($request->teacher_id)){
+       for($i=0 ; $i<count($request->teacher_id);$i++)
+       {
+        PublicRoomTeacher::create([
+            'teacher_id' => $request->teacher_id[$i],
+            'room_id' => $room->id]);
+       }
+       }
+       
+       else
+       {
+        PublicRoomTeacher::create([
+            'teacher_id' => $request->teacher_id,
+            'room_id' => $room->id]);
+       }
+      
         return $this->APIResponse(null, null, 200);
     }
 
@@ -34,11 +47,6 @@ class RoomController extends CRUDController
        
         $row = $this->model->FindOrFail($id);
         $requestArray = $request->all();
-        if(isset($requestArray['password']) && $requestArray['password'] != ""){
-            $requestArray['password'] =  Hash::make($requestArray['password']);
-        }else{
-            unset($requestArray['password']);
-        }
         if(isset($requestArray['image']) )
         {
             $fileName = $this->uploadImage($request );

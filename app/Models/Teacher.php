@@ -20,4 +20,8 @@ class Teacher extends Authenticatable
         else
         return $this->attributes['image'];
     }
+    public function publicRooms()
+    {
+        return $this->hasMany(PublicRoomTeacher::class, "teacher_id") ; 
+    }
 }

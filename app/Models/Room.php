@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Room extends Model
 {
-    protected $guarded = [];
+    protected $fillable = ['name', 'subject', 'approvement', 'image', 'block_reason','user_id'];
 
     public function teacher()
     {

@@ -45,7 +45,7 @@ Route::prefix('teacher')->namespace('Teacher')->group(function(){
         Route::get('get-rooms', 'TeacherController@getRooms');
         Route::post('create-public-room', 'TeacherController@createPublicRoom');
         Route::post('create-room', 'TeacherController@createRoom');
-
+        Route::resource('lives' , "RoomLiveController");
        
         Route::post('logout', 'TeacherController@logout');
     });
