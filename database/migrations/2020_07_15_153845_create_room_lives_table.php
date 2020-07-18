@@ -19,7 +19,7 @@ class CreateRoomLivesTable extends Migration
             $table->string('name');
             $table->string('youtube_video_path')->nullable();
             $table->text('description')->nullable();
-
+            $table->integer('connecters')->default(0)->nullable();
             $table->bigInteger('room_id')->unsigned()->nullable();
             $table->foreign('room_id')->references('id')->on('rooms')->onDelete('set null');
             

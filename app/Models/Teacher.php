@@ -17,5 +17,7 @@ class Teacher extends Authenticatable
     {
         if($this->attributes['image'] == "avatar.png")
         return asset($this->attributes['image']);
+        else
+        return $this->attributes['image'];
     }
 }

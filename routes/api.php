@@ -30,7 +30,8 @@ Route::prefix('admin')->namespace('DashBoard')->group(function(){
         Route::resource('students' , "StudentController");
         Route::resource('rooms' , "RoomController");
         Route::resource('filesrooms' , "FileRoomController");
-});
+        Route::post('upload-file', 'UploadFileController@uploadFile');
+    });
     
    
 });

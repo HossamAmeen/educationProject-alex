@@ -18,11 +18,7 @@ class StudentController extends CRUDController
         $requestArray = $request->all();
         if(isset($requestArray['password']) )
         $requestArray['password'] =  Hash::make($requestArray['password']);
-        if(isset($requestArray['image']) )
-        {
-            $fileName = $this->storeFile($request , 'students');
-            $requestArray['image'] =  $fileName;
-        }
+       
        
         // $requestArray['user_id'] = Auth::user()->id;
         $this->model->create($requestArray);
@@ -37,13 +33,7 @@ class StudentController extends CRUDController
             $requestArray['password'] =  Hash::make($requestArray['password']);
         }else{
             unset($requestArray['password']);
-        }
-        if(isset($requestArray['image']) )
-        {
-            $fileName = $this->storeFile($request , 'students');
-            $requestArray['image'] =  $fileName;
-        }
-        
+        }        
         // $requestArray['user_id'] = Auth::user()->id;
         $row->update($requestArray);
         return $this->APIResponse(null, null, 200);

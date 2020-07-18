@@ -89,5 +89,18 @@ class CRUDController extends Controller
 
         return $path .'/'. $name;
     }
+    public function uploadFile(Request $request)
+    {
+        $file = $request->file; 
+        $path = public_html().'/'.date("Y-m-d");
+        if(!File::isDirectory($path))
+        {
+            File::makeDirectory($path, 0777, true, true);
+        }
+        $name = time().'.'.$file->getClientOriginalExtension();
+        $file->move($path, $name);
+
+        return $path .'/'. $name;
+    }
 
 }
