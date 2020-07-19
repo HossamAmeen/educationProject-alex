@@ -38,8 +38,8 @@ Route::prefix('admin')->namespace('DashBoard')->group(function(){
         /////////// teacher /////////////
 Route::prefix('teacher')->namespace('Teacher')->group(function(){
 
-    Route::post('login', 'TeacherController@login')->name('teacher.login');
-
+    Route::post('login', 'TeacherController@login');
+    Route::post('register', 'TeacherController@register');
     Route::middleware('checkLogin:teacher-api')->group(function () {
 
         Route::get('get-rooms', 'TeacherController@getRooms');
@@ -66,6 +66,8 @@ Route::prefix('student')->namespace('Student')->group(function(){
         Route::post('join-room/{id}', 'StudentController@joinRoom');
         Route::get('show-private-room/{id}', 'StudentController@getPrivateRoomDetials');
         Route::get('show-public-room/{id}', 'StudentController@getPublicRoomDetials');
+
+        Route::post('add-comment/{liveId}', 'StudentController@addComment');
 
         Route::post('logout', 'StudentController@logout')->name('student.logout');
     });

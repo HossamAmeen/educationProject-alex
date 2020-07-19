@@ -12,14 +12,17 @@ class CreateLiveCommentsTable extends Migration
      * @return void
      */
     public function up()
-    {
+    { 
         Schema::create('live_comments', function (Blueprint $table) {
             $table->id();
+            $table->string('comment')->nullable();
+            $table->string('user_name')->nullable();
+            $table->string('type')->nullable();
 
             $table->bigInteger('live_id')->unsigned()->nullable();
             $table->foreign('live_id')->references('id')->on('room_lives')->onDelete('set null');
             $table->bigInteger('person_id')->unsigned()->nullable();
-            $table->string('type');
+           
             $table->timestamps();
         });
     }

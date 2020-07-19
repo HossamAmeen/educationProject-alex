@@ -6,7 +6,7 @@ use App\Http\Controllers\APIResponseTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Student;
-use App\Models\{Room,PrivateRoom};
+use App\Models\{Room,PrivateRoom,LiveComment};
 use App\Models\StudentRoom;
 use App\Models\StudentPrivateRoom;
 use Illuminate\Support\Facades\Hash;
@@ -115,5 +115,17 @@ class StudentController extends Controller
         return $this->APIResponse($room, null, 200);
     }
   
-    
+    public function addComment($id)
+    {
+        LiveComment::create(
+            [
+                'comment' => request('comment'),
+                'user_name'=> Auth::guard('student-api')->user()->user_name,
+                'type'=> "students" ,
+                'live_id' =>$id,
+                'person_id'=>Auth::guard('student-api')->user()->id
+            ]
+            );
+            return $this->APIResponse(null, null, 200);
+    }
 }

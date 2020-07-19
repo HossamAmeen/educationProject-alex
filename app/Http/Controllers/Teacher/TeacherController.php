@@ -53,6 +53,16 @@ class TeacherController extends Controller
         }
     }
 
+    public function register(Request $request)
+    {
+        $requestArray = $request->all();
+        // return $requestArray;
+        if(isset($requestArray['password']) )
+        $requestArray['password'] =  Hash::make($requestArray['password']);       
+        // $requestArray['user_id'] = Auth::user()->id;
+       Teacher::create($requestArray);
+        return $this->APIResponse(null, null, 200);
+    }
     public function logout()
     { 
         if (Auth::guard('teacher-api')->check()) {
