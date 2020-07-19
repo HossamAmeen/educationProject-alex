@@ -33,4 +33,9 @@ class RoomLiveController extends Controller
         RoomLive::create($requestArray);
         return $this->APIResponse(null, null, 200);
     }
+    public function getLives($id)
+    {
+        $lives = RoomLive::where('room_id' , $id )->get();
+        return $this->APIResponse($lives, null, 200);
+    }
 }

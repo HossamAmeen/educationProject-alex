@@ -46,7 +46,7 @@ Route::prefix('teacher')->namespace('Teacher')->group(function(){
         Route::post('create-public-room', 'TeacherController@createPublicRoom');
         Route::post('create-room', 'TeacherController@createRoom');
         Route::resource('lives' , "RoomLiveController");
-       
+        Route::get('get-lives-room/{room_id}', 'RoomLiveController@getLives');
         Route::post('logout', 'TeacherController@logout');
     });
 });
@@ -66,6 +66,8 @@ Route::prefix('student')->namespace('Student')->group(function(){
         Route::post('join-room/{id}', 'StudentController@joinRoom');
         Route::get('show-private-room/{id}', 'StudentController@getPrivateRoomDetials');
         Route::get('show-public-room/{id}', 'StudentController@getPublicRoomDetials');
+
+      
 
         Route::post('add-comment/{liveId}', 'StudentController@addComment');
 
