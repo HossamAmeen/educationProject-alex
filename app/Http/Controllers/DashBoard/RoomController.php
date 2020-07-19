@@ -25,16 +25,17 @@ class RoomController extends CRUDController
         // $requestArray['user_id'] = Auth::user()->id;
        $room =  $this->model->create($requestArray);
        if(is_array($request->teacher_id)){
-       for($i=0 ; $i<count($request->teacher_id);$i++)
-       {
-        PublicRoomTeacher::create([
-            'teacher_id' => $request->teacher_id[$i],
-            'room_id' => $room->id]);
+        for($i=0 ; $i<count($request->teacher_id);$i++)
+        {
+            PublicRoomTeacher::create([
+                'teacher_id' => $request->teacher_id[$i],
+                'room_id' => $room->id]);
+        }
        }
-       }
-       
        else
        {
+        $room->teacher_id = $request->teacher_id ;
+        $room->save();
         PublicRoomTeacher::create([
             'teacher_id' => $request->teacher_id,
             'room_id' => $room->id]);
@@ -58,7 +59,7 @@ class RoomController extends CRUDController
         return $this->APIResponse(null, null, 200);
     }
     
-    public function with()
+    public function withs()
     {
         return ["teacher"];
     }
