@@ -74,4 +74,5 @@ Route::prefix('student')->namespace('Student')->group(function(){
         Route::post('logout', 'StudentController@logout')->name('student.logout');
     });
 });
-
+Route::post('add-comment/{liveId}', 'Student\StudentController@addComment');
+Route::get('show-comments/{liveId}', 'Student\StudentController@showComments');
