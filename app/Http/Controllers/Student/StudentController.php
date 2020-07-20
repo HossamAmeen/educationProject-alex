@@ -80,9 +80,9 @@ class StudentController extends Controller
     public function getRooms()
     {
         $student = Student::find(Auth::guard('student-api')->user()->id) ; 
-      
-        $data['public_rooms'] = Room::whereIn('id',$student->publicRooms->pluck('id'))->get();
-        $data['private_rooms'] =  Room::whereIn('id',$student->privateRooms->pluck('id'))->get();
+        // return $student->publicRooms ; 
+        $data['public_rooms'] = Room::whereIn('id',$student->publicRooms->pluck('room_id'))->get();
+        $data['private_rooms'] =  PrivateRoom::whereIn('id',$student->privateRooms->pluck('room_id'))->get();
       
         return $this->APIResponse($data, null, 200);
     }

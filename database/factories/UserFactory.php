@@ -36,7 +36,7 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
 $factory->define(App\Models\Teacher::class, function (Faker $faker) {
 
     return [
-        'full_name' => "hossam student",
+        'full_name' => "hossam teacher",
         'email'=> "hossam_student@gmail.com",
          'user_name' => "hossam_student",
          'password' => bcrypt('admin'),
