@@ -19,6 +19,8 @@ class StudentController extends Controller
     public function register(Request $request)
     {
         $requestArray = $request->all();
+        if(isset($requestArray['file']) )
+        $requestArray['image'] =  $this->storeFile($request->file , 'rooms'); 
         if(isset($requestArray['password']) )
         $requestArray['password'] =  Hash::make($requestArray['password']);
         Student::create($requestArray);
@@ -106,6 +108,7 @@ class StudentController extends Controller
     public function getPublicRoomDetials($roomId)
     {
         $room = Room::with(['files','lives'])->find($roomId);
+        $room['appointment'] = "فثسف";
         return $this->APIResponse($room, null, 200);
     }
     

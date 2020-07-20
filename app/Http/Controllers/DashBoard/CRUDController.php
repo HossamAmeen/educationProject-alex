@@ -92,7 +92,7 @@ class CRUDController extends Controller
 
     protected function storeFile($file, $folderName)
     {
-        $path = base_path().'/uploads/'.$folderName.'/'.date("Y-m-d");
+        $path = 'uploads/'.$folderName.'/'.date("Y-m-d");
         if(!File::isDirectory($path))
         {
             File::makeDirectory($path, 0777, true, true);

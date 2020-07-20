@@ -9,7 +9,7 @@ use App\Models\Room;
 use App\Models\PrivateRoom;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Auth;
+use Auth,File;
 class TeacherController extends Controller
 {
     use APIResponseTrait;
@@ -57,9 +57,12 @@ class TeacherController extends Controller
     {
         $requestArray = $request->all();
         // return $requestArray;
+        if(isset($requestArray['file']) )
+        $requestArray['image'] =  $this->storeFile($request->file , 'rooms'); 
+        
         if(isset($requestArray['password']) )
         $requestArray['password'] =  Hash::make($requestArray['password']);       
-        // $requestArray['user_id'] = Auth::user()->id;
+       
        Teacher::create($requestArray);
         return $this->APIResponse(null, null, 200);
     }
@@ -89,7 +92,9 @@ class TeacherController extends Controller
     public function createPublicRoom(Request $request)
     {
         $request['teacher_id'] = Auth::guard('teacher-api')->user()->id ; 
-        // $requestArray['']
+        if(isset($request->file)){
+            $request['image'] = $this->storeFile($request->file , 'rooms');
+        }
         Room::create($request->all());
         return $this->APIResponse(null, null, 200);
     }
@@ -99,5 +104,18 @@ class TeacherController extends Controller
         $request['teacher_id'] = Auth::guard('teacher-api')->user()->id ;  
         PrivateRoom::create($request->all());
         return $this->APIResponse(null, null, 200);
+    }
+
+    protected function storeFile($file, $folderName)
+    {
+        $path = 'uploads/'.$folderName.'/'.date("Y-m-d");
+        if(!File::isDirectory($path))
+        {
+            File::makeDirectory($path, 0777, true, true);
+        }
+        $name = time().'.'.$file->getClientOriginalExtension();
+        $file->move($path, $name);
+
+        return $path .'/'. $name;
     }
 }

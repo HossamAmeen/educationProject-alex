@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Room extends Model
 {
-    protected $fillable = ['name', 'subject', 'approvement', 'image', 'block_reason','user_id'];
+    protected $fillable = ['name', 'subject', 'approvement', 'image','teacher_id', 'block_reason','user_id'];
 
     public function teacher()
     {
@@ -21,5 +21,13 @@ class Room extends Model
     public function lives()
     {
         return $this->hasMany(RoomLive::class , 'room_id')->select(['id' , 'youtube_video_path' , 'name' ,'description', 'room_id']);
+    }
+
+    public function getImageAttribute()
+    {
+        // if($this->attributes['image'] == "education.png")
+        return asset($this->attributes['image']);
+        // else
+        // return $this->attributes['image'];
     }
 }
