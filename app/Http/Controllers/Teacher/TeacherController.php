@@ -136,19 +136,11 @@ class TeacherController extends Controller
                     $room['live_appointment'] = $room->lastLive()->appointment;
                     $room['live_youtube_video_path'] = $room->lastLive()->youtube_video_path;
                     $room['live_id'] = $room->lastLive()->id;
+                    $appointment = $room->lastLive()->appointment;
+                   
+                    $room['status'] =time() > strtotime($room->lastLive()->appointment)  ? "no" : "now";
 
-                    $currentTime = (new DateTime(time()));
-                   
-                    $liveTime = (new DateTime($room['live_appointment']))->modify('+2 hours');
-                   
-                    if ($liveTime >= $currentTime) {
-                      return "test";
-                    }
-                    else
-                    {
-                        return "test2";
-                    }
-                    $room['status'] = "now";
+                  
                     return $this->APIResponse($room, null, 200);
                 }
                 else
