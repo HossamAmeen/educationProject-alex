@@ -132,7 +132,9 @@ class TeacherController extends Controller
     {
         $room = Room::with(['files','lives'])->find($roomId);
         // return  ;
-        $room['appointment'] = $room->lastLive()->appointment;
+        $room['live_appointment'] = $room->lastLive()->appointment;
+        $room['live_youtube_video_path'] = $room->lastLive()->youtube_video_path;
+        $room['live_id'] = $room->lastLive()->id;
         return $this->APIResponse($room, null, 200);
     }
     protected function storeFile($file, $folderName)
