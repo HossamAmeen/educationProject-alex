@@ -9,7 +9,7 @@ use App\Models\Room;
 use App\Models\PrivateRoom;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Auth,File;
+use Auth,File,DateTime;
 class TeacherController extends Controller
 {
     use APIResponseTrait;
@@ -131,11 +131,34 @@ class TeacherController extends Controller
     public function getPublicRoomDetials($roomId)
     {
         $room = Room::with(['files','lives'])->find($roomId);
-        // return  ;
-        $room['live_appointment'] = $room->lastLive()->appointment;
-        $room['live_youtube_video_path'] = $room->lastLive()->youtube_video_path;
-        $room['live_id'] = $room->lastLive()->id;
-        return $this->APIResponse($room, null, 200);
+            if(isset($room)){
+                if($room->lastLive()!==null){
+                    $room['live_appointment'] = $room->lastLive()->appointment;
+                    $room['live_youtube_video_path'] = $room->lastLive()->youtube_video_path;
+                    $room['live_id'] = $room->lastLive()->id;
+
+                    $currentTime = (new DateTime(time()));
+                   
+                    $liveTime = (new DateTime($room['live_appointment']))->modify('+2 hours');
+                   
+                    if ($liveTime >= $currentTime) {
+                      return "test";
+                    }
+                    else
+                    {
+                        return "test2";
+                    }
+                    $room['status'] = "now";
+                    return $this->APIResponse($room, null, 200);
+                }
+                else
+                {
+                    return $this->APIResponse( $room, null, 200);
+                }
+               
+            }
+            return $this->APIResponse(null, "room not found", 404);
+       
     }
     protected function storeFile($file, $folderName)
     {
