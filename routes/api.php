@@ -42,11 +42,16 @@ Route::prefix('teacher')->namespace('Teacher')->group(function(){
     Route::post('register', 'TeacherController@register');
     Route::middleware('checkLogin:teacher-api')->group(function () {
 
+        Route::get('get-account', 'TeacherController@getAccount');
+        Route::put('update-account', 'TeacherController@updateAccount');
+
         Route::get('get-rooms', 'TeacherController@getRooms');
         Route::post('create-public-room', 'TeacherController@createPublicRoom');
         Route::post('create-room', 'TeacherController@createRoom');
+        Route::get('show-public-room/{id}', 'TeacherController@getPublicRoomDetials');
         Route::resource('lives' , "RoomLiveController");
         Route::get('get-lives-room/{room_id}', 'RoomLiveController@getLives');
+
         Route::post('logout', 'TeacherController@logout');
     });
 });
@@ -56,6 +61,9 @@ Route::prefix('student')->namespace('Student')->group(function(){
     Route::post('register', 'StudentController@register')->name('student.login');
     Route::post('login', 'StudentController@login')->name('student.login');
     Route::middleware('checkLogin:student-api')->group(function () {
+           
+        Route::get('get-account', 'StudentController@getAccount');
+        Route::put('update-account', 'StudentController@updateAccount');
                                 ///// show rooms /////
         Route::get('show-public-rooms', 'StudentRoomController@showPublicRooms');
         Route::get('show-private-rooms', 'StudentRoomController@showPrivateRooms');

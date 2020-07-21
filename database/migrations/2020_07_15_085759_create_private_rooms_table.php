@@ -17,7 +17,7 @@ class CreatePrivateRoomsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('subject');
-
+            $table->string('image')->default('education.png')->nullable();
             $table->enum('approvement' , ['under_revision' ,'accept','blocked'])->default('under_revision');
             $table->string('block_reason')->nullable();
 

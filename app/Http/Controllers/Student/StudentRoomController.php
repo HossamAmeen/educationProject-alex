@@ -20,12 +20,12 @@ class StudentRoomController extends Controller
         $data = array();
         $publicRooms = Room::all() ; 
         $privateRooms = PrivateRoom::all() ; 
-        foreach ($privateRooms as $room){
+        foreach ($publicRooms as $room){
             $datas = $room ;
             $datas['is_registered']  = in_array($room->id , $student->publicRooms->pluck('room_id')->toArray()) ? 1 : 0 ;// rand(0,1);
             $data['private_rooms'][] = $datas;
         }
-        foreach ($publicRooms as $room){
+        foreach ($privateRooms as $room){
             $datas = $room ;
             $datas['is_registered']  = in_array($room->id , $student->privateRooms->pluck('room_id')->toArray()) ? 1 : 0 ;// rand(0,1);
             $data['public_rooms'][] = $datas;

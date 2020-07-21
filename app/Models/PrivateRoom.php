@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PrivateRoom extends Model
 {
-    protected $guarded = [];
+    protected $fillable = ['name', 'subject', 'approvement', 'image','teacher_id', 'block_reason','user_id'];
 
     public function teacher()
     {
@@ -23,5 +23,8 @@ class PrivateRoom extends Model
         return $this->hasMany(PrivateRoomLive::class , 'room_id')->select(['id' , 'youtube_video_path' , 'name' ,'description', 'room_id']);
     }
 
-    
+    public function getImageAttribute()
+    {
+        return asset($this->attributes['image']);
+    }
 }

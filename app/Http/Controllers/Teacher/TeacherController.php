@@ -63,8 +63,10 @@ class TeacherController extends Controller
         if(isset($requestArray['password']) )
         $requestArray['password'] =  Hash::make($requestArray['password']);       
        
-       Teacher::create($requestArray);
-        return $this->APIResponse(null, null, 200);
+       $teacher = Teacher::create($requestArray);
+       $success['token'] = $teacher->createToken('token')->accessToken;
+       return $this->APIResponse($success, null, 200);
+       
     }
     public function logout()
     { 
@@ -78,7 +80,24 @@ class TeacherController extends Controller
             return $this->APIResponse(null, "the token is expired", 422);
         }
     }
-
+    public function getAccount()
+    {
+        $student = Teacher::find(Auth::guard('teacher-api')->user()->id) ; 
+        return $this->APIResponse($student, null, 200);
+    }
+    public function updateAccount(Request $request)
+    {        
+        $requestArray = $request->all();
+        if(isset($requestArray['password']) && $requestArray['password'] != ""){
+            $requestArray['password'] =  Hash::make($requestArray['password']);
+        }else{
+            unset($requestArray['password']);
+        }       
+        $student = Teacher::find(Auth::guard('teacher-api')->user()->id) ; 
+        $student->update($requestArray);
+        return $this->APIResponse(null, null, 200); 
+    }
+                    ////////////////// room
     public function getRooms()
     {
         
@@ -106,6 +125,13 @@ class TeacherController extends Controller
         return $this->APIResponse(null, null, 200);
     }
 
+    public function getPublicRoomDetials($roomId)
+    {
+        $room = Room::with(['files','lives'])->find($roomId);
+        // return  ;
+        $room['appointment'] = $room->lastLive()->appointment;
+        return $this->APIResponse($room, null, 200);
+    }
     protected function storeFile($file, $folderName)
     {
         $path = 'uploads/'.$folderName.'/'.date("Y-m-d");

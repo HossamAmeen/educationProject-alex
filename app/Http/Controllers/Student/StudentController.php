@@ -23,8 +23,10 @@ class StudentController extends Controller
         $requestArray['image'] =  $this->storeFile($request->file , 'rooms'); 
         if(isset($requestArray['password']) )
         $requestArray['password'] =  Hash::make($requestArray['password']);
-        Student::create($requestArray);
-        return $this->APIResponse(null, null, 200);
+        $student = Student::create($requestArray);
+        $success['token'] = $student->createToken('token')->accessToken;
+        return $this->APIResponse($success, null, 200);
+      
     }
     public function login (Request $request) {
 
@@ -77,6 +79,28 @@ class StudentController extends Controller
         {
             return $this->APIResponse(null, "the token is expired", 422);
         }
+    }
+    public function getAccount()
+    {
+        $student = Student::find(Auth::guard('student-api')->user()->id) ; 
+        return $this->APIResponse($student, null, 200);
+    }
+    public function updateAccount(Request $request)
+    {        
+        $requestArray = $request->all();
+        if(isset($requestArray['password']) && $requestArray['password'] != ""){
+            $requestArray['password'] =  Hash::make($requestArray['password']);
+        }else{
+            unset($requestArray['password']);
+        }       
+        if(isset($requestArray['file']) )
+        {
+            $requestArray['image'] =  $this->storeFile($request->file , 'rooms'); 
+        }
+        
+        $student = Student::find(Auth::guard('student-api')->user()->id) ; 
+        $student->update($requestArray);
+        return $this->APIResponse(null, null, 200); 
     }
                     ////////////////// rooms //////////////////
     public function getRooms()

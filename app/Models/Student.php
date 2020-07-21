@@ -9,7 +9,8 @@ use Illuminate\Notifications\Notifiable;
 class Student extends Authenticatable
 {
     use HasApiTokens , Notifiable;
-    protected $guarded = [];
+    protected $fillable = ['full_name' ,'email', 'user_name', 'password', 'phone',
+     'level' ,'approvement', 'block_reason' ,'image', 'user_id'];
 
     public function publicRooms()
     {

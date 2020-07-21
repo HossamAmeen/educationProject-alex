@@ -8,7 +8,8 @@ use Illuminate\Notifications\Notifiable;
 class Teacher extends Authenticatable
 {
     use HasApiTokens , Notifiable;
-    protected $guarded = [];
+    protected $fillable = ['full_name' ,'email', 'user_name', 'password', 'phone',
+     'approvement', 'block_reason' ,'image', 'user_id'];
     
     public function AauthAcessToken(){
         return $this->hasMany(OauthAccessToken::class);

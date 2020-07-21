@@ -20,14 +20,25 @@ class Room extends Model
 
     public function lives()
     {
-        return $this->hasMany(RoomLive::class , 'room_id')->select(['id' , 'youtube_video_path' , 'name' ,'description', 'room_id']);
+        return $this->hasMany(RoomLive::class , 'room_id')->select(['id' , 'youtube_video_path' , 'name' ,'description','appointment', 'room_id'])
+        ->orderBy('id' , 'DESC');
     }
+
+    public function lastLive()
+    {
+        // return $this->lives()->where('appointment' ,'>=' , date('Y-m-d'))->latest();
+        // return $this->lives()->where('appointment' ,'>=' , date('Y-m-d'))->sortByDesc('id' )->get();
+        return $this->hasOne(RoomLive::class , 'room_id')
+                   ->select(['id' , 'youtube_video_path' , 'name' ,'description','appointment', 'room_id'])
+                   ->where('appointment' ,'>=' , date('Y-m-d'))
+                   ->orderBy('appointment')
+                   ->first()
+        ;
+    }
+    
 
     public function getImageAttribute()
     {
-        // if($this->attributes['image'] == "education.png")
         return asset($this->attributes['image']);
-        // else
-        // return $this->attributes['image'];
     }
 }
