@@ -23,12 +23,12 @@ class StudentRoomController extends Controller
         foreach ($publicRooms as $room){
             $datas = $room ;
             $datas['is_registered']  = in_array($room->id , $student->publicRooms->pluck('room_id')->toArray()) ? 1 : 0 ;// rand(0,1);
-            $data['private_rooms'][] = $datas;
+            $data['public_rooms'][] = $datas;
         }
         foreach ($privateRooms as $room){
             $datas = $room ;
             $datas['is_registered']  = in_array($room->id , $student->privateRooms->pluck('room_id')->toArray()) ? 1 : 0 ;// rand(0,1);
-            $data['public_rooms'][] = $datas;
+            $data['private_rooms'][] = $datas;
         }
         return $this->APIResponse($data, null, 200);
     }

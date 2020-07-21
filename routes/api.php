@@ -45,6 +45,13 @@ Route::prefix('teacher')->namespace('Teacher')->group(function(){
         Route::get('get-account', 'TeacherController@getAccount');
         Route::put('update-account', 'TeacherController@updateAccount');
 
+                            ////////////// show rooms 
+        Route::get('show-public-rooms', 'TeacherRoomController@showPublicRooms');
+        Route::get('show-private-rooms', 'TeacherRoomController@showPrivateRooms');
+        Route::get('show-rooms', 'TeacherRoomController@showRooms');
+        Route::get('join-public-room/{roomId}', 'TeacherRoomController@joinPublicRoom');
+        Route::get('join-private-room/{roomId}', 'TeacherRoomController@joinPrivateRoom');
+                            /////////// show registered room
         Route::get('get-rooms', 'TeacherController@getRooms');
         Route::post('create-public-room', 'TeacherController@createPublicRoom');
         Route::post('create-room', 'TeacherController@createRoom');

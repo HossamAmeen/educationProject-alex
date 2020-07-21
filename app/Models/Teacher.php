@@ -25,4 +25,9 @@ class Teacher extends Authenticatable
     {
         return $this->hasMany(PublicRoomTeacher::class, "teacher_id") ; 
     }
+    public function privateRooms()
+    {
+        return $this->hasMany(PrivateRoomTeacher::class, "teacher_id") ; 
+    }
+    
 }

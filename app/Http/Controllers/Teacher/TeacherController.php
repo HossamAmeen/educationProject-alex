@@ -101,8 +101,11 @@ class TeacherController extends Controller
     public function getRooms()
     {
         
-        $data['public_rooms'] = Room::with('teacher')->where('teacher_id' , Auth::guard('teacher-api')->user()->id)->get();
-        $data['private_rooms'] = PrivateRoom::with('teacher')->where('teacher_id' , Auth::guard('teacher-api')->user()->id)->get();
+        // $data['public_rooms'] = Room::with('teacher')->where('teacher_id' , Auth::guard('teacher-api')->user()->id)->get();
+        // $data['private_rooms'] = PrivateRoom::with('teacher')->where('teacher_id' , Auth::guard('teacher-api')->user()->id)->get();
+        $teacher = Teacher::find(Auth::guard('teacher-api')->user()->id);
+        $data['public_rooms'] = $teacher->publicRooms ;
+        $data['private_rooms'] = $teacher->privateRooms ;
         return $this->APIResponse($data, null, 200);
        
     }
