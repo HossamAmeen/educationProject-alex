@@ -3,16 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -29,11 +19,10 @@ Route::prefix('admin')->namespace('DashBoard')->group(function(){
         Route::resource('teachers' , "TeacherController");
         Route::resource('students' , "StudentController");
         Route::resource('rooms' , "RoomController");
+        Route::get('private-rooms' , "RoomController@showPrivateRooms");
         Route::resource('filesrooms' , "FileRoomController");
         Route::post('upload-file', 'UploadFileController@uploadFile');
     });
-    
-   
 });
         /////////// teacher /////////////
 Route::prefix('teacher')->namespace('Teacher')->group(function(){

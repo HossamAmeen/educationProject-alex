@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
             'teacher_id'=>1,
             'user_id' => 1
         ]);
-        \App\Models\PublicRoomTeacher::create([
+        \App\Models\RoomTeacher::create([
             'room_id'=> "1",
             'teacher_id'=>1,
             'user_id' => 1

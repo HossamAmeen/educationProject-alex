@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Room extends Model
 {
-    protected $fillable = ['name', 'subject', 'approvement', 'image','teacher_id', 'block_reason','user_id'];
-
+    protected $fillable = ['name', 'subject', 'approvement', 'image', 'block_reason','user_id'];
+    protected $hidden = ['user_id','created_at' , 'updated_at'] ;
     public function teacher()
     {
         return $this->belongsTo(Teacher::class,'teacher_id')->select(['id' , 'full_name']);

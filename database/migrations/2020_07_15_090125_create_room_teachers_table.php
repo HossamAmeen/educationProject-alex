@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePublicRoomTeachersTable extends Migration
+class CreateRoomTeachersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreatePublicRoomTeachersTable extends Migration
      */
     public function up()
     {
-        Schema::create('public_room_teachers', function (Blueprint $table) {
+        Schema::create('room_teachers', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('teacher_id')->unsigned()->nullable();
             $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('set null');
@@ -35,6 +35,6 @@ class CreatePublicRoomTeachersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('public_room_teachers');
+        Schema::dropIfExists('room_teachers');
     }
 }

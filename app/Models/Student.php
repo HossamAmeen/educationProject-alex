@@ -11,7 +11,7 @@ class Student extends Authenticatable
     use HasApiTokens , Notifiable;
     protected $fillable = ['full_name' ,'email', 'user_name', 'password', 'phone',
      'level' ,'approvement', 'block_reason' ,'image', 'user_id'];
-
+     protected $hidden = ['password','user_id','created_at' , 'updated_at'] ;
     public function publicRooms()
     {
         return $this->hasMany(StudentRoom::class , 'student_id');

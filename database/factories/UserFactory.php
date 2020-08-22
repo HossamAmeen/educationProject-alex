@@ -41,6 +41,7 @@ $factory->define(App\Models\Teacher::class, function (Faker $faker) {
          'user_name' => "hossam_student",
          'password' => bcrypt('admin'),
          'phone' => "01010079798",
+         'is_private'=>rand(0,1),
          'user_id' => 1
     ];
 });
@@ -65,6 +66,7 @@ $factory->define(App\Models\Room::class, function (Faker $faker) {
         'name' => "room".rand(1,15),
         'subject'=> "math",
         'teacher_id'=>rand(1,15),
+        'is_private'=>rand(0,1),
          'user_id' => 1
     ];
 });

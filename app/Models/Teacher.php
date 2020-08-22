@@ -5,12 +5,13 @@ use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Teacher extends Authenticatable
 {
-    use HasApiTokens , Notifiable;
+    use HasApiTokens , Notifiable , SoftDeletes;
     protected $fillable = ['full_name' ,'email', 'user_name', 'password', 'phone',
      'approvement', 'block_reason' ,'image', 'user_id'];
-    
+    protected $hidden = ['password','user_id','created_at' , 'updated_at'] ;
     public function AauthAcessToken(){
         return $this->hasMany(OauthAccessToken::class);
     }

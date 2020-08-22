@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Teacher;
 use App\Models\Room;
 use App\Models\PrivateRoom;
+use App\Http\Requests\Teacher\TeacherRequest;
+use App\Http\Controllers\DashBoard\TeacherController as TeacherDashboard;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Auth,File,DateTime;
@@ -53,17 +55,22 @@ class TeacherController extends Controller
         }
     }
 
-    public function register(Request $request)
+    public function register(TeacherRequest $request)
     {
+        if (isset($request->validator) && $request->validator->fails())
+        {
+            return $this->APIResponse(null , $request->validator->messages() ,  422);
+        }
         $requestArray = $request->all();
         // return $requestArray;
         if(isset($requestArray['file']) )
-        $requestArray['image'] =  $this->storeFile($request->file , 'rooms'); 
+        $requestArray['image'] =  $this->storeFile($request->file , 'teachers'); 
         
         if(isset($requestArray['password']) )
         $requestArray['password'] =  Hash::make($requestArray['password']);       
        
        $teacher = Teacher::create($requestArray);
+      
        $success['token'] = $teacher->createToken('token')->accessToken;
        return $this->APIResponse($success, null, 200);
        
