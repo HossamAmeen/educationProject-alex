@@ -20,6 +20,8 @@ Route::prefix('admin')->namespace('DashBoard')->group(function(){
         Route::resource('students' , "StudentController");
         Route::resource('rooms' , "RoomController");
         Route::get('private-rooms' , "RoomController@showPrivateRooms");
+        Route::get('show-lessons/{rooom}' , "RoomController@showLessons");
+        Route::get('show-files/{rooom}' , "RoomController@showFilesForRoom");
         Route::resource('filesrooms' , "FileRoomController");
         Route::post('upload-file', 'UploadFileController@uploadFile');
     });

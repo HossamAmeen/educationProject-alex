@@ -15,6 +15,7 @@ class CreateRoomTeachersTable extends Migration
     {
         Schema::create('room_teachers', function (Blueprint $table) {
             $table->id();
+            $table->boolean('is_private')->default(1);
             $table->bigInteger('teacher_id')->unsigned()->nullable();
             $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('set null');
             

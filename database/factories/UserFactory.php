@@ -81,3 +81,12 @@ $factory->define(App\Models\PrivateRoom::class, function (Faker $faker) {
     ];
 });
 
+$factory->define(App\Models\RoomTeacher::class, function (Faker $faker) {
+
+    return [
+        'room_id'=> "1",
+        'teacher_id'=>1,
+        'is_private'=>rand(0,1),
+        'user_id' => 1
+    ];
+});

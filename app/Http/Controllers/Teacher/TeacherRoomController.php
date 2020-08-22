@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
 use App\Models\{Room,PrivateRoom,PivateRoomTeacher};
-use App\Models\{PublicRoomTeacher ,PrivateRoomTeacher};
+use App\Models\{RoomTeacher ,PrivateRoomTeacher};
 use Auth;
 class TeacherRoomController extends Controller
 {
@@ -14,7 +14,7 @@ class TeacherRoomController extends Controller
                         ////////// for teachers //////////////////
     public function showRooms()
     {
-       
+      
         $teacher = Teacher::find(Auth::guard('teacher-api')->user()->id) ; 
         
         $data = array();
@@ -35,6 +35,7 @@ class TeacherRoomController extends Controller
     }
     public function showPublicRooms()
     {
+        
         $teacher = Teacher::find(Auth::guard('teacher-api')->user()->id) ; 
         $publicRooms = Room::all() ; 
         $data = array();
@@ -60,14 +61,14 @@ class TeacherRoomController extends Controller
     }
     public function joinPublicRoom($roomId)
     {
-        $checkRoom =  PublicRoomTeacher::where(['room_id'=>$roomId , 'teacher_id'=> Auth::guard('teacher-api')->user()->id])->first();
+        $checkRoom =  RoomTeacher::where(['room_id'=>$roomId , 'teacher_id'=> Auth::guard('teacher-api')->user()->id])->first();
         if(isset($checkRoom)){
             return $this->APIResponse(null, "this room is registered", 400);
            
         }
         else
        {
-        PublicRoomTeacher::create([
+        RoomTeacher::create([
             'room_id' => $roomId ,
              'teacher_id' => Auth::guard('teacher-api')->user()->id
         ]);

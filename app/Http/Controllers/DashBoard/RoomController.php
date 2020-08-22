@@ -4,7 +4,7 @@ namespace App\Http\Controllers\DashBoard;
 use App\Http\Controllers\APIResponseTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Room,RoomTeacher};
+use App\Models\{Room,RoomTeacher ,FileRoom, RoomLive};
 use Auth;
 class RoomController extends CRUDController
 {
@@ -72,5 +72,16 @@ class RoomController extends CRUDController
     public function withs()
     {
         return ["teacher"];
+    }
+
+    public function showLessons($roomId)
+    {
+        
+        return $this->APIResponse(RoomLive::where('room_id' , $roomId)->get(), null, 200);
+    }
+
+    public function showFilesForRoom($roomId)
+    {
+        return $this->APIResponse(FileRoom::where('room_id' , $roomId)->get(), null, 200);
     }
 }

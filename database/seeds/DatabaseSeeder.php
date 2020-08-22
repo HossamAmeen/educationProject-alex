@@ -49,9 +49,16 @@ class DatabaseSeeder extends Seeder
         \App\Models\RoomTeacher::create([
             'room_id'=> "1",
             'teacher_id'=>1,
+            'is_private'=> "1",
             'user_id' => 1
         ]);
         
+        \App\Models\RoomTeacher::create([
+            'room_id'=> "1",
+            'teacher_id'=>1,
+            'user_id' => 1
+        ]);
+
         \App\Models\PrivateRoom::create([
             'name' => "Science with hossam",
             'subject'=> "Science",
@@ -92,6 +99,7 @@ class DatabaseSeeder extends Seeder
         factory('App\Models\Teacher',25)->create();
         factory('App\Models\Student',25)->create();
         factory('App\Models\Room',25)->create();
+        factory('App\Models\RoomTeacher',25)->create();
         factory('App\Models\PrivateRoom',25)->create();
 
 
