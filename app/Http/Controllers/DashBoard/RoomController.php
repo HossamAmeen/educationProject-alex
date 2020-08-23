@@ -21,7 +21,8 @@ class RoomController extends CRUDController
         // return   $rooms  ;
         foreach($rooms as $room ){
             $data = $room;
-
+            // $data['teachers_names'] = array();
+            $datas['names'] =  array(); 
             foreach($room->teachers as $x ){
                 $datas['names'][] =    $x->teacher->full_name ;
             }
