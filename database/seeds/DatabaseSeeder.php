@@ -56,15 +56,16 @@ class DatabaseSeeder extends Seeder
         \App\Models\RoomTeacher::create([
             'room_id'=> "1",
             'teacher_id'=>1,
+            
             'user_id' => 1
         ]);
 
-        \App\Models\PrivateRoom::create([
-            'name' => "Science with hossam",
-            'subject'=> "Science",
-            'teacher_id'=>1,
-            'user_id' => 1
-        ]);
+        // \App\Models\PrivateRoom::create([
+        //     'name' => "Science with hossam",
+        //     'subject'=> "Science",
+        //     'teacher_id'=>1,
+        //     'user_id' => 1
+        // ]);
 
         \App\Models\FileRoom::create([
             'name' => "Science with hossam",
@@ -72,11 +73,11 @@ class DatabaseSeeder extends Seeder
             'room_id'=>1,
         ]);
 
-        \App\Models\FilePrivateRoom::create([
-            'name' => "Science with hossam private rrom ",
-            'path'=> "test path",
-            'room_id'=>1,
-        ]);
+        // \App\Models\FilePrivateRoom::create([
+        //     'name' => "Science with hossam private rrom ",
+        //     'path'=> "test path",
+        //     'room_id'=>1,
+        // ]);
 
        
         \App\Models\RoomLive::create([
@@ -86,21 +87,21 @@ class DatabaseSeeder extends Seeder
             'description'=>"science with hossam",
             'room_id'=>1,
         ]);
-        \App\Models\PrivateRoomLive::create([
-            'name' => "live Science with hossam private room",
-            'youtube_video_path'=> "test path",
-            'appointment' => "thunday 20:30",
-            'description'=>"science with hossam  private room",
-            'room_id'=>1,
+        // \App\Models\PrivateRoomLive::create([
+        //     'name' => "live Science with hossam private room",
+        //     'youtube_video_path'=> "test path",
+        //     'appointment' => "thunday 20:30",
+        //     'description'=>"science with hossam  private room",
+        //     'room_id'=>1,
           
-        ]);
+        // ]);
 
         factory('App\Models\User',25)->create();
         factory('App\Models\Teacher',25)->create();
         factory('App\Models\Student',25)->create();
         factory('App\Models\Room',25)->create();
         factory('App\Models\RoomTeacher',25)->create();
-        factory('App\Models\PrivateRoom',25)->create();
+        // factory('App\Models\PrivateRoom',25)->create();
 
 
 

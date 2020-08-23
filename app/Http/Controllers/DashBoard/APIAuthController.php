@@ -47,10 +47,10 @@ class APIAuthController extends Controller
                 $success['user_name'] = $user->user_name;
                 return $this->APIResponse($success, null, 200);
             } else {
-                return $this->APIResponse(null, "Password mismatch", 422);  
+                return $this->APIResponse(null, "كلمة المرور غير مطابقة", 422);  
             }
         } else {
-            return $this->APIResponse(null, "User name does not exist", 422);
+            return $this->APIResponse(null, "هذا المستخدم لا يوجد", 422);
         }
     }
 

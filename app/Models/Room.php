@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Room extends Model
 {
-    protected $fillable = ['name', 'subject', 'approvement', 'image', 'block_reason','user_id'];
+    protected $fillable = ['name','is_private', 'subject', 'approvement', 'image', 'block_reason','user_id'];
     protected $hidden = ['user_id','created_at' , 'updated_at'] ;
-    public function teacher()
+ 
+    public function teachers()
     {
-        return $this->belongsTo(Teacher::class,'teacher_id')->select(['id' , 'full_name']);
+        return $this->hasMany(RoomTeacher::class,'room_id');
     }
-
     public function files()
     {
         return $this->hasMany(FileRoom::class , 'room_id')->select(['id' , 'path' , 'name' , 'room_id']);

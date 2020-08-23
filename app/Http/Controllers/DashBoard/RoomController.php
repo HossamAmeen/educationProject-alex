@@ -69,6 +69,10 @@ class RoomController extends CRUDController
         $rows = $this->model->where('is_private' , 0);
         return $rows;
     }
+    public function with()
+    {
+        return ["teachers.teacher"];
+    }
     public function withs()
     {
         return ["teacher"];

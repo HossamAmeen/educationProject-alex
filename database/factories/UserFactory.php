@@ -50,7 +50,7 @@ $factory->define(App\Models\Teacher::class, function (Faker $faker) {
 $factory->define(App\Models\Student::class, function (Faker $faker) {
 
     return [
-        'full_name' => "hossam student",
+        'full_name' =>$faker->name,
         'email'=> "hossam_student@gmail.com",
          'user_name' => "hossam_student",
          'password' => bcrypt('admin'),
@@ -71,20 +71,20 @@ $factory->define(App\Models\Room::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Models\PrivateRoom::class, function (Faker $faker) {
+// $factory->define(App\Models\PrivateRoom::class, function (Faker $faker) {
 
-    return [
-        'name' => "room".rand(1,15),
-        'subject'=> "math",
-        'teacher_id'=>rand(1,15),
-         'user_id' => 1
-    ];
-});
+//     return [
+//         'name' => "room".rand(1,15),
+//         'subject'=> "math",
+//         'teacher_id'=>rand(1,15),
+//          'user_id' => 1
+//     ];
+// });
 
 $factory->define(App\Models\RoomTeacher::class, function (Faker $faker) {
 
     return [
-        'room_id'=> "1",
+        'room_id'=>rand(1,15),
         'teacher_id'=>1,
         'is_private'=>rand(0,1),
         'user_id' => 1
