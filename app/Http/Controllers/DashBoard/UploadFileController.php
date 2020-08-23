@@ -10,7 +10,12 @@ class UploadFileController extends Controller
     public function uploadFile(Request $request)
     {
         $file = $request->file; 
-        $path = public_path().'/'.date("Y-m-d");
+        if($request->folder_name !== null){
+            $folderName = $request->folder_name ; 
+        }
+        else
+        $folderName = "images" ; 
+        $path = 'uploads/'.$folderName.'/'.date("Y-m-d");
         if(!File::isDirectory($path))
         {
             File::makeDirectory($path, 0777, true, true);
