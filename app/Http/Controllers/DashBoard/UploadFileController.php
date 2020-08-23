@@ -23,6 +23,6 @@ class UploadFileController extends Controller
         $name = time().'.'.$file->getClientOriginalExtension();
         $file->move($path, $name);
 
-        return $path .'/'. $name;
+        return asset($path .'/'. $name);
     }
 }
