@@ -13,7 +13,24 @@ class RoomController extends CRUDController
     {
         $this->model = $model;
     }
+    public function index()
+    {
+        $rooms = Room::get();
+        // $roomsTeachers = RoomTeacher::get();
+        $rows = array();
+        // return   $rooms  ;
+        foreach($rooms as $room ){
+            $data = $room;
 
+            foreach($room->teachers as $x ){
+                $datas['names'][] =    $x->teacher->full_name ;
+            }
+            $data['teachers_names'] = $datas['names'];
+            // return $data ;
+            $rows[] = $data;
+        }
+        return $this->APIResponse($rows, null, 200);
+    }
     public function store(Request $request){
         
         $requestArray = $request->all();
@@ -69,10 +86,10 @@ class RoomController extends CRUDController
         $rows = $this->model->where('is_private' , 0);
         return $rows;
     }
-    public function with()
-    {
-        return ["teachers.teacher"];
-    }
+    // public function with()
+    // {
+    //     return ["teachers.teacher"];
+    // }
     public function withs()
     {
         return ["teacher"];
