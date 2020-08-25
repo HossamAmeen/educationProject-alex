@@ -16,6 +16,6 @@ class StudentRoom extends Model
      
     public function student()
     {
-        return $this->belongsTo(Student::class , 'student_id')->select('id','full_name');
+        return $this->belongsTo(Student::class , 'student_id')->select('id','full_name' ,'image');
     }
 }
