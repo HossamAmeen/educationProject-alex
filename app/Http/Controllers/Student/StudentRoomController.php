@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Student;
 use App\Http\Controllers\APIResponseTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Room,PrivateRoom};
+use App\Models\{Room};
 use App\Models\Student;
-use App\Models\{StudentRoom,StudentPrivateRoom};
+use App\Models\{StudentRoom};
 use Auth;
 class StudentRoomController extends Controller
 {
@@ -18,8 +18,8 @@ class StudentRoomController extends Controller
         $student = Student::find(Auth::guard('student-api')->user()->id) ; 
         
         $data = array();
-        $publicRooms = Room::all() ; 
-        $privateRooms = PrivateRoom::all() ; 
+        $publicRooms = Room::where('is_private' , 0)->get() ; 
+        $privateRooms = Room::where('is_private' , 1)->get() ; 
         foreach ($publicRooms as $room){
             $datas = $room ;
             $datas['is_registered']  = in_array($room->id , $student->publicRooms->pluck('room_id')->toArray()) ? 1 : 0 ;// rand(0,1);
@@ -35,7 +35,7 @@ class StudentRoomController extends Controller
     public function showPublicRooms()
     {
         $student = Student::find(Auth::guard('student-api')->user()->id) ; 
-        $publicRooms = Room::all() ; 
+        $publicRooms = Room::where('is_private' , 0)->get() ; 
         $data = array();
         foreach ($publicRooms as $room){
             $datas = $room ;
@@ -47,7 +47,7 @@ class StudentRoomController extends Controller
     public function showPrivateRooms()
     {
         $student = Student::find(Auth::guard('student-api')->user()->id) ; 
-        $Rooms = PrivateRoom::all() ; 
+        $Rooms = Room::where('is_private' , 1 )->get() ; 
         $data = array();
         foreach ($Rooms as $room){
             $datas = $room ;

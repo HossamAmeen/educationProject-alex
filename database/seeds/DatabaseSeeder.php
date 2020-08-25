@@ -101,7 +101,8 @@ class DatabaseSeeder extends Seeder
         factory('App\Models\Room',25)->create();
         factory('App\Models\RoomTeacher',25)->create();
         factory('App\Models\StudentRoom',25)->create();
-        
+        factory('App\Models\RoomLive',10)->create();
+        factory('App\Models\LiveComment',50)->create();
         // factory('App\Models\PrivateRoom',25)->create();
 
 

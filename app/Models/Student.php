@@ -14,12 +14,12 @@ class Student extends Authenticatable
      protected $hidden = ['password','user_id','created_at' , 'updated_at'] ;
     public function publicRooms()
     {
-        return $this->hasMany(StudentRoom::class , 'student_id');
+        return $this->hasMany(StudentRoom::class , 'student_id')->where('is_private' , 1);
     }
 
     public function privateRooms()
     {
-        return $this->hasMany(StudentPrivateRoom::class , 'student_id');
+        return $this->hasMany(StudentRoom::class , 'student_id')->where('is_private' , 1);
     }
 
     public function getImageAttribute()

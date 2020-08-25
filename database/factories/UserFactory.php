@@ -100,3 +100,22 @@ $factory->define(App\Models\StudentRoom::class, function (Faker $faker) {
         'user_id' => 1
     ];
 });
+$factory->define(App\Models\RoomLive::class, function (Faker $faker) {
+
+    return [
+        'name' => $faker->name,
+        'youtube_video_path'=> "test path",
+        'appointment' => "thunday 20:30",
+        'description'=>"science with hossam",
+        'room_id'=>rand(1,15),
+    ];
+});
+
+$factory->define(App\Models\LiveComment::class, function (Faker $faker) {
+
+    return [
+        'comment'=>$faker->text ,
+        'user_name'=>$faker->name ,
+        'live_id'=>rand(1,8) 
+    ];
+});

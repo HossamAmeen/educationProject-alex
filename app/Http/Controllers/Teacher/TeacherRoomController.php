@@ -70,7 +70,8 @@ class TeacherRoomController extends Controller
        {
         RoomTeacher::create([
             'room_id' => $roomId ,
-             'teacher_id' => Auth::guard('teacher-api')->user()->id
+             'teacher_id' => Auth::guard('teacher-api')->user()->id ,
+             'is_private' => 0
         ]);
         return $this->APIResponse(null, null, 200);
        }

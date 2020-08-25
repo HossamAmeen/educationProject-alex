@@ -54,7 +54,8 @@ Route::prefix('teacher')->namespace('Teacher')->group(function(){
                             //////////////// lives
         Route::resource('lives' , "RoomLiveController");
         Route::get('get-lives-room/{room_id}', 'RoomLiveController@getLives');
-
+        Route::get('show-comments/{liveId}', 'RoomLiveController@showComments');
+                        
         Route::post('logout', 'TeacherController@logout');
     });
 });
@@ -86,4 +87,3 @@ Route::prefix('student')->namespace('Student')->group(function(){
     });
 });
 Route::post('add-comment/{liveId}', 'Student\StudentController@addComment');
-Route::get('show-comments/{liveId}', 'Student\StudentController@showComments');

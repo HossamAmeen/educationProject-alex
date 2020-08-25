@@ -6,9 +6,8 @@ use App\Http\Controllers\APIResponseTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Student;
-use App\Models\{Room,PrivateRoom,LiveComment};
+use App\Models\{Room,LiveComment};
 use App\Models\StudentRoom;
-use App\Models\StudentPrivateRoom;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Auth;
@@ -107,8 +106,8 @@ class StudentController extends Controller
     {
         $student = Student::find(Auth::guard('student-api')->user()->id) ; 
         // return $student->publicRooms ; 
-        $data['public_rooms'] = Room::whereIn('id',$student->publicRooms->pluck('room_id'))->get();
-        $data['private_rooms'] =  PrivateRoom::whereIn('id',$student->privateRooms->pluck('room_id'))->get();
+        $data['public_rooms'] = Room::whereIn('id',$student->publicRooms->pluck('room_id'))->where('is_private' , 0)->get();
+        $data['private_rooms'] =  Room::whereIn('id',$student->privateRooms->pluck('room_id'))->where('is_private' , 1)->get();
       
         return $this->APIResponse($data, null, 200);
     }
@@ -125,7 +124,7 @@ class StudentController extends Controller
     {
         $requestArray['student_id'] = Auth::guard('student-api')->user()->id ;
         $requestArray['room_id'] = $room_id ;
-        StudentPrivateRoom::create($requestArray);
+        StudentRoom::create($requestArray);
         return $this->APIResponse(null, null, 200);
     }
     
@@ -138,7 +137,7 @@ class StudentController extends Controller
     
     public function getPrivateRoomDetials($roomId)
     {
-        $room = PrivateRoom::with(['files','lives'])->find($roomId);
+        $room = Room::with(['files','lives'])->find($roomId);
         return $this->APIResponse($room, null, 200);
     }
   

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Teacher;
 use App\Http\Controllers\APIResponseTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Teacher,Room,RoomLive};
+use App\Models\{Teacher,Room,RoomLive , LiveComment};
 use Auth;
 class RoomLiveController extends Controller
 {
@@ -39,8 +39,7 @@ class RoomLiveController extends Controller
         $lives = RoomLive::where('room_id' , $id )->get();
         return $this->APIResponse($lives, null, 200);
     }
-    public function destroy
-    ($id)
+    public function destroy($id)
     {
         $live = RoomLive::find($id );
         if(isset($live)){
@@ -52,5 +51,10 @@ class RoomLiveController extends Controller
             return $this->APIResponse(null,"this lesson not found", 400);
         }
        
+    }
+    public function showComments($liveId)
+    {
+       $comments =  LiveComment::where('live_id',$liveId)->get(['comment' , 'user_name']);
+       return $this->APIResponse($comments, null, 200);
     }
 }
