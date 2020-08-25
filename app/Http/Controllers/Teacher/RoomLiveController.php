@@ -30,7 +30,8 @@ class RoomLiveController extends Controller
         
         $requestArray = $request->all();
         // $requestArray['user_id'] = Auth::user()->id;
-        RoomLive::update($requestArray);
+        $live = RoomLive::find($id);
+        $live->update($requestArray);
         return $this->APIResponse(null, null, 200);
     }
     public function getLives($id)
