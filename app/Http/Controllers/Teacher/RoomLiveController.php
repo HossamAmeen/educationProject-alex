@@ -30,7 +30,7 @@ class RoomLiveController extends Controller
         
         $requestArray = $request->all();
         // $requestArray['user_id'] = Auth::user()->id;
-        RoomLive::create($requestArray);
+        RoomLive::update($requestArray);
         return $this->APIResponse(null, null, 200);
     }
     public function getLives($id)
@@ -38,7 +38,8 @@ class RoomLiveController extends Controller
         $lives = RoomLive::where('room_id' , $id )->get();
         return $this->APIResponse($lives, null, 200);
     }
-    public function destroy($id)
+    public function destroy
+    ($id)
     {
         $live = RoomLive::find($id );
         if(isset($live)){
