@@ -60,11 +60,10 @@ class RoomController extends CRUDController
         $item = $this->model->FindOrFail($id);
         $with = $this->with();
         
-        $teachers = Teacher::
-         join('room_teachers', 'room_teachers.teacer_id', '=', 'teachers.id')
-        ->where('student_rooms.approvement', 'under_revision')
-        ->get();
-        return $teachers ;
+        $teachers = Teacher::join('room_teachers', 'room_teachers.teacher_id', '=', 'teachers.id')
+                             ->where('room_teachers.id', $id)
+                             ->get()->pluck('id');
+        $item['teachers_id']= $teachers ;
         if (!empty($with))
         {
             $item = $this->model::with($with)->get()->find($id);
