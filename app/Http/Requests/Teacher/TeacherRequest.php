@@ -56,7 +56,7 @@ class TeacherRequest extends FormRequest
             $rules['full_name'][] = 'required';
             $rules['email'][] = 'required';
             $rules['phone'][] = 'required';
-            $rules['password'][] = 'required';
+         
             $rules['user_name'][] = 'required';
         }
         return $rules;
