@@ -130,8 +130,11 @@ class TeacherController extends Controller
 
     public function createRoom(Request $request)
     {
-        $request['teacher_id'] = Auth::guard('teacher-api')->user()->id ;  
-        PrivateRoom::create($request->all());
+        $request['teacher_id'] = Auth::guard('teacher-api')->user()->id ; 
+        if(isset($request->file)){
+            $request['image'] = $this->storeFile($request->file , 'rooms');
+        } 
+        Room::create($request->all());
         return $this->APIResponse(null, null, 200);
     }
 

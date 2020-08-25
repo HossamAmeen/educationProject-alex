@@ -36,8 +36,8 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
 $factory->define(App\Models\Teacher::class, function (Faker $faker) {
 
     return [
-        'full_name' => "hossam teacher",
-        'email'=> "hossam_student@gmail.com",
+        'full_name' =>$faker->name,
+        'email'=> $faker->email,
          'user_name' => "hossam_student",
          'password' => bcrypt('admin'),
          'phone' => "01010079798",
@@ -51,8 +51,8 @@ $factory->define(App\Models\Student::class, function (Faker $faker) {
 
     return [
         'full_name' =>$faker->name,
-        'email'=> "hossam_student@gmail.com",
-         'user_name' => "hossam_student",
+        'email'=> $faker->email,
+         'user_name' => "student".rand(1,50),
          'password' => bcrypt('admin'),
          'phone' => "01010079798",
          'level'=>"secondary",
@@ -65,7 +65,7 @@ $factory->define(App\Models\Room::class, function (Faker $faker) {
     return [
         'name' => "room".rand(1,15),
         'subject'=> "math",
-        'teacher_id'=>rand(1,15),
+        // 'teacher_id'=>rand(1,15),
         'is_private'=>rand(0,1),
          'user_id' => 1
     ];
@@ -85,8 +85,18 @@ $factory->define(App\Models\RoomTeacher::class, function (Faker $faker) {
 
     return [
         'room_id'=>rand(1,15),
-        'teacher_id'=>1,
+        'teacher_id'=>rand(1,25),
         'is_private'=>rand(0,1),
+        'user_id' => 1
+    ];
+});
+
+$factory->define(App\Models\StudentRoom::class, function (Faker $faker) {
+
+    return [
+        'room_id'=>rand(1,15),
+        'student_id'=>rand(1,25),
+       
         'user_id' => 1
     ];
 });

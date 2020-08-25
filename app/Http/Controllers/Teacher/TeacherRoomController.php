@@ -5,8 +5,7 @@ use App\Http\Controllers\APIResponseTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
-use App\Models\{Room,PrivateRoom,PivateRoomTeacher};
-use App\Models\{RoomTeacher ,PrivateRoomTeacher};
+use App\Models\{RoomTeacher , Room};
 use Auth;
 class TeacherRoomController extends Controller
 {
@@ -18,8 +17,8 @@ class TeacherRoomController extends Controller
         $teacher = Teacher::find(Auth::guard('teacher-api')->user()->id) ; 
         
         $data = array();
-        $publicRooms = Room::all() ; 
-        $privateRooms = PrivateRoom::all() ; 
+        $publicRooms = Room::where('is_private' , 0)->get() ; 
+        $privateRooms =Room::where('is_private' , 1)->get() ; 
         
         foreach ($publicRooms as $room){
             $datas = $room ;
@@ -37,7 +36,7 @@ class TeacherRoomController extends Controller
     {
         
         $teacher = Teacher::find(Auth::guard('teacher-api')->user()->id) ; 
-        $publicRooms = Room::all() ; 
+        $publicRooms = Room::where('is_private' , 0)->get() ; 
         $data = array();
         foreach ($publicRooms as $room){
             $datas = $room ;
@@ -49,7 +48,7 @@ class TeacherRoomController extends Controller
     public function showPrivateRooms()
     {
         $teacher = Teacher::find(Auth::guard('teacher-api')->user()->id) ; 
-        $Rooms = PrivateRoom::all() ; 
+        $Rooms = Room::where('is_private' , 1)->get() ;  
         $data = array();
         foreach ($Rooms as $room){
             $datas = $room ;
@@ -59,6 +58,7 @@ class TeacherRoomController extends Controller
         return $this->APIResponse($data, null, 200);
        
     }
+
     public function joinPublicRoom($roomId)
     {
         $checkRoom =  RoomTeacher::where(['room_id'=>$roomId , 'teacher_id'=> Auth::guard('teacher-api')->user()->id])->first();
@@ -74,19 +74,17 @@ class TeacherRoomController extends Controller
         ]);
         return $this->APIResponse(null, null, 200);
        }
-      
-        
     }
     public function joinPrivateRoom($roomId)
     {
-        $checkRoom =  PrivateRoomTeacher::where(['room_id'=>$roomId , 'teacher_id'=> Auth::guard('teacher-api')->user()->id])->first();
+        $checkRoom =  RoomTeacher::where(['room_id'=>$roomId , 'teacher_id'=> Auth::guard('teacher-api')->user()->id])->first();
         if(isset($checkRoom)){
             return $this->APIResponse(null, "this room is registered", 400);
         }
         else
         {
-            PrivateRoomTeacher::create([
-                'room_id' => $roomId ,
+            RoomTeacher::create([
+                 'room_id' => $roomId ,
                  'teacher_id' => Auth::guard('teacher-api')->user()->id
             ]);
             return $this->APIResponse(null, null, 200);

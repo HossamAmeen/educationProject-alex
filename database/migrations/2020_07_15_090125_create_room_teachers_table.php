@@ -15,6 +15,8 @@ class CreateRoomTeachersTable extends Migration
     {
         Schema::create('room_teachers', function (Blueprint $table) {
             $table->id();
+            $table->enum('approvement' , ['under_revision' ,'accept','blocked'])->default('under_revision');
+            $table->string('block_reason')->nullable();
             $table->boolean('is_private')->default(1);
             $table->bigInteger('teacher_id')->unsigned()->nullable();
             $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('set null');

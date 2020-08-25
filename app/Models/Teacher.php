@@ -24,11 +24,11 @@ class Teacher extends Authenticatable
     }
     public function publicRooms()
     {
-        return $this->hasMany(RoomTeacher::class, "teacher_id") ; 
+        return $this->hasMany(RoomTeacher::class, "teacher_id")->where('is_private' ,0) ; 
     }
     public function privateRooms()
     {
-        return $this->hasMany(PrivateRoomTeacher::class, "teacher_id") ; 
+        return $this->hasMany(RoomTeacher::class, "teacher_id")->where('is_private' , 1) ; 
     }
     
 }

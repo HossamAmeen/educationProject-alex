@@ -96,11 +96,12 @@ class DatabaseSeeder extends Seeder
           
         // ]);
 
-        factory('App\Models\User',25)->create();
+        // factory('App\Models\User',25)->create();
         factory('App\Models\Teacher',25)->create();
         factory('App\Models\Student',25)->create();
         factory('App\Models\Room',25)->create();
         factory('App\Models\RoomTeacher',25)->create();
+        factory('App\Models\StudentRoom',25)->create();
         // factory('App\Models\PrivateRoom',25)->create();
 
 

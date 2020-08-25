@@ -12,7 +12,7 @@ class CreateStudentRoomsTable extends Migration
      * @return void
      */
     public function up()
-    {
+    { 
         Schema::create('student_rooms', function (Blueprint $table) {
             $table->id();
             $table->enum('approvement' , ['under_revision' ,'accept','blocked'])->default('under_revision');

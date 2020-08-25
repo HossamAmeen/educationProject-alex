@@ -4,7 +4,7 @@ namespace App\Http\Controllers\DashBoard;
 use App\Http\Controllers\APIResponseTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Room,RoomTeacher ,FileRoom, RoomLive};
+use App\Models\{Teacher,Room,RoomTeacher ,FileRoom, RoomLive};
 use Auth;
 class RoomController extends CRUDController
 {
@@ -16,15 +16,15 @@ class RoomController extends CRUDController
     public function index()
     {
         $rooms = Room::get();
-        // $roomsTeachers = RoomTeacher::get();
+        
         $rows = array();
-        // return   $rooms  ;
+      
         foreach($rooms as $room ){
             $data = $room;
             // $data['teachers_names'] = array();
             $datas['names'] =  array(); 
             foreach($room->teachers as $x ){
-                $datas['names'][] =    $x->teacher->full_name ;
+                $datas['names'][] =    $x->teacher->full_name ?? " ";
             }
             $data['teachers_names'] = $datas['names'];
             // return $data ;
@@ -55,13 +55,41 @@ class RoomController extends CRUDController
         return $this->APIResponse(null, null, 200);
     }
 
+    public function show($id)
+    {
+        $item = $this->model->FindOrFail($id);
+        $with = $this->with();
+        
+        $teachers = Teacher::
+         join('room_teachers', 'room_teachers.teacer_id', '=', 'teachers.id')
+        ->where('student_rooms.approvement', 'under_revision')
+        ->get();
+        return $teachers ;
+        if (!empty($with))
+        {
+            $item = $this->model::with($with)->get()->find($id);
+            // $rows = $rows->with($with);
+        }
+        return $this->APIResponse($item, null, 200);
+    }
+
     public function update($id , Request $request){
        
         $row = $this->model->FindOrFail($id);
         $requestArray = $request->all();
         if(isset($requestArray['file']) )
         $requestArray['image'] =  $this->storeFile($request->file , 'rooms');
-        
+        $row->teachers()->delete();
+        if(is_array($request->teacher_id)){
+
+            for($i=0 ; $i<count($request->teacher_id);$i++)
+            {
+                RoomTeacher::create([
+                    'teacher_id' => $request->teacher_id[$i],
+                    'room_id' => $row->id]);
+            }
+            
+        }
         // $requestArray['user_id'] = Auth::user()->id;
         
         $row->update($requestArray);
