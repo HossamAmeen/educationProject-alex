@@ -38,4 +38,17 @@ class RoomLiveController extends Controller
         $lives = RoomLive::where('room_id' , $id )->get();
         return $this->APIResponse($lives, null, 200);
     }
+    public function destroy($id)
+    {
+        $live = RoomLive::find($id );
+        if(isset($live)){
+            $live->delete();
+            return $this->APIResponse(null,null, 200);
+        }
+        else
+        {
+            return $this->APIResponse(null,"this lesson not found", 400);
+        }
+       
+    }
 }

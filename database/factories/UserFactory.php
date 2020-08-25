@@ -85,7 +85,7 @@ $factory->define(App\Models\RoomTeacher::class, function (Faker $faker) {
 
     return [
         'room_id'=>rand(1,15),
-        'teacher_id'=>rand(1,25),
+        'teacher_id'=>rand(1,10),
         'is_private'=>rand(0,1),
         'user_id' => 1
     ];

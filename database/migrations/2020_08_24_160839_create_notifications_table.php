@@ -18,6 +18,7 @@ class CreateNotificationsTable extends Migration
             $table->string('message');
             $table->string('table');
             $table->bigInteger('user_id');
+            $table->boolean('is_read')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

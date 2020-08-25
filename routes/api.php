@@ -46,10 +46,10 @@ Route::prefix('teacher')->namespace('Teacher')->group(function(){
         Route::get('get-rooms', 'TeacherController@getRooms');
         Route::post('create-public-room', 'TeacherController@createPublicRoom');
         Route::post('create-room', 'TeacherController@createRoom');
-        Route::get('show-public-room/{id}', 'TeacherController@getPublicRoomDetials');
+        Route::get('show-room/{id}', 'TeacherController@getPublicRoomDetials');
                             ////////// teacher with student
          Route::get('show-join-requests', 'TeacherStudentController@showJoinRequests');  
-         Route::get('change-join-request-status/{studentRoomId}/{status}', 'TeacherStudentController@changeStatusStudentRoom');  
+         Route::put('change-join-request-status/{studentRoomId}/{status}', 'TeacherStudentController@changeStatusStudentRoom');  
                           
                             //////////////// lives
         Route::resource('lives' , "RoomLiveController");

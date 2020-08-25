@@ -5,8 +5,7 @@ use App\Http\Controllers\APIResponseTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
-use App\Models\Room;
-use App\Models\PrivateRoom;
+use App\Models\{Room,RoomTeacher};
 use App\Http\Requests\Teacher\TeacherRequest;
 use App\Http\Controllers\DashBoard\TeacherController as TeacherDashboard;
 use Illuminate\Support\Facades\Hash;
@@ -108,12 +107,24 @@ class TeacherController extends Controller
     public function getRooms()
     {
         
-        // $data['public_rooms'] = Room::with('teacher')->where('teacher_id' , Auth::guard('teacher-api')->user()->id)->get();
-        // $data['private_rooms'] = PrivateRoom::with('teacher')->where('teacher_id' , Auth::guard('teacher-api')->user()->id)->get();
         $teacher = Teacher::find(Auth::guard('teacher-api')->user()->id);
-        $data['public_rooms'] = $teacher->publicRooms ;
-        $data['private_rooms'] = $teacher->privateRooms ;
-        return $this->APIResponse($data, null, 200);
+        if( request()->get('type')  )
+        {
+            if( request()->get('type') == "public"){
+                return $this->APIResponse( $teacher->publicRooms , null, 200);
+            }
+            else
+            {
+                return $this->APIResponse( $teacher->privateRooms , null, 200);
+            }
+        }
+        else{
+           
+            $data['public_rooms'] = $teacher->publicRooms ;
+            $data['private_rooms'] = $teacher->privateRooms ;
+            return $this->APIResponse($data, null, 200);
+        }
+       
        
     }
 
@@ -124,7 +135,9 @@ class TeacherController extends Controller
         if(isset($request->file)){
             $request['image'] = $this->storeFile($request->file , 'rooms');
         }
-        Room::create($request->all());
+        $request['is_private'] = 0 ;
+        $room = Room::create($request->all());
+        RoomTeacher::create(['teacher_id' -> Auth::guard('teacher-api')->user()->id , 'room_id' -> $room=>id , 'is_private' => 0 ]);
         return $this->APIResponse(null, null, 200);
     }
 
@@ -134,7 +147,8 @@ class TeacherController extends Controller
         if(isset($request->file)){
             $request['image'] = $this->storeFile($request->file , 'rooms');
         } 
-        Room::create($request->all());
+        $room = Room::create($request->all());
+        RoomTeacher::create(['teacher_id' => Auth::guard('teacher-api')->user()->id , 'room_id' => $room->id ]);
         return $this->APIResponse(null, null, 200);
     }
 
