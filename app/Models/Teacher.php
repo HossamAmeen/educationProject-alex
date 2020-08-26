@@ -11,7 +11,7 @@ class Teacher extends Authenticatable
     use HasApiTokens , Notifiable , SoftDeletes;
     protected $fillable = ['full_name' ,'email', 'user_name', 'password', 'phone',
      'approvement', 'block_reason' ,'image', 'user_id'];
-    protected $hidden = ['password','is_private','gmail_id','approvement','facebook_id','user_id','created_at' , 'updated_at' , 'deleted_at'] ;
+    protected $hidden = ['password','gmail_id','approvement','facebook_id','user_id','created_at' , 'updated_at' , 'deleted_at'] ;
     public function AauthAcessToken(){
         return $this->hasMany(OauthAccessToken::class);
     }
