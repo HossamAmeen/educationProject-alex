@@ -99,9 +99,18 @@ class TeacherController extends Controller
         }else{
             unset($requestArray['password']);
         }       
-        $student = Teacher::find(Auth::guard('teacher-api')->user()->id) ; 
-        $student->update($requestArray);
-        return $this->APIResponse(null, null, 200); 
+        $teacher = Teacher::find(Auth::guard('teacher-api')->user()->id) ; 
+        if(isset($teacher)){
+            $teacher->update($requestArray);
+            return $this->APIResponse(null, null, 200);
+        }
+        else
+        {
+            
+            return $this->APIResponse( $teacher, null, 400);
+        }
+       
+         
     }
                     ////////////////// room
     public function getRooms()
