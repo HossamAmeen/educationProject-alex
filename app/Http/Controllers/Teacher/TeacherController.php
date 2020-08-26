@@ -102,12 +102,12 @@ class TeacherController extends Controller
         $teacher = Teacher::find(Auth::guard('teacher-api')->user()->id) ; 
         if(isset($teacher)){
             $teacher->update($requestArray);
-            return $this->APIResponse(null, null, 200);
+            return $this->APIResponse($teacher, null, 200);
         }
         else
         {
             
-            return $this->APIResponse( $teacher, null, 400);
+            return $this->APIResponse(null , "not found this teacher", 400);
         }
        
          
