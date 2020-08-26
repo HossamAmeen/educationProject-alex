@@ -37,6 +37,7 @@ class DatabaseSeeder extends Seeder
             'name' => "math with hossam",
             'subject'=> "math",
             'teacher_id'=>1,
+            'is_private'=> "0",
             'user_id' => 1
         ]);
 
@@ -103,6 +104,7 @@ class DatabaseSeeder extends Seeder
         factory('App\Models\StudentRoom',25)->create();
         factory('App\Models\RoomLive',10)->create();
         factory('App\Models\LiveComment',50)->create();
+        factory('App\Models\LiveConnect',50)->create();
         // factory('App\Models\PrivateRoom',25)->create();
 
 

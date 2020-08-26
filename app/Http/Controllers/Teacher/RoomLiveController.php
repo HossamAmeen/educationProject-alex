@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Teacher;
 use App\Http\Controllers\APIResponseTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Teacher,Room,RoomLive , LiveComment};
+use App\Models\{Teacher,Room,RoomLive , LiveComment , LiveConnect};
 use Auth;
 class RoomLiveController extends Controller
 {
@@ -32,7 +32,7 @@ class RoomLiveController extends Controller
         // $requestArray['user_id'] = Auth::user()->id;
         $live = RoomLive::find($id);
         $live->update($requestArray);
-        return $this->APIResponse(null, null, 200);
+        return $this->APIResponse($live, null, 200);
     }
     public function getLives($id)
     {
@@ -56,5 +56,10 @@ class RoomLiveController extends Controller
     {
        $comments =  LiveComment::where('live_id',$liveId)->get(['comment' , 'user_name']);
        return $this->APIResponse($comments, null, 200);
+    }
+    public function showConnects($liveId)
+    {
+        $comments =  LiveConnect::with('student')->where('live_id',$liveId)->get();
+        return $this->APIResponse($comments, null, 200);
     }
 }

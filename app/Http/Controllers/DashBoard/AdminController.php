@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\DashBoard;
 use App\Http\Controllers\APIResponseTrait;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\AdminRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -15,8 +16,13 @@ class AdminController extends CRUDController
         $this->model = $model;
     }
 
-    public function store(Request $request){
+    public function store(AdminRequest $request){
         
+        // if (isset($request->validator) && $request->validator->fails())
+        // {
+        //     return $this->APIResponse(null , $request->validator->messages() ,  422);
+        // }
+
         $requestArray = $request->all();
         if(isset($requestArray['password']) )
         $requestArray['password'] =  Hash::make($requestArray['password']);
@@ -31,8 +37,13 @@ class AdminController extends CRUDController
         return $this->APIResponse(null, null, 200);
     }
 
-    public function update($id , Request $request){
-       
+    public function update($id , AdminRequest $request){
+        
+        // if (isset($request->validator) && $request->validator->fails())
+        // {
+        //     return $this->APIResponse(null , $request->validator->messages() ,  422);
+        // }
+    
         $row = $this->model->FindOrFail($id);
         $requestArray = $request->all();
         if(isset($requestArray['password']) && $requestArray['password'] != ""){

@@ -119,3 +119,11 @@ $factory->define(App\Models\LiveComment::class, function (Faker $faker) {
         'live_id'=>rand(1,8) 
     ];
 });
+$factory->define(App\Models\LiveConnect::class, function (Faker $faker) {
+
+    return [
+        
+        'student_id'=>rand(1,8) ,
+        'live_id'=>rand(1,8) 
+    ];
+});

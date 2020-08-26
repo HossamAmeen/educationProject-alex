@@ -55,6 +55,7 @@ Route::prefix('teacher')->namespace('Teacher')->group(function(){
         Route::resource('lives' , "RoomLiveController");
         Route::get('get-lives-room/{room_id}', 'RoomLiveController@getLives');
         Route::get('show-comments/{liveId}', 'RoomLiveController@showComments');
+        Route::get('show-connects/{liveId}', 'RoomLiveController@showConnects');
                         
         Route::post('logout', 'TeacherController@logout');
     });
