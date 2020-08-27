@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
               'user_name' => "hossam_student",
               'password' => bcrypt('admin'),
               'phone' => "01010079798",
+              'parent_phone'=>"01010079792",
               'level'=>"secondary"
         ]);
 
