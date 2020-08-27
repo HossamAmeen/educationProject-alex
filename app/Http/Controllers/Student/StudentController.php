@@ -60,10 +60,10 @@ class StudentController extends Controller
                 $success['token'] = $user->createToken('token')->accessToken;
                 return $this->APIResponse($success, null, 200);
             } else {
-                return $this->APIResponse(null, "Password mismatch", 422);  
+                return $this->APIResponse(null, "الباسورد غير صحيح", 422);  
             }
         } else {
-            return $this->APIResponse(null, "User name does not exist", 422);
+            return $this->APIResponse(null, "هذا الحساب غير موجود", 422);
         }
     }
 
