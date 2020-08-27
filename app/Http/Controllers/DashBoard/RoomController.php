@@ -98,7 +98,7 @@ class RoomController extends CRUDController
             
         }
         // $requestArray['user_id'] = Auth::user()->id;
-        $requestArray['is_private'] = 0 ;
+        // $requestArray['is_private'] = 0 ;
         $row->update($requestArray);
         return $this->APIResponse(null, null, 200);
     }
