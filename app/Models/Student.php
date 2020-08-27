@@ -9,17 +9,17 @@ use Illuminate\Notifications\Notifiable;
 class Student extends Authenticatable
 {
     use HasApiTokens , Notifiable;
-    protected $fillable = ['full_name' ,'email', 'user_name', 'password', 'phone',
+    protected $fillable = ['full_name' ,'email', 'user_name', 'password', 'phone','parent_phone',
      'level' ,'approvement', 'block_reason' ,'image', 'user_id'];
      protected $hidden = ['password','user_id','created_at' , 'updated_at'] ;
     public function publicRooms()
     {
-        return $this->hasMany(StudentRoom::class , 'student_id')->where('is_private' , 1);
+        return $this->hasMany(StudentRoom::class , 'student_id');
     }
 
     public function privateRooms()
     {
-        return $this->hasMany(StudentRoom::class , 'student_id')->where('is_private' , 1);
+        return $this->hasMany(StudentRoom::class , 'student_id');
     }
 
     public function getImageAttribute()

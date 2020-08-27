@@ -102,32 +102,9 @@ class StudentController extends Controller
         return $this->APIResponse(null, null, 200); 
     }
                     ////////////////// rooms //////////////////
-    public function getRooms()
-    {
-        $student = Student::find(Auth::guard('student-api')->user()->id) ; 
-        // return $student->publicRooms ; 
-        $data['public_rooms'] = Room::whereIn('id',$student->publicRooms->pluck('room_id'))->where('is_private' , 0)->get();
-        $data['private_rooms'] =  Room::whereIn('id',$student->privateRooms->pluck('room_id'))->where('is_private' , 1)->get();
-      
-        return $this->APIResponse($data, null, 200);
-    }
-
-    public function joinPublicRoom($room_id)
-    {
-        $requestArray['student_id'] = Auth::guard('student-api')->user()->id ;
-        $requestArray['room_id'] = $room_id ;
-        StudentRoom::create($requestArray);
-        return $this->APIResponse(null, null, 200);
-    }
-
-    public function joinRoom($room_id)
-    {
-        $requestArray['student_id'] = Auth::guard('student-api')->user()->id ;
-        $requestArray['room_id'] = $room_id ;
-        StudentRoom::create($requestArray);
-        return $this->APIResponse(null, null, 200);
-    }
+   
     
+
     public function getPublicRoomDetials($roomId)
     {
         $room = Room::with(['files','lives'])->find($roomId);
@@ -140,23 +117,6 @@ class StudentController extends Controller
         $room = Room::with(['files','lives'])->find($roomId);
         return $this->APIResponse($room, null, 200);
     }
-  
-    public function addComment($id)
-    {
-        LiveComment::create(
-            [
-                'comment' => request('comment'),
-                'user_name'=> "hossam test" ,//Auth::guard('student-api')->user()->user_name,
-                'type'=> "students" ,
-                'live_id' =>$id,
-                'person_id'=>1//Auth::guard('student-api')->user()->id
-            ]
-            );
-            return $this->APIResponse(null, null, 200);
-    }
-    public function showComments($liveId)
-    {
-       $comments =  LiveComment::where('live_id',$liveId)->get(['comment' , 'user_name']);
-       return $this->APIResponse($comments, null, 200);
-    }
+                                             
+    
 }

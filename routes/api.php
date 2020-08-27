@@ -74,15 +74,16 @@ Route::prefix('student')->namespace('Student')->group(function(){
         Route::get('show-private-rooms', 'StudentRoomController@showPrivateRooms');
         Route::get('show-rooms', 'StudentRoomController@showRooms');
                                 //// show registered room
-        Route::get('get-rooms', 'StudentController@getRooms');    ///////////// show all registered room 
-        Route::post('join-public-room/{id}', 'StudentController@joinPublicRoom');
-        Route::post('join-room/{id}', 'StudentController@joinRoom');
+        Route::get('get-rooms', 'StudentRoomController@getRegisteredRooms');    ///////////// show all registered room 
+        Route::post('join-room/{id}', 'StudentRoomController@joinRoom');
+      
         Route::get('show-private-room/{id}', 'StudentController@getPrivateRoomDetials');
         Route::get('show-public-room/{id}', 'StudentController@getPublicRoomDetials');
 
-      
+                                        /////////// student lesson
 
-        Route::post('add-comment/{liveId}', 'StudentController@addComment');
+        Route::post('add-comment/{liveId}', 'StudentLessonCOntroller@addComment');
+        Route::post('show-comments/{liveId}', 'StudentLessonCOntroller@showComment');
 
         Route::post('logout', 'StudentController@logout')->name('student.logout');
     });

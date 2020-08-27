@@ -21,6 +21,7 @@ class CreateStudentsTable extends Migration
             $table->string('user_name');
             $table->string('password');
             $table->string('phone')->nullable();
+            $table->string('parent_phone');
             $table->string('level');
             $table->enum('approvement' , ['under_revision' ,'accept','blocked'])->default('under_revision');
             $table->string('block_reason')->nullable();

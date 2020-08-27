@@ -54,7 +54,8 @@ $factory->define(App\Models\Student::class, function (Faker $faker) {
         'email'=> $faker->email,
          'user_name' => "student".rand(1,50),
          'password' => bcrypt('admin'),
-         'phone' => "01010079798",
+         'phone'=>"010".rand(1,9).rand(1,9).rand(1,9).rand(1,9) .rand(1,9) .rand(1,9) .rand(1,9) .rand(1,9),
+         'parent_phone'=>"010".rand(1,9).rand(1,9).rand(1,9).rand(1,9) .rand(1,9) .rand(1,9) .rand(1,9) .rand(1,9),
          'level'=>"secondary",
          'user_id' => 1
     ];
