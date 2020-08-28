@@ -116,7 +116,7 @@ class TeacherRoomController extends Controller
        
         ->where('room_teachers.teacher_id', Auth::guard('teacher-api')->user()->id)
         ->where('rooms.is_private',1)
-        ->where('rooms.approvement','accept')
+        // ->where('rooms.approvement','accept')
         ->get();
         if( request()->get('type')  )
         {
@@ -147,7 +147,8 @@ class TeacherRoomController extends Controller
         if(isset($request->file)){
             $request['image'] = $this->storeFile($request->file , 'rooms');
         } 
-        $room = Room::create($request->all());
+
+        $room = Room::create($request->except('approvement'));
         RoomTeacher::create(['teacher_id' => Auth::guard('teacher-api')->user()->id , 'room_id' => $room->id ]);
         return $this->APIResponse(null, null, 200);
     }

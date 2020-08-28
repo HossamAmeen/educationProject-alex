@@ -9,14 +9,14 @@ use Auth;
 class RoomLiveController extends Controller
 {
     use APIResponseTrait;
-    public function index()
-    {
-        // return Auth::guard('teacher-api')->user()->id ;
-        $teacher = Teacher::find(Auth::guard('teacher-api')->user()->id);
-        // return $teacher->publicRooms->pluck('room_id');
-        $lives = RoomLive::whereIn('room_id' , $teacher->publicRooms->pluck('room_id')->toArray() )->get();
-        return $this->APIResponse($lives, null, 200);
-    }
+    // public function index()
+    // {
+    //     // return Auth::guard('teacher-api')->user()->id ;
+    //     $teacher = Teacher::find(Auth::guard('teacher-api')->user()->id);
+    //     // return $teacher->publicRooms->pluck('room_id');
+    //     $lives = RoomLive::whereIn('room_id' , $teacher->publicRooms->pluck('room_id')->toArray() )->get();
+    //     return $this->APIResponse($lives, null, 200);
+    // }
 
     public function store(Request $request){
         
@@ -26,6 +26,15 @@ class RoomLiveController extends Controller
         return $this->APIResponse(null, null, 200);
     }
 
+    public function show($liveId)
+    {
+        $roomLive = RoomLive::find($liveId);
+        if(isset($roomLive)){
+            return $this->APIResponse($roomLive, null, 200);
+        }
+        else
+        return $this->APIResponse($roomLive, null, 200);
+    }
     public function update(Request $request , $id){
         
         $requestArray = $request->all();
