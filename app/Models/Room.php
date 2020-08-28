@@ -8,7 +8,12 @@ class Room extends Model
 {
     protected $fillable = ['name','is_private', 'subject', 'approvement', 'image', 'block_reason','user_id'];
     protected $hidden = ['teacher_id','user_id','created_at' , 'updated_at'] ;
- 
+    
+    public function scopeAccepted($query)
+    {
+        return $query->where('approvement', 'accept');
+    }
+
     public function teachers()
     {
         return $this->hasMany(RoomTeacher::class,'room_id');

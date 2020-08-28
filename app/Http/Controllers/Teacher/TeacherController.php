@@ -154,20 +154,6 @@ class TeacherController extends Controller
        
        
     }
-
-   
-    public function createPublicRoom(Request $request)
-    {
-        $request['teacher_id'] = Auth::guard('teacher-api')->user()->id ; 
-        if(isset($request->file)){
-            $request['image'] = $this->storeFile($request->file , 'rooms');
-        }
-        $request['is_private'] = 0 ;
-        $room = Room::create($request->all());
-        RoomTeacher::create(['teacher_id' -> Auth::guard('teacher-api')->user()->id , 'room_id' -> $room=>id , 'is_private' => 0 ]);
-        return $this->APIResponse(null, null, 200);
-    }
-
     public function createRoom(Request $request)
     {
         $request['teacher_id'] = Auth::guard('teacher-api')->user()->id ; 

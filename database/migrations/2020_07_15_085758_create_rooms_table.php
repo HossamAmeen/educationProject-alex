@@ -19,7 +19,7 @@ class CreateRoomsTable extends Migration
             $table->string('subject');
             $table->string('image')->default('education.png')->nullable();
             $table->boolean('is_private')->default(1);
-            $table->enum('approvement' , ['under_revision' ,'accept','blocked'])->default('accept');
+            $table->enum('approvement' , ['under_revision' ,'accept','blocked'])->default('under_revision');
             $table->string('block_reason')->nullable();
 
             $table->bigInteger('teacher_id')->unsigned()->nullable();

@@ -89,4 +89,16 @@ class StudentRoomController extends Controller
        
     }
 
+    public function getRoomDetials($roomId)
+    {
+        $room = Room::with(['files','lives'])->find($roomId);
+        if(isset($room)){
+            $room['appointment'] = "فثسف";
+            return $this->APIResponse($room, null, 200);
+        }
+        else
+        return $this->APIResponse(null, "this room not found", 400);
+      
+    }
+
 }

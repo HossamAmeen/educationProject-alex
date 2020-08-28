@@ -40,13 +40,12 @@ Route::prefix('teacher')->namespace('Teacher')->group(function(){
         Route::get('show-public-rooms', 'TeacherRoomController@showPublicRooms');
         Route::get('show-private-rooms', 'TeacherRoomController@showPrivateRooms');
         Route::get('show-rooms', 'TeacherRoomController@showRooms');
-        Route::get('join-public-room/{roomId}', 'TeacherRoomController@joinPublicRoom');
-        Route::get('join-private-room/{roomId}', 'TeacherRoomController@joinPrivateRoom');
+        Route::get('join-room/{roomId}', 'TeacherRoomController@joinRoom');
                             /////////// show registered room
-        Route::get('get-rooms', 'TeacherController@getRooms');
-        Route::post('create-public-room', 'TeacherController@createPublicRoom');
-        Route::post('create-room', 'TeacherController@createRoom');
-        Route::get('show-room/{id}', 'TeacherController@getPublicRoomDetials');
+        Route::get('get-rooms', 'TeacherRoomController@getRooms');
+        Route::post('create-room', 'TeacherRoomController@createRoom');
+        Route::get('show-room/{id}', 'TeacherRoomController@getRoomDetials');
+        Route::put('update-room/{id}', 'TeacherRoomController@updateRoom');
                             ////////// teacher with student
          Route::get('show-join-requests', 'TeacherStudentController@showJoinRequests');  
          Route::put('change-join-request-status/{studentRoomId}/{status}', 'TeacherStudentController@changeStatusStudentRoom');  
@@ -73,12 +72,12 @@ Route::prefix('student')->namespace('Student')->group(function(){
         Route::get('show-public-rooms', 'StudentRoomController@showPublicRooms');
         Route::get('show-private-rooms', 'StudentRoomController@showPrivateRooms');
         Route::get('show-rooms', 'StudentRoomController@showRooms');
+        Route::get('show-room/{id}', 'StudentRoomController@getRoomDetials');
                                 //// show registered room
         Route::get('get-rooms', 'StudentRoomController@getRegisteredRooms');    ///////////// show all registered room 
         Route::post('join-room/{id}', 'StudentRoomController@joinRoom');
       
-        Route::get('show-private-room/{id}', 'StudentController@getPrivateRoomDetials');
-        Route::get('show-public-room/{id}', 'StudentController@getPublicRoomDetials');
+        
 
                                         /////////// student lesson
 
