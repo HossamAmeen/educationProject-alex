@@ -48,7 +48,7 @@ class StudentLessonController extends Controller
         $serviceAccount = ServiceAccount::fromJsonFile($path);
         $firebase = (new Factory)
             ->withServiceAccount($serviceAccount)
-            ->withDatabaseUri('https://egslive-282521.firebaseio.com/');
+            ->withDatabaseUri('https://egslive-282521.firebaseio.com/')
             ->create();
 
         // $database = $firebase->getDatabase();
