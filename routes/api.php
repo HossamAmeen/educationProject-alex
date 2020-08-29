@@ -82,7 +82,7 @@ Route::prefix('student')->namespace('Student')->group(function(){
                                         /////////// student lesson
 
         Route::post('add-comment/{liveId}', 'StudentLessonCOntroller@addComment');
-        Route::post('show-comments/{liveId}', 'StudentLessonCOntroller@showComment');
+        Route::get('show-comments/{liveId}', 'StudentLessonCOntroller@showComments');
 
         Route::post('logout', 'StudentController@logout')->name('student.logout');
     });

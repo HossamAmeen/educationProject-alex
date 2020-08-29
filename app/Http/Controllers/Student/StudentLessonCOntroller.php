@@ -1,28 +1,84 @@
 <?php
 
 namespace App\Http\Controllers\Student;
+use App\Http\Controllers\APIResponseTrait;
+use Kreait\Firebase;
+
+use Kreait\Firebase\Factory;
+
+use Kreait\Firebase\ServiceAccount;
+
+use Kreait\Firebase\Database;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
-class StudentLessonCOntroller extends Controller
+use App\Models\{LiveComment};
+use Auth;
+class StudentLessonController extends Controller
 {
+    use APIResponseTrait;
     public function addComment($id)
     {
-        LiveComment::create(
+      
+      
+       
+         LiveComment::create(
             [
                 'comment' => request('comment'),
-                'user_name'=> "hossam test" ,//Auth::guard('student-api')->user()->user_name,
+                'user_name'=>Auth::guard('student-api')->user()->user_name ,//Auth::guard('student-api')->user()->user_name,
                 'type'=> "students" ,
                 'live_id' =>$id,
-                'person_id'=>1//Auth::guard('student-api')->user()->id
+                'person_id'=>Auth::guard('student-api')->user()->id //Auth::guard('student-api')->user()->id
             ]
             );
-            return $this->APIResponse(null, null, 200);
+        $this->sendToFirebase($id , request('comment')); 
+        return $this->APIResponse(null, null, 200);
     }
     public function showComments($liveId)
     {
        $comments =  LiveComment::where('live_id',$liveId)->get(['comment' , 'user_name']);
        return $this->APIResponse($comments, null, 200);
     }
+
+    public function sendToFirebase($liveId , $comment = " " )
+    {
+        // return __DIR__ ;
+        $path = app_path('Http/Controllers/egslive-282521-firebase-adminsdk-znco6-eacb195870.json');
+
+        $serviceAccount = ServiceAccount::fromJsonFile($path);
+        $firebase = (new Factory)
+            ->withServiceAccount($serviceAccount)
+            ->withDatabaseUri('https://egslive-282521.firebaseio.com/');
+            ->create();
+
+        // $database = $firebase->getDatabase();
+
+        // $database->getReference('/deliveries') // this is the root reference
+        // ->update(['1' => 55 ]);
+
+        $reference = $database->getReference('/comeents');
+
+        $snapshot = $reference->getSnapshot()->getValue();
+        //    return  $snapshot;
+        // $ids =   $database->getReference('/deliveries')->getChildKeys();
+
+        // return  $database->getReference('/deliveries')->getChildKeys();
+
+        // $database->getReference('deliveries')->remove();
+        $snapshot[$liveId] = $comment;
+        $newPost = $database
+            ->getReference('/comeents')
+            ->update($snapshot);
+
+        // return $database->getChild() ;
+        // $newPost = $database
+        // ->getReference('/')
+        // ->push([
+        //     $id => $id2
+        // ]);
+
+        //   echo '<pre>';
+        //   print_r($newPost->getvalue() );
+    }
+
 }
