@@ -58,6 +58,7 @@ Route::prefix('teacher')->namespace('Teacher')->group(function(){
         Route::get('show-comments/{liveId}', 'RoomLiveController@showComments');
         Route::get('show-connects/{liveId}', 'RoomLiveController@showConnects');
         Route::post('upload-file-lesson', 'RoomLiveController@uploadFileLesson');
+        Route::delete('delete-file-lesson/{fileId}', 'RoomLiveController@deleteFile');
 
 
        

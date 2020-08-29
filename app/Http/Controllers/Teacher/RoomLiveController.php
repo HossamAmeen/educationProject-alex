@@ -47,7 +47,7 @@ class RoomLiveController extends Controller
         }
       
         else{
-            return $this->APIResponse(null, null, 400);
+            return $this->APIResponse(null, "هذا الدرس غغير موجود ", 400);
         }
     }
     public function uploadFileLesson(Request $request)
@@ -58,6 +58,17 @@ class RoomLiveController extends Controller
         return $this->APIResponse(null, null, 200);
     }
 
+    public function deleteFile($fileId)
+    {
+        $file = FileRoom::find($fileId);
+        if(isset($file))
+        {
+            $file->delete();
+            return $this->APIResponse(null, null, 200);
+        }else
+        return $this->APIResponse(null, "الملف غير موجود", 400);
+
+    }
     public function getLives($id)
     {
         $lives = RoomLive::where('room_id' , $id )->get();

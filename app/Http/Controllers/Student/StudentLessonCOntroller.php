@@ -32,6 +32,7 @@ class StudentLessonController extends Controller
             ]
             );
         $this->sendToFirebase($id , request('comment')); 
+    //    return $this->sendToFirebase($id , request('comment')); 
         return $this->APIResponse(null, null, 200);
     }
     public function showComments($liveId)
