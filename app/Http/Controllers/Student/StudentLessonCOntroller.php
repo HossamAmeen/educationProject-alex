@@ -51,7 +51,7 @@ class StudentLessonController extends Controller
             ->withDatabaseUri('https://egslive-282521.firebaseio.com/')
             ->create();
 
-        // $database = $firebase->getDatabase();
+        $database = $firebase->getDatabase();
 
         // $database->getReference('/deliveries') // this is the root reference
         // ->update(['1' => 55 ]);
