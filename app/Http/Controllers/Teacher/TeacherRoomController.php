@@ -153,6 +153,12 @@ class TeacherRoomController extends Controller
         return $this->APIResponse(null, null, 200);
     }
 
+    public function joinPublicRoom($roomId)
+    {
+        
+        RoomTeacher::create(['teacher_id' => Auth::guard('teacher-api')->user()->id , 'room_id' => $roomId , 'is_private' => 0 ]);
+        return $this->APIResponse(null, null, 200);
+    }
     public function getRoomDetials($roomId)
     {
         $room = Room::with(['files','lives'])->find($roomId);

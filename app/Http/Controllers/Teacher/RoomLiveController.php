@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Teacher;
 use App\Http\Controllers\APIResponseTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Teacher,Room,RoomLive , LiveComment , LiveConnect};
+use App\Models\{Teacher,Room,RoomLive , LiveComment , LiveConnect , FileRoom};
 use Auth;
 class RoomLiveController extends Controller
 {
@@ -50,6 +50,14 @@ class RoomLiveController extends Controller
             return $this->APIResponse(null, null, 400);
         }
     }
+    public function uploadFileLesson(Request $request)
+    {
+        // return $request->all();
+        FileRoom::create($request->all());
+     
+        return $this->APIResponse(null, null, 200);
+    }
+
     public function getLives($id)
     {
         $lives = RoomLive::where('room_id' , $id )->get();

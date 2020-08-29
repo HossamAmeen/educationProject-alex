@@ -43,9 +43,11 @@ Route::prefix('teacher')->namespace('Teacher')->group(function(){
         Route::get('join-room/{roomId}', 'TeacherRoomController@joinRoom');
                             /////////// show registered room
         Route::get('get-rooms', 'TeacherRoomController@getRooms');
+        // Route::get('join-public-room/{roomId}', 'TeacherRoomController@joinPublicRoom');
         Route::post('create-room', 'TeacherRoomController@createRoom');
         Route::get('show-room/{id}', 'TeacherRoomController@getRoomDetials');
         Route::put('update-room/{id}', 'TeacherRoomController@updateRoom');
+
                             ////////// teacher with student
          Route::get('show-join-requests', 'TeacherStudentController@showJoinRequests');  
          Route::put('change-join-request-status/{studentRoomId}/{status}', 'TeacherStudentController@changeStatusStudentRoom');  
@@ -55,10 +57,16 @@ Route::prefix('teacher')->namespace('Teacher')->group(function(){
         Route::get('get-lives-room/{room_id}', 'RoomLiveController@getLives');
         Route::get('show-comments/{liveId}', 'RoomLiveController@showComments');
         Route::get('show-connects/{liveId}', 'RoomLiveController@showConnects');
-                        
+        Route::post('upload-file-lesson', 'RoomLiveController@uploadFileLesson');
+
+
+       
+
         Route::post('logout', 'TeacherController@logout');
     });
 });
+Route::post('teacher/upload-file', 'DashBoard\UploadFileController@uploadFile');
+
 
         //////////////// student //////////////
 Route::prefix('student')->namespace('Student')->group(function(){
