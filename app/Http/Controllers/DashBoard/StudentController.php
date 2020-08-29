@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\DashBoard;
-
+use App\Http\Requests\Student\StudentRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -13,9 +13,14 @@ class StudentController extends CRUDController
         $this->model = $model;
     }
 
-    public function store(Request $request){
+    public function store(StudentRequest $request){
         
+        if (isset($request->validator) && $request->validator->fails())
+        {
+            return $this->APIResponse(null , $request->validator->messages() ,  422);
+        }
         $requestArray = $request->all();
+        
         if(isset($requestArray['password']) )
         $requestArray['password'] =  Hash::make($requestArray['password']);
        
@@ -25,8 +30,13 @@ class StudentController extends CRUDController
         return $this->APIResponse(null, null, 200);
     }
 
-    public function update($id , Request $request){
+    public function update($id , StudentRequest $request){
        
+        if (isset($request->validator) && $request->validator->fails())
+        {
+            return $this->APIResponse(null , $request->validator->messages() ,  422);
+        }
+        
         $row = $this->model->FindOrFail($id);
         $requestArray = $request->all();
         if(isset($requestArray['password']) && $requestArray['password'] != ""){

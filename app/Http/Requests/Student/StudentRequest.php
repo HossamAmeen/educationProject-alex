@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Teacher;
+namespace App\Http\Requests\Student;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Auth;
-class TeacherRequest extends FormRequest
+class StudentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,42 +23,38 @@ class TeacherRequest extends FormRequest
      */
     public function rules()
     {
-        // $id = Auth::guard('teacher-api')->user()->id ?? "0" ;
-        // $id =  $id == "0" ? $this->request->get("id") : "0";
         if($this->request->get("id") !== null){
             $id = $this->request->get("id") ;
         }
-        elseif(Auth::guard('teacher-api')->user() !== null){
-            $id = Auth::guard('teacher-api')->user()->id;
+        elseif(Auth::guard('student-api')->user() !== null){
+            $id = Auth::guard('student-api')->user()->id;
         }
         else
             $id = 0 ;
-       
+           
         $rules =  [
             'full_name' => ['string', 'max:100'],
-            'email' => ['email' , Rule::unique('teachers')->ignore($id)->whereNull('deleted_at') ] ,
+            'email' => ['email' , Rule::unique('students')->ignore($id)->whereNull('deleted_at') ] ,
             'password' => ['string'],
-            'phone' => ['numeric', 'digits_between:11,11' ,Rule::unique('teachers')->ignore($id)->whereNull('deleted_at')],
+            'level' => ['string'],
+            
+            'phone' => ['numeric', 'digits_between:11,11' ,Rule::unique('students')->ignore($id)->whereNull('deleted_at')],
+            'parent_phone' => ['numeric', 'digits_between:11,11'],
             // 'user_name' => ['string', Rule::unique('teachers')->ignore($id)->whereNull('deleted_at')], 
             'file' => ['image']              
         ];
         if ($this->isMethod('POST') )
         {
             $rules['full_name'][] = 'required';
-           
             $rules['email'][] = 'required';
             $rules['phone'][] = 'required';
+            $rules['parent_phone'][] = 'required';
             $rules['password'][] = 'required';
+            
             // $rules['user_name'][] = 'required';
            
         }
-        if(strpos($this->fullUrl(), "profile") !== false) { 
-            $rules['full_name'][] = 'required';
-            $rules['email'][] = 'required';
-            $rules['phone'][] = 'required';
-         
-            // $rules['user_name'][] = 'required';
-        }
+       
         return $rules;
     }
     public $validator = null;

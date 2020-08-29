@@ -18,11 +18,11 @@ class CreateStudentsTable extends Migration
             $table->id();
             $table->string('full_name');
             $table->string('email')->nullable();
-            $table->string('user_name');
+            $table->string('user_name')->nullable();
             $table->string('password');
             $table->string('phone')->nullable();
-            $table->string('parent_phone');
-            $table->string('level');
+            $table->string('parent_phone')->nullable();
+            $table->string('level')->nullable();
             $table->enum('approvement' , ['under_revision' ,'accept','blocked'])->default('under_revision');
             $table->string('block_reason')->nullable();
             $table->string('image')->default('avatar.png')->nullable();
@@ -31,6 +31,7 @@ class CreateStudentsTable extends Migration
             
             $table->bigInteger('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

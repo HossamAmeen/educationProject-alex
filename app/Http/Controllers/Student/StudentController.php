@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Student;
-
+use App\Http\Requests\Student\StudentRequest;
 use App\Http\Controllers\APIResponseTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -15,8 +15,12 @@ class StudentController extends Controller
 {
     use APIResponseTrait;
 
-    public function register(Request $request)
+    public function register(StudentRequest $request)
     {
+        if (isset($request->validator) && $request->validator->fails())
+        {
+            return $this->APIResponse(null , $request->validator->messages() ,  422);
+        }
         $requestArray = $request->all();
         if(isset($requestArray['file']) )
         $requestArray['image'] =  $this->storeFile($request->file , 'rooms'); 
@@ -84,8 +88,12 @@ class StudentController extends Controller
         $student = Student::find(Auth::guard('student-api')->user()->id) ; 
         return $this->APIResponse($student, null, 200);
     }
-    public function updateAccount(Request $request)
+    public function updateAccount(StudentRequest $request)
     {        
+        if (isset($request->validator) && $request->validator->fails())
+        {
+            return $this->APIResponse(null , $request->validator->messages() ,  422);
+        }
         $requestArray = $request->all();
         if(isset($requestArray['password']) && $requestArray['password'] != ""){
             $requestArray['password'] =  Hash::make($requestArray['password']);
