@@ -19,9 +19,6 @@ class StudentLessonController extends Controller
     use APIResponseTrait;
     public function addComment($id)
     {
-      
-      
-       
          LiveComment::create(
             [
                 'comment' => request('comment'),

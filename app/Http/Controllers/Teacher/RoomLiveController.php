@@ -21,6 +21,8 @@ class RoomLiveController extends Controller
     public function store(Request $request){
         
         $requestArray = $request->all();
+        $requestArray['youtube_video_path'] ='https://www.youtube.com/embed/'. $request->youtube_video_path ; 
+     
         // $requestArray['user_id'] = Auth::user()->id;
         RoomLive::create($requestArray);
         return $this->APIResponse(null, null, 200);
@@ -94,7 +96,7 @@ class RoomLiveController extends Controller
     }
     public function showConnects($liveId)
     {
-        $comments =  LiveConnect::with('student')->where('live_id',$liveId)->get();
+        $comments =  LiveConnect::with('student')->where('live_id',$liveId)->where('in_out' , 1)->get();
         return $this->APIResponse($comments, null, 200);
     }
 }
