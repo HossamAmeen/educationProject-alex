@@ -9,6 +9,7 @@ class UploadFileController extends Controller
 {
     public function uploadFile(Request $request)
     {
+        if($request->hasFile('file')){
         $file = $request->file; 
         if($request->folder_name !== null){
             $folderName = $request->folder_name ; 
@@ -20,9 +21,13 @@ class UploadFileController extends Controller
         {
             File::makeDirectory($path, 0777, true, true);
         }
+
         $name = time().'.'.$file->getClientOriginalExtension();
         $file->move($path, $name);
 
         return asset($path .'/'. $name);
+         }
+         else
+         return "this now file ";
     }
 }
