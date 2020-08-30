@@ -21,6 +21,7 @@ class RoomLiveController extends Controller
     public function store(Request $request){
         
         $requestArray = $request->all();
+        if(isset($request->youtube_video_path))
         $requestArray['youtube_video_path'] ='https://www.youtube.com/embed/'. $request->youtube_video_path ; 
      
         // $requestArray['user_id'] = Auth::user()->id;
@@ -56,6 +57,13 @@ class RoomLiveController extends Controller
     {
         // return $request->all();
         FileRoom::create($request->all());
+     
+        return $this->APIResponse(null, null, 200);
+    }
+    public function updateFileLesson(Request $request, $id)
+    {
+        $file = FileRoom::find($id);
+        $file->update($request->all());
      
         return $this->APIResponse(null, null, 200);
     }
