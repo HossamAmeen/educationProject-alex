@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class LiveConnect extends Model
 {
     protected $hidden = ['user_id','created_at' , 'updated_at'] ;
-    protected $fillable= ['live_id' , 'student_id'];
+    protected $fillable= ['in_out','live_id' , 'student_id'];
 
       
     public function student()

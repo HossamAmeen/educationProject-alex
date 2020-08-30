@@ -38,6 +38,7 @@ class TeacherRoomController extends Controller
         $teacher = Teacher::find(Auth::guard('teacher-api')->user()->id) ; 
         $publicRooms = Room::where('is_private' , 0)->get() ; 
         $data = array();
+        // return $teacher->publicRooms->pluck('room_id')->toArray() ; 
         foreach ($publicRooms as $room){
             $datas = $room ;
             $datas['is_registered']  =  in_array($room->id , $teacher->publicRooms->pluck('room_id')->toArray()) ? 1 : 0 ;// rand(0,1);
@@ -80,7 +81,7 @@ class TeacherRoomController extends Controller
     {
         $checkRoom =  RoomTeacher::where(['room_id'=>$roomId , 'teacher_id'=> Auth::guard('teacher-api')->user()->id])->first();
         if(isset($checkRoom)){
-            return $this->APIResponse(null, "this room is registered", 400);
+            return $this->APIResponse(null, "المدرس مسجل بالفعل في الفصل", 400);
         }
         else
         {
@@ -153,12 +154,12 @@ class TeacherRoomController extends Controller
         return $this->APIResponse(null, null, 200);
     }
 
-    public function joinPublicRoom($roomId)
-    {
-        
-        RoomTeacher::create(['teacher_id' => Auth::guard('teacher-api')->user()->id , 'room_id' => $roomId , 'is_private' => 0 ]);
-        return $this->APIResponse(null, null, 200);
-    }
+    // public function joinPublicRoom($roomId)
+    // {
+
+    //     RoomTeacher::create(['teacher_id' => Auth::guard('teacher-api')->user()->id , 'room_id' => $roomId , 'is_private' => 0 ]);
+    //     return $this->APIResponse(null, null, 200);
+    // }
     public function getRoomDetials($roomId)
     {
         $room = Room::with(['files','lives'])->find($roomId);

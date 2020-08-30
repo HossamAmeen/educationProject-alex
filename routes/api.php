@@ -89,9 +89,11 @@ Route::prefix('student')->namespace('Student')->group(function(){
         
 
                                         /////////// student lesson
+        Route::get('join-live/{liveId}', 'StudentLessonController@joinLive'); 
+        Route::get('left-live/{liveId}', 'StudentLessonController@leftLive');
 
-        Route::post('add-comment/{liveId}', 'StudentLessonCOntroller@addComment');
-        Route::get('show-comments/{liveId}', 'StudentLessonCOntroller@showComments');
+        Route::post('add-comment/{liveId}', 'StudentLessonController@addComment');
+        Route::get('show-comments/{liveId}', 'StudentLessonController@showComments');
 
         Route::post('logout', 'StudentController@logout')->name('student.logout');
     });

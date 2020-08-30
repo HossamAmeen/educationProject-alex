@@ -12,7 +12,7 @@ use Kreait\Firebase\Database;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{LiveComment};
+use App\Models\{LiveComment , LiveConnect};
 use Auth;
 class StudentLessonController extends Controller
 {
@@ -82,4 +82,31 @@ class StudentLessonController extends Controller
         //   print_r($newPost->getvalue() );
     }
 
+    public function joinLive($liveId)
+    {
+        
+        $connect = LiveConnect::where(['live_id' => $liveId , 'student_id' => Auth::guard('student-api')->user()->id ])->first();
+        if(isset($connect)){
+            $connect->update(['in_out' => 1]);
+            return $this->APIResponse(null, null, 200);
+        }
+        else
+        {
+            // return "test";
+            LiveConnect::create([
+                'live_id' => $liveId ,
+                'student_id' => Auth::guard('student-api')->user()->id
+            ]);
+            return $this->APIResponse(null, null, 200);
+        }
+    }
+    public function leftLive($liveId)
+    {
+        $connect = LiveConnect::where(['live_id' => $liveId , 'student_id' => Auth::guard('student-api')->user()->id ])->first();
+        if(isset($connect)){
+            $connect->update(['in_out' => 0]);
+           
+        }
+        return $this->APIResponse(null, null, 200);
+    }
 }

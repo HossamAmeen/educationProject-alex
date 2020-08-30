@@ -21,6 +21,7 @@ class CreateLiveConnectsTable extends Migration
 
             $table->bigInteger('student_id')->unsigned()->nullable();
             $table->foreign('student_id')->references('id')->on('students')->onDelete('set null');
+            $table->boolean('in_out')->default(1);
             $table->timestamps();
         });
     }
