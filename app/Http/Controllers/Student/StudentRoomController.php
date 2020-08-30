@@ -104,9 +104,10 @@ class StudentRoomController extends Controller
 
     public function getRoomDetials($roomId)
     {
-
+        date_default_timezone_set("Africa/Cairo");
       
-
+        $curentTime =Carbon::now('Africa/Cairo');
+        return  $curentTime;
 
         $room = Room::with(['files','lives'])->find($roomId);
             if(isset($room ) || $room->approvement == 'accept'){
@@ -122,7 +123,7 @@ class StudentRoomController extends Controller
                 $boostStartDate = (new Carbon)->parse($room->lastLive()->appointment);
                 // $boostEndDate = (new Carbon)->parse($boostProperty->property_boost_end_date);
                 //Check Differences in Hours
-                date_default_timezone_set("Africa/Cairo");
+                
                 $curentTime =Carbon::now('Africa/Cairo');
                 return  $curentTime;
                 // return date("Y-m-d H:i:s");;
