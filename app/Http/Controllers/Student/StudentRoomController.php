@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\{Room};
 use App\Models\Student;
 use App\Models\{StudentRoom};
-use Auth ,DateTime;
+use Auth ,DateTime , DateTimeZone;
 use Carbon\Carbon;
 class StudentRoomController extends Controller
 {
@@ -106,8 +106,22 @@ class StudentRoomController extends Controller
     {
         date_default_timezone_set("Africa/Cairo");
       
-        $curentTime =Carbon::now('Africa/Cairo');
-        return  $curentTime;
+        // $curentTime =Carbon::now('Africa/Cairo');
+        // $curentTime =  date('Y-m-d H:i:s');
+        // return date('Y-m-d H:i:s');
+        // $curentTime = new Carbon( date('Y-m-d H:i:s') , "Africa/Cairo");
+        // $curentTime =  Carbon::create(date('Y-m-d H:i:s') , "Africa/Cairo");
+        // $curentTime = Carbon::now(new DateTimeZone("Africa/Cairo"));
+        // return  $curentTime;
+
+        // $now = Carbon::now();
+        // echo $now;                               // 2020-07-28 06:16:08
+        // echo "\n";
+        // $today = Carbon::today();
+        // echo $today;                             // 2020-07-28 00:00:00
+        // echo "\n";
+
+        // return ;
 
         $room = Room::with(['files','lives'])->find($roomId);
             if(isset($room ) || $room->approvement == 'accept'){
@@ -125,7 +139,7 @@ class StudentRoomController extends Controller
                 //Check Differences in Hours
                 
                 $curentTime =Carbon::now('Africa/Cairo');
-                return  $curentTime;
+                // return  $curentTime;
                 // return date("Y-m-d H:i:s");;
                 $diffInStartDate = $curentTime->diffInHours($boostStartDate); //24 means 1 day to d future
                
