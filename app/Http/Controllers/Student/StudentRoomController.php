@@ -125,24 +125,11 @@ class StudentRoomController extends Controller
                 $curentTime = Carbon::now();
                 $diffInStartDate = $curentTime->diffInHours($boostStartDate); //24 means 1 day to d future
                
-                return $diffInStartDate ;
-                $diffInEndDate = $boostEndDate->diffInHours($curentTime); //72
-                //echo $diffInStartDate . '..';
-                
-                if($diffInStartDate == 24 && $diffInEndDate > 12) {
-                    //Boost active for 24 hours; Update startDate to currentTime and sendNotification
-                }
-                if($diffInEndDate == 12) {
-                    //if The difference is == 12 that means the boost is less than a day and it would expire in 12 hours
-                    
-                }
-                if($diffInEndDate <= 0) {
-                    //That means the boost has expired.
-                    
-                }
+                  
+                    // return  Carbon::now();
+                    // return  $diffInStartDate ;
 
-
-                    $room['status'] =time() > strtotime($room->lastLive()->appointment)  ? "now" : "no";
+                    $room['status'] = $diffInStartDate < 2 ? "now" : "no";
 
                   
                     return $this->APIResponse($room, null, 200);
