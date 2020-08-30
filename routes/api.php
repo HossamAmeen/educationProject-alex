@@ -60,10 +60,8 @@ Route::prefix('teacher')->namespace('Teacher')->group(function(){
         Route::post('upload-file-lesson', 'RoomLiveController@uploadFileLesson');
         Route::put('update-file-lesson/{fileId}', 'RoomLiveController@updateFileLesson');
         Route::delete('delete-file-lesson/{fileId}', 'RoomLiveController@deleteFile');
-
-
-       
-
+        
+        Route::get('search', 'TeacherRoomController@search');
         Route::post('logout', 'TeacherController@logout');
     });
 });

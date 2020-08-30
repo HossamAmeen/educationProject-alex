@@ -5,7 +5,7 @@ use App\Http\Controllers\APIResponseTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
-use App\Models\{RoomTeacher , Room};
+use App\Models\{RoomTeacher , Room , RoomLive};
 use Auth;
 class TeacherRoomController extends Controller
 {
@@ -209,6 +209,7 @@ class TeacherRoomController extends Controller
             return $this->APIResponse(null, "هذا المدرس غير مسجل لهذه الغرفه", 400);
         }
     }
+
     protected function storeFile($file, $folderName)
     {
         $path = 'uploads/'.$folderName.'/'.date("Y-m-d");
@@ -220,5 +221,12 @@ class TeacherRoomController extends Controller
         $file->move($path, $name);
 
         return $path .'/'. $name;
+    }
+    public function search()
+    {
+        // return request('name');
+       $data['rooms'] = Room::where('name', 'LIKE', '%' . request('name') . '%')->get();
+       $data['lessons'] = RoomLive::where('name', 'LIKE', '%' . request('name') . '%')->get();
+       return $this->APIResponse($data, null, 200);
     }
 }
