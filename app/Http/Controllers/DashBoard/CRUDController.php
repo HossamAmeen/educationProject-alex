@@ -63,11 +63,11 @@ class CRUDController extends Controller
 
         if(isset($row->file) && is_file(asset($row->file)))
         {
-            unlink(asset($row->file));
+            // unlink(asset($row->file));
         }
         if(isset($row->file) && is_file(asset($row->image)))
         {
-            unlink(asset($row->image));
+            // unlink(asset($row->image));
         }
         $row->delete();
         return $this->APIResponse(null, null, 200);

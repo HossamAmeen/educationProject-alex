@@ -106,7 +106,7 @@ $factory->define(App\Models\RoomLive::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'youtube_video_path'=> "test path",
-        'appointment' => "thunday 20:30",
+        'appointment' => $faker->dateTimeBetween(),
         'description'=>"science with hossam",
         'room_id'=>rand(1,15),
     ];

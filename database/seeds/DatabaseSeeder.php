@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
+// use Carbon ;
+use Carbon\Carbon;
+use Faker\Factory as Faker;
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -79,12 +81,15 @@ class DatabaseSeeder extends Seeder
         //     'path'=> "test path",
         //     'room_id'=>1,
         // ]);
+        $faker = Faker::create();
+        $starts_at = Carbon::createFromTimestamp($faker->dateTimeBetween($startDate = '+2 days', $endDate = '+1 week')->getTimeStamp()) ;
 
+        $ends_at= Carbon::createFromFormat('Y-m-d H:i:s', $starts_at)->addHours( $faker->numberBetween( 1, 8 ) );
        
         \App\Models\RoomLive::create([
             'name' => "live Science with hossam",
             'youtube_video_path'=> "test path",
-            'appointment' => "thunday 20:30",
+            'appointment' => $ends_at,
             'description'=>"science with hossam",
             'room_id'=>1,
         ]);

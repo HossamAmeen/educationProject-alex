@@ -89,11 +89,11 @@ class StudentRoomController extends Controller
        
     }
 
-    public function getRoomDetials($roomId)
+    public function getRoomDetials_later($roomId)
     {
         $room = Room::with(['files','lives'])->find($roomId);
         if(isset($room)){
-            $room['appointment'] = "فثسف";
+            // $room['appointment'] = "فثسف";
             return $this->APIResponse($room, null, 200);
         }
         else
@@ -101,4 +101,31 @@ class StudentRoomController extends Controller
       
     }
 
+    public function getRoomDetials($roomId)
+    {
+        $room = Room::with(['files','lives'])->find($roomId);
+            if(isset($room ) || $room->approvement == 'accept'){
+
+               
+                if($room->lastLive()!==null){
+                    $room['live_appointment'] = $room->lastLive()->appointment;
+                    $room['live_youtube_video_path'] = $room->lastLive()->youtube_video_path;
+                    $room['live_id'] = $room->lastLive()->id;
+                    $appointment = $room->lastLive()->appointment;
+                   
+                    $room['status'] =time() > strtotime($room->lastLive()->appointment)  ? "no" : "now";
+
+                  
+                    return $this->APIResponse($room, null, 200);
+                }
+                else
+                {
+                    return $this->APIResponse( $room, null, 200);
+                }
+               
+            }
+            return $this->APIResponse(null, "room not found", 404);
+       
+    }
+    
 }
