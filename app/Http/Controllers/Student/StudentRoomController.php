@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\{Room};
 use App\Models\Student;
 use App\Models\{StudentRoom};
-use Auth;
+use Auth ,DateTime;
+use Carbon\Carbon;
 class StudentRoomController extends Controller
 {
     use APIResponseTrait;
@@ -103,6 +104,10 @@ class StudentRoomController extends Controller
 
     public function getRoomDetials($roomId)
     {
+
+      
+
+
         $room = Room::with(['files','lives'])->find($roomId);
             if(isset($room ) || $room->approvement == 'accept'){
 
@@ -112,8 +117,32 @@ class StudentRoomController extends Controller
                     $room['live_youtube_video_path'] = $room->lastLive()->youtube_video_path;
                     $room['live_id'] = $room->lastLive()->id;
                     $appointment = $room->lastLive()->appointment;
+
                    
-                    $room['status'] =time() > strtotime($room->lastLive()->appointment)  ? "no" : "now";
+                $boostStartDate = (new Carbon)->parse($room->lastLive()->appointment);
+                // $boostEndDate = (new Carbon)->parse($boostProperty->property_boost_end_date);
+                //Check Differences in Hours
+                $curentTime = Carbon::now();
+                $diffInStartDate = $curentTime->diffInHours($boostStartDate); //24 means 1 day to d future
+               
+                return $diffInStartDate ;
+                $diffInEndDate = $boostEndDate->diffInHours($curentTime); //72
+                //echo $diffInStartDate . '..';
+                
+                if($diffInStartDate == 24 && $diffInEndDate > 12) {
+                    //Boost active for 24 hours; Update startDate to currentTime and sendNotification
+                }
+                if($diffInEndDate == 12) {
+                    //if The difference is == 12 that means the boost is less than a day and it would expire in 12 hours
+                    
+                }
+                if($diffInEndDate <= 0) {
+                    //That means the boost has expired.
+                    
+                }
+
+
+                    $room['status'] =time() > strtotime($room->lastLive()->appointment)  ? "now" : "no";
 
                   
                     return $this->APIResponse($room, null, 200);
