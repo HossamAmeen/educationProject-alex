@@ -28,7 +28,7 @@ class StudentLessonController extends Controller
                 'person_id'=>Auth::guard('student-api')->user()->id //Auth::guard('student-api')->user()->id
             ]
             );
-        $this->sendToFirebase($id , request('comment')); 
+        $this->sendToFirebase($id , request('comment') , Auth::guard('student-api')->user()->name); 
     //    return $this->sendToFirebase($id , request('comment')); 
         return $this->APIResponse(null, null, 200);
     }
@@ -38,7 +38,7 @@ class StudentLessonController extends Controller
        return $this->APIResponse($comments, null, 200);
     }
 
-    public function sendToFirebase($liveId , $comment = " " )
+    public function sendToFirebase($liveId , $comment = " " ,$studentName="student" )
     {
         // return __DIR__ ;
         $path = app_path('Http/Controllers/egslive-282521-firebase-adminsdk-znco6-eacb195870.json');
@@ -63,7 +63,7 @@ class StudentLessonController extends Controller
         // return  $database->getReference('/deliveries')->getChildKeys();
 
         // $database->getReference('deliveries')->remove();
-        $snapshot[$liveId] = $comment;
+        $snapshot[$liveId] = $comment . ":" . $studentName;
         $newPost = $database
             ->getReference('/comeents')
             ->update($snapshot);

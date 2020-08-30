@@ -26,6 +26,7 @@ class StudentRoomController extends Controller
             $datas['is_registered']  = in_array($room->id , $student->publicRooms->pluck('room_id')->toArray()) ? 1 : 0 ;// rand(0,1);
             $data['public_rooms'][] = $datas;
         }
+        
         foreach ($privateRooms as $room){
             $datas = $room ;
             $datas['is_registered']  = in_array($room->id , $student->privateRooms->pluck('room_id')->toArray()) ? 1 : 0 ;// rand(0,1);
@@ -105,24 +106,6 @@ class StudentRoomController extends Controller
     public function getRoomDetials($roomId)
     {
         date_default_timezone_set("Africa/Cairo");
-      
-        // $curentTime =Carbon::now('Africa/Cairo');
-        // $curentTime =  date('Y-m-d H:i:s');
-        // return date('Y-m-d H:i:s');
-        // $curentTime = new Carbon( date('Y-m-d H:i:s') , "Africa/Cairo");
-        // $curentTime =  Carbon::create(date('Y-m-d H:i:s') , "Africa/Cairo");
-        // $curentTime = Carbon::now(new DateTimeZone("Africa/Cairo"));
-        // return  $curentTime;
-
-        // $now = Carbon::now();
-        // echo $now;                               // 2020-07-28 06:16:08
-        // echo "\n";
-        // $today = Carbon::today();
-        // echo $today;                             // 2020-07-28 00:00:00
-        // echo "\n";
-
-        // return ;
-
         $room = Room::with(['files','lives'])->find($roomId);
             if(isset($room ) || $room->approvement == 'accept'){
 

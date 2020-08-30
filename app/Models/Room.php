@@ -27,7 +27,15 @@ class Room extends Model
     {
         return $this->hasMany(RoomLive::class , 'room_id')
         ->select(['id' , 'youtube_video_path' , 'name' ,'description','appointment', 'room_id'])
-        ->where('appointment' ,'<=' , date('Y-m-d'))
+        ->where('appointment' ,'<' , date('Y-m-d'))
+        ->orderBy('id' , 'DESC');
+    }
+
+    public function newLives()
+    {
+        return $this->hasMany(RoomLive::class , 'room_id')
+        ->select(['id' , 'youtube_video_path' , 'name' ,'description','appointment', 'room_id'])
+        ->where('appointment' ,'>' , date('Y-m-d'))
         ->orderBy('id' , 'DESC');
     }
 

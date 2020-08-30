@@ -44,6 +44,9 @@ class TeacherRoomController extends Controller
             $datas['is_registered']  =  in_array($room->id , $teacher->publicRooms->pluck('room_id')->toArray()) ? 1 : 0 ;// rand(0,1);
             $data[] = $datas;
         }
+        array_multisort(array_column($data, 'is_registered'), SORT_DESC, $data);
+      
+
         return $this->APIResponse($data, null, 200);
     }
     public function showPrivateRooms()
@@ -162,7 +165,7 @@ class TeacherRoomController extends Controller
     // }
     public function getRoomDetials($roomId)
     {
-        $room = Room::with(['files','lives'])->find($roomId);
+        $room = Room::with(['files','lives' , 'newLives'])->find($roomId);
             if(isset($room)){
                 if($room->lastLive()!==null){
                     $room['live_appointment'] = $room->lastLive()->appointment;
