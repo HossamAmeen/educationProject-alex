@@ -98,7 +98,11 @@ class TeacherController extends Controller
             $requestArray['password'] =  Hash::make($requestArray['password']);
         }else{
             unset($requestArray['password']);
-        }       
+        } 
+        if($request->image == "this no file")
+        {
+            unset($requestArray['image']);
+        }      
         $teacher = Teacher::find(Auth::guard('teacher-api')->user()->id) ; 
         if(isset($teacher)){
             $teacher->update($requestArray);

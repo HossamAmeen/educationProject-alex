@@ -28,6 +28,6 @@ class UploadFileController extends Controller
         return asset($path .'/'. $name);
          }
          else
-         return "this now file ";
+         return "this no file";
     }
 }
