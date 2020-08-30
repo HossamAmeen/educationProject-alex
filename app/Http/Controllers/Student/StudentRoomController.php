@@ -122,8 +122,10 @@ class StudentRoomController extends Controller
                 $boostStartDate = (new Carbon)->parse($room->lastLive()->appointment);
                 // $boostEndDate = (new Carbon)->parse($boostProperty->property_boost_end_date);
                 //Check Differences in Hours
+                date_default_timezone_set("Africa/Cairo");
                 $curentTime =Carbon::now('Africa/Cairo');
-                // return  $curentTime;
+                return  $curentTime;
+                // return date("Y-m-d H:i:s");;
                 $diffInStartDate = $curentTime->diffInHours($boostStartDate); //24 means 1 day to d future
                
                   
