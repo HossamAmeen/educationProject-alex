@@ -103,8 +103,9 @@ class StudentLessonController extends Controller
         $connect = LiveConnect::where(['live_id' => $liveId , 'student_id' => Auth::guard('student-api')->user()->id ])->first();
         if(isset($connect)){
             $connect->update(['in_out' => 0]);
-           
+            return $this->APIResponse(null, null, 200);
         }
-        return $this->APIResponse(null, null, 200);
+        return $this->APIResponse(null, "الطلب غير مسجل حضور من قبل في الدرس", 400);
+       
     }
 }
