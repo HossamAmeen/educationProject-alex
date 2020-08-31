@@ -7,14 +7,14 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
+Route::middleware('cors')->group(function () {
 Route::prefix('admin')->namespace('DashBoard')->group(function(){
 
     Route::post('/login', 'APIAuthController@login')->name('admin.login');
     Route::middleware('checkLogin')->group(function () {
         Route::post('/logout', 'APIAuthController@logout')->name('admin.logout');
     });
-    Route::middleware('cors')->group(function () {
+    // Route::middleware('cors')->group(function () {
         Route::resource('admins' , "AdminController");
         Route::resource('teachers' , "TeacherController");
         Route::resource('students' , "StudentController");
@@ -24,7 +24,7 @@ Route::prefix('admin')->namespace('DashBoard')->group(function(){
         Route::get('show-files/{rooom}' , "RoomController@showFilesForRoom");
         Route::resource('filesrooms' , "FileRoomController");
         Route::post('upload-file', 'UploadFileController@uploadFile');
-    });
+    // });
 });
         /////////// teacher /////////////
 Route::prefix('teacher')->namespace('Teacher')->group(function(){
@@ -60,7 +60,7 @@ Route::prefix('teacher')->namespace('Teacher')->group(function(){
         Route::post('upload-file-lesson', 'RoomLiveController@uploadFileLesson');
         Route::put('update-file-lesson/{fileId}', 'RoomLiveController@updateFileLesson');
         Route::delete('delete-file-lesson/{fileId}', 'RoomLiveController@deleteFile');
-        
+
         Route::get('search', 'TeacherRoomController@search');
         Route::post('logout', 'TeacherController@logout');
     });
@@ -98,3 +98,4 @@ Route::prefix('student')->namespace('Student')->group(function(){
     });
 });
 
+});

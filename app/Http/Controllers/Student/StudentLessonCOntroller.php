@@ -34,7 +34,8 @@ class StudentLessonController extends Controller
     }
     public function showComments($liveId)
     {
-       $comments =  LiveComment::where('live_id',$liveId)->get(['comment' , 'user_name']);
+        
+       $comments =  LiveComment::where('live_id',$liveId)->orderBy('id', 'DESC')->get(['comment' , 'user_name']);
        return $this->APIResponse($comments, null, 200);
     }
 
