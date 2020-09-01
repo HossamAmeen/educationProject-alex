@@ -75,7 +75,7 @@ Route::prefix('student')->namespace('Student')->group(function(){
     Route::middleware('checkLogin:student-api')->group(function () {
            
         Route::get('get-account', 'StudentController@getAccount');
-        Route::put('update-account', 'StudentController@updateAccount');
+        Route::post('update-account', 'StudentController@updateAccount');
                                 ///// show rooms /////
         Route::get('show-public-rooms', 'StudentRoomController@showPublicRooms');
         Route::get('show-private-rooms', 'StudentRoomController@showPrivateRooms');
