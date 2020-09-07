@@ -28,7 +28,7 @@ class StudentLessonController extends Controller
                 'person_id'=>Auth::guard('student-api')->user()->id //Auth::guard('student-api')->user()->id
             ]
             );
-        $this->sendToFirebase($id , request('comment') , Auth::guard('student-api')->user()->name); 
+        $this->sendToFirebase($id , request('comment') , Auth::guard('student-api')->user()->full_name); 
     //    return $this->sendToFirebase($id , request('comment')); 
         return $this->APIResponse(null, null, 200);
     }
