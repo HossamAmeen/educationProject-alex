@@ -54,10 +54,10 @@ class StudentRequest extends FormRequest
             // $rules['user_name'][] = 'required';
            
         }
-        $rules['full_name'][] = 'required';
-        $rules['email'][] = 'required';
-        $rules['phone'][] = 'required';
-        $rules['parent_phone'][] = 'required';
+        // $rules['full_name'][] = 'required';
+        // $rules['email'][] = 'required';
+        // $rules['phone'][] = 'required';
+        // $rules['parent_phone'][] = 'required';
         // $rules['password'][] = 'required';
         return $rules;
     }
