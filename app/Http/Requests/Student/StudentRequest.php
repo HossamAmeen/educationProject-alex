@@ -43,7 +43,7 @@ class StudentRequest extends FormRequest
             // 'user_name' => ['string', Rule::unique('teachers')->ignore($id)->whereNull('deleted_at')], 
             'file' => ['image']              
         ];
-        if ($this->isMethod('POST') )
+        if(strpos($this->fullUrl(), "register") !== false)
         {
             $rules['full_name'][] = 'required';
             $rules['email'][] = 'required';
