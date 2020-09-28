@@ -55,7 +55,7 @@ class StudentLessonController extends Controller
         // $database->getReference('/deliveries') // this is the root reference
         // ->update(['1' => 55 ]);
 
-        $reference = $database->getReference('/comeents');
+        $reference = $database->getReference('/comments');
 
         $snapshot = $reference->getSnapshot()->getValue();
         //    return  $snapshot;
@@ -64,9 +64,13 @@ class StudentLessonController extends Controller
         // return  $database->getReference('/deliveries')->getChildKeys();
 
         // $database->getReference('deliveries')->remove();
+        for($i=0;$i<count($snapshot);$i++){
+            if($snapshot[$i] == null)
+            unset($snapshot[$i]);
+        }
         $snapshot[$liveId] = $comment . ":" . $studentName;
         $newPost = $database
-            ->getReference('/comeents')
+            ->getReference('/comments')
             ->update($snapshot);
 
         // return $database->getChild() ;
@@ -86,7 +90,7 @@ class StudentLessonController extends Controller
         $connect = LiveConnect::where(['live_id' => $liveId , 'student_id' => Auth::guard('student-api')->user()->id ])->first();
         if(isset($connect)){
             $connect->update(['in_out' => 1]);
-            return $this->APIResponse(null, null, 200);
+           
         }
         else
         {
@@ -95,17 +99,96 @@ class StudentLessonController extends Controller
                 'live_id' => $liveId ,
                 'student_id' => Auth::guard('student-api')->user()->id
             ]);
-            return $this->APIResponse(null, null, 200);
         }
+        
+
+        // $path = app_path('Http/Controllers/egslive-282521-firebase-adminsdk-znco6-eacb195870.json');
+
+        // $serviceAccount = ServiceAccount::fromJsonFile($path);
+        // $firebase = (new Factory)
+        //     ->withServiceAccount($serviceAccount)
+        //     ->withDatabaseUri('https://egslive-282521.firebaseio.com/')
+        //     ->create();
+
+        // $database = $firebase->getDatabase();
+
+        // // $database->getReference('/deliveries') // this is the root reference
+        // // ->update(['1' => 55 ]);
+
+        // $reference = $database->getReference('/connects');
+
+        // $snapshot = $reference->getSnapshot()->getValue();
+        // //    return  $snapshot;
+       
+        // return  $snapshot;
+        // // $ids =   $database->getReference('/deliveries')->getChildKeys();
+
+        // // return  $database->getReference('/deliveries')->getChildKeys();
+
+        // // $database->getReference('deliveries')->remove();
+        // $snapshot[$liveId] = $studentName."?".$studentId.':'.$action;
+
+
+        $this->sendToFirebaseJoinLive($liveId , 1 ,Auth::guard('student-api')->user()->full_name , Auth::guard('student-api')->user()->id );
+        return $this->APIResponse(null, null, 200);
+       
     }
+
     public function leftLive($liveId)
     {
         $connect = LiveConnect::where(['live_id' => $liveId , 'student_id' => Auth::guard('student-api')->user()->id ])->first();
+        // return $connect;
         if(isset($connect)){
             $connect->update(['in_out' => 0]);
+            $this->sendToFirebaseJoinLive($liveId , 0 ,Auth::guard('student-api')->user()->full_name , Auth::guard('student-api')->user()->id );
             return $this->APIResponse(null, null, 200);
         }
         return $this->APIResponse(null, "الطلب غير مسجل حضور من قبل في الدرس", 400);
        
+    }
+
+    public function sendToFirebaseJoinLive($liveId , $action = 1,$studentName="student" ,$studentId)
+    {
+        // return __DIR__ ;
+        $path = app_path('Http/Controllers/egslive-282521-firebase-adminsdk-znco6-eacb195870.json');
+
+        $serviceAccount = ServiceAccount::fromJsonFile($path);
+        $firebase = (new Factory)
+            ->withServiceAccount($serviceAccount)
+            ->withDatabaseUri('https://egslive-282521.firebaseio.com/')
+            ->create();
+
+        $database = $firebase->getDatabase();
+
+        // $database->getReference('/deliveries') // this is the root reference
+        // ->update(['1' => 55 ]);
+
+        $reference = $database->getReference('/connects');
+
+        $snapshot = $reference->getSnapshot()->getValue();
+        //    return  $snapshot;
+        // $ids =   $database->getReference('/deliveries')->getChildKeys();
+
+        // return  $database->getReference('/deliveries')->getChildKeys();
+
+        // $database->getReference('deliveries')->remove();
+        for($i=0;$i<count($snapshot);$i++){
+            if($snapshot[$i] == null)
+            unset($snapshot[$i]);
+        }
+        $snapshot[$liveId] = $studentName."?".$studentId.':'.$action;
+        $newPost = $database
+            ->getReference('/connects')
+            ->update($snapshot);
+
+        // return $database->getChild() ;
+        // $newPost = $database
+        // ->getReference('/')
+        // ->push([
+        //     $id => $id2
+        // ]);
+
+        //   echo '<pre>';
+        //   print_r($newPost->getvalue() );
     }
 }
