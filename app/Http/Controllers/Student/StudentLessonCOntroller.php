@@ -64,10 +64,10 @@ class StudentLessonController extends Controller
         // return  $database->getReference('/deliveries')->getChildKeys();
 
         // $database->getReference('deliveries')->remove();
-        for($i=0;$i<count($snapshot);$i++){
-            if($snapshot[$i] == null)
-            unset($snapshot[$i]);
-        }
+        // for($i=0;$i<count($snapshot);$i++){
+        //     if($snapshot[$i] == null)
+        //     unset($snapshot[$i]);
+        // }
         $snapshot[$liveId] = $comment . ":" . $studentName;
         $newPost = $database
             ->getReference('/comments')
@@ -172,10 +172,11 @@ class StudentLessonController extends Controller
         // return  $database->getReference('/deliveries')->getChildKeys();
 
         // $database->getReference('deliveries')->remove();
-        for($i=0;$i<count($snapshot);$i++){
-            if($snapshot[$i] == null)
-            unset($snapshot[$i]);
-        }
+        // for($i=0;$i<count($snapshot);$i++){
+        //     if($snapshot[$i] == null)
+        //        unset($snapshot[$i]);
+        // }
+        
         $snapshot[$liveId] = $studentName."?".$studentId.':'.$action;
         $newPost = $database
             ->getReference('/connects')

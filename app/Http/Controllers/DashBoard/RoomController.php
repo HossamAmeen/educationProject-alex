@@ -4,7 +4,7 @@ namespace App\Http\Controllers\DashBoard;
 use App\Http\Controllers\APIResponseTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Teacher,Room,RoomTeacher ,FileRoom, RoomLive};
+use App\Models\{Teacher,Room,RoomTeacher,StudentRoom,FileRoom, RoomLive};
 use Auth;
 class RoomController extends CRUDController
 {
@@ -140,5 +140,38 @@ class RoomController extends CRUDController
     public function showFilesForRoom($roomId)
     {
         return $this->APIResponse(FileRoom::where('room_id' , $roomId)->get(), null, 200);
+    }
+
+    public function showJoinRequests()
+    { 
+        // return request('roomId');
+        if(request('roomId') != null)
+        $rows = StudentRoom::with(['student' , 'room'])
+        ->select('student_rooms.*')
+        ->join('rooms', 'rooms.id', '=', 'student_rooms.room_id')
+        // ->where('room_teachers.teacher_id', Auth::guard('teacher-api')->user()->id)
+        ->where('rooms.is_private', 0)
+        ->where('student_rooms.approvement', 'under_revision')
+        ->where('student_rooms.room_id', request('roomId'))
+        ->get();
+        else{
+            $rows = StudentRoom::with(['student' , 'room'])
+            ->select('student_rooms.*')
+            ->join('rooms', 'rooms.id', '=', 'student_rooms.room_id')
+            // ->where('room_teachers.teacher_id', Auth::guard('teacher-api')->user()->id)
+            ->where('rooms.is_private', 0)
+            ->where('student_rooms.approvement', 'under_revision')
+            ->get();
+        }
+        return $this->APIResponse($rows, null, 200);
+    }
+    public function changeStatusStudentRoom()
+    {
+        $studentRoom = StudentRoom::where(['student_id' => request('student_id') , 'room_id' => request('roomId') , 'approvement'=>'under_revision'])->first();
+        if($studentRoom){
+            $studentRoom->update(['approvement' => request('status') , 'block_reason' => request('block_reason')]);
+            return $this->APIResponse(null, null, 200);
+        }
+        return $this->APIResponse(null, "this stuent is accepted/bloacked", 400);
     }
 }

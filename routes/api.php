@@ -19,6 +19,8 @@ Route::prefix('admin')->namespace('DashBoard')->group(function(){
         Route::resource('teachers' , "TeacherController");
         Route::resource('students' , "StudentController");
         Route::resource('rooms' , "RoomController");
+        Route::get('show-join-requests/{roomId?}', 'RoomController@showJoinRequests');
+        Route::put('change-join-request-status', 'RoomController@changeStatusStudentRoom'); 
         Route::get('private-rooms' , "RoomController@showPrivateRooms");
         Route::get('show-lessons/{rooom}' , "RoomController@showLessons");
         Route::get('show-files/{rooom}' , "RoomController@showFilesForRoom");
@@ -41,6 +43,7 @@ Route::prefix('teacher')->namespace('Teacher')->group(function(){
         Route::get('show-private-rooms', 'TeacherRoomController@showPrivateRooms');
         Route::get('show-rooms', 'TeacherRoomController@showRooms');
         Route::get('join-room/{roomId}', 'TeacherRoomController@joinRoom');
+        Route::get('show-students/{classRoomId}/{liveId}', 'TeacherRoomController@showStudentsInRoom');
                             /////////// show registered room
         Route::get('get-rooms', 'TeacherRoomController@getRooms');
         // Route::get('join-public-room/{roomId}', 'TeacherRoomController@joinPublicRoom');

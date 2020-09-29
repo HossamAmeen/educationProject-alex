@@ -5,7 +5,7 @@ use App\Http\Controllers\APIResponseTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
-use App\Models\{RoomTeacher , Room , RoomLive};
+use App\Models\{RoomTeacher ,StudentRoom,Student,LiveConnect, Room , RoomLive};
 use Auth;
 class TeacherRoomController extends Controller
 {
@@ -228,5 +228,26 @@ class TeacherRoomController extends Controller
        $data['rooms'] = Room::where('name', 'LIKE', '%' . request('name') . '%')->get();
        $data['lessons'] = RoomLive::where('name', 'LIKE', '%' . request('name') . '%')->get();
        return $this->APIResponse($data, null, 200);
+    }
+    public function showStudentsInRoom($classRoomId , $liveId)
+    {
+        // $studentsId = StudentRoom::where('room_id' , $classRoomId)->pluck('');
+        $students = Student::select('students.id','user_name','image')
+                    ->join('student_rooms', 'student_rooms.student_id', '=', 'students.id')
+                    ->where('student_rooms.room_id', $classRoomId)
+                    ->where('student_rooms.approvement','accept')
+                    ->get();
+                    
+        foreach($students as $student){
+            $live = LiveConnect::where(['live_id' => $liveId , 'student_id' => $student->id])->first();
+            // return  $live ;
+            if($live)
+            $student['isJoin'] =  $live->in_out;
+            else
+            {
+                $student['isJoin'] = 0 ;
+            }
+        }
+       return $students; 
     }
 }
