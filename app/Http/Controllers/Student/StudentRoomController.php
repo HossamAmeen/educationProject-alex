@@ -19,8 +19,8 @@ class StudentRoomController extends Controller
         $student = Student::find(Auth::guard('student-api')->user()->id) ; 
         
         $data = array();
-        $publicRooms = Room::where('is_private' , 0)->get() ; 
-        $privateRooms = Room::where('is_private' , 1)->get() ; 
+        $publicRooms = Room::accepted()->where('is_private' , 0)->get() ; 
+        $privateRooms = Room::accepted()->where('is_private' , 1)->get() ; 
         $data['public_rooms'] = array();
         foreach ($publicRooms as $room){
             $datas = $room ;
@@ -39,7 +39,7 @@ class StudentRoomController extends Controller
     {
        
         $student = Student::find(Auth::guard('student-api')->user()->id) ; 
-        $publicRooms = Room::where('is_private' , 0)->get() ; 
+        $publicRooms = Room::accepted()->where('is_private' , 0)->get() ; 
         $data = array();
        
         foreach ($publicRooms as $room){
@@ -53,7 +53,7 @@ class StudentRoomController extends Controller
     public function showPrivateRooms()
     {
         $student = Student::find(Auth::guard('student-api')->user()->id) ; 
-        $Rooms = Room::where('is_private' , 1 )->get() ; 
+        $Rooms = Room::accepted()->where('is_private' , 1 )->get() ; 
         $data = array();
         foreach ($Rooms as $room){
             $datas = $room ;
@@ -67,8 +67,8 @@ class StudentRoomController extends Controller
     {
         $student = Student::find(Auth::guard('student-api')->user()->id) ; 
         // return $student->publicRooms ; 
-        $data['public_rooms'] = Room::whereIn('id',$student->publicRooms->pluck('room_id'))->where('is_private' , 0)->get();
-        $data['private_rooms'] =  Room::whereIn('id',$student->privateRooms->pluck('room_id'))->where('is_private' , 1)->get();
+        $data['public_rooms'] = Room::accepted()->whereIn('id',$student->publicRooms->pluck('room_id'))->where('is_private' , 0)->get();
+        $data['private_rooms'] =  Room::accepted()->whereIn('id',$student->privateRooms->pluck('room_id'))->where('is_private' , 1)->get();
       
         return $this->APIResponse($data, null, 200);
     }
@@ -78,8 +78,6 @@ class StudentRoomController extends Controller
         $studentId =  Auth::guard('student-api')->user()->id ; 
         $studentRoom = StudentRoom::where('student_id' ,$studentId )->where('room_id' ,$room_id )->first();
         if(isset($studentRoom)){
-          
-
             return $this->APIResponse(null, "هذا الطالب مشترك بالفعل في هذا الفصل " , 400);
         }
         else{
