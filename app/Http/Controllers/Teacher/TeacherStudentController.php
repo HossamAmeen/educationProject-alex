@@ -25,7 +25,7 @@ class TeacherStudentController extends Controller
         $row =StudentRoom::find($roomStudentId);
         $row->update([
             'approvement' =>  $status , 
-
+            'block_reason'=>request('block_reason')
         ]);
         return $this->APIResponse(null, null, 200);
     }
