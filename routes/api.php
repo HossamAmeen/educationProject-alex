@@ -69,7 +69,7 @@ Route::prefix('teacher')->namespace('Teacher')->group(function(){
     });
 });
 Route::post('teacher/upload-file', 'DashBoard\UploadFileController@uploadFile');
-
+// Route::post('student/upload-file', 'DashBoard\UploadFileController@uploadFile')->middleware('checkLogin:student-api');
 
         //////////////// student //////////////
 Route::prefix('student')->namespace('Student')->group(function(){

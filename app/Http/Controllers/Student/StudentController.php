@@ -10,7 +10,7 @@ use App\Models\{Room,LiveComment};
 use App\Models\StudentRoom;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Auth;
+use Auth ,File;
 class StudentController extends Controller
 {
     use APIResponseTrait;
@@ -109,6 +109,21 @@ class StudentController extends Controller
         $student->update($requestArray);
         return $this->APIResponse(null, null, 200); 
     }
+
+    protected function storeFile($file, $folderName)
+    {
+            $path = 'uploads/'.$folderName.'/'.date("Y-m-d");
+            if(!File::isDirectory($path))
+            {
+                File::makeDirectory($path, 0777, true, true);
+            }
+            $name = time().'.'.$file->getClientOriginalExtension();
+            $file->move($path, $name);
+
+            return asset($path .'/'. $name);
+       
+    }
+
                     ////////////////// rooms //////////////////
    
     
