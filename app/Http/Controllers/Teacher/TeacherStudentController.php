@@ -20,6 +20,18 @@ class TeacherStudentController extends Controller
         ->get();
         return $this->APIResponse($rows, null, 200);
     }
+    public function showTeacherStudents()
+    {
+        $rows = StudentRoom::with(['student' , 'room'])
+        ->select('student_rooms.*')
+        ->join('room_teachers', 'student_rooms.room_id', '=', 'room_teachers.room_id')
+        ->where('room_teachers.teacher_id', Auth::guard('teacher-api')->user()->id)
+        ->where('room_teachers.is_private', 1)
+        ->where('student_rooms.approvement', 'accept')
+        ->where('student_rooms.room_id', request('roomId'))
+        ->get();
+        return $this->APIResponse($rows, null, 200);
+    }
     public function changeStatusStudentRoom($roomStudentId , $status)
     {
         $row =StudentRoom::find($roomStudentId);

@@ -54,6 +54,7 @@ Route::prefix('teacher')->namespace('Teacher')->group(function(){
                             ////////// teacher with student
          Route::get('show-join-requests', 'TeacherStudentController@showJoinRequests');  
          Route::put('change-join-request-status/{studentRoomId}/{status}', 'TeacherStudentController@changeStatusStudentRoom');  
+         Route::get('show-teacher-students', 'TeacherStudentController@showTeacherStudents');  
                           
                             //////////////// lives
         Route::resource('lives' , "RoomLiveController");
