@@ -47,8 +47,7 @@ class Room extends Model
                    ->select(['id' , 'youtube_video_path' , 'name' ,'description','appointment', 'room_id'])
                    ->where('appointment' ,'>=' , date('Y-m-d'))
                    ->orderBy('appointment')
-                   ->first()
-        ;
+                   ->first();
     }
     
 

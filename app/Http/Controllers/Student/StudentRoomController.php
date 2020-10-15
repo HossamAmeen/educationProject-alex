@@ -73,16 +73,16 @@ class StudentRoomController extends Controller
         return $this->APIResponse($data, null, 200);
     }
 
-    public function joinRoom($room_id)
+    public function joinRoom($roomId)
     {
         $studentId =  Auth::guard('student-api')->user()->id ; 
-        $studentRoom = StudentRoom::where('student_id' ,$studentId )->where('room_id' ,$room_id )->first();
+        $studentRoom = StudentRoom::where('student_id' ,$studentId )->where('room_id' ,$roomId )->first();
         if(isset($studentRoom)){
             return $this->APIResponse(null, "هذا الطالب مشترك بالفعل في هذا الفصل " , 400);
         }
         else{
             $requestArray['student_id'] = $studentId;
-            $requestArray['room_id'] = $room_id ;
+            $requestArray['room_id'] = $roomId ;
             StudentRoom::create($requestArray);
             return $this->APIResponse(null, null, 200);
         }
@@ -106,7 +106,18 @@ class StudentRoomController extends Controller
     {
         date_default_timezone_set("Africa/Cairo");
         $room = Room::with(['files','lives'])->find($roomId);
-            if(isset($room ) || $room->approvement == 'accept'){
+        $studentId =  Auth::guard('student-api')->user()->id ; 
+
+        $studentRoom = StudentRoom::where('student_id' ,$studentId )->where('room_id' ,$roomId )->first();
+        if(!isset($studentRoom) ){
+            return $this->APIResponse(null, "هذا الطالب غير مسجل في الغرفة." , 400);
+        }elseif($studentRoom->approvement == 'blocked'){
+            return $this->APIResponse(null, "هذا الطالب محظور من دخول الغرفة." , 400);
+        }elseif($studentRoom->approvement == 'under_revision'){
+            return $this->APIResponse(null, "هذا الطالب لم يتم الموافقة علي دخول الغرفة." , 400);
+        }
+        
+        if(isset($room ) || $room->approvement == 'accept'){
 
                
                 if($room->lastLive()!==null){
@@ -140,7 +151,7 @@ class StudentRoomController extends Controller
                 }
                
             }
-            return $this->APIResponse(null, "room not found", 404);
+            return $this->APIResponse(null, "هذا الغرفة اتحذفت او اوفقت لوقت لاحق.", 404);
        
     }
     

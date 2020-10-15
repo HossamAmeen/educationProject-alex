@@ -17,8 +17,8 @@ class TeacherRoomController extends Controller
         $teacher = Teacher::find(Auth::guard('teacher-api')->user()->id) ; 
         
         $data = array();
-        $publicRooms = Room::where('is_private' , 0)->get() ; 
-        $privateRooms =Room::where('is_private' , 1)->get() ; 
+        $publicRooms = Room::accepted()->where('is_private' , 0)->get() ; 
+        $privateRooms =Room::accepted()->where('is_private' , 1)->get() ; 
         
         foreach ($publicRooms as $room){
             $datas = $room ;
@@ -36,7 +36,7 @@ class TeacherRoomController extends Controller
     {
         
         $teacher = Teacher::find(Auth::guard('teacher-api')->user()->id) ; 
-        $publicRooms = Room::where('is_private' , 0)->get() ; 
+        $publicRooms = Room::accepted()->where('is_private' , 0)->get() ; 
         $data = array();
         // return $teacher->publicRooms->pluck('room_id')->toArray() ; 
         foreach ($publicRooms as $room){
@@ -52,7 +52,7 @@ class TeacherRoomController extends Controller
     public function showPrivateRooms()
     {
         $teacher = Teacher::find(Auth::guard('teacher-api')->user()->id) ; 
-        $Rooms = Room::where('is_private' , 1)->get() ;  
+        $Rooms = Room::accepted()->where('is_private' , 1)->get() ;  
         $data = array();
         foreach ($Rooms as $room){
             $datas = $room ;
@@ -63,23 +63,6 @@ class TeacherRoomController extends Controller
        
     }
 
-    // public function joinPublicRoom($roomId)
-    // {
-    //     $checkRoom =  RoomTeacher::where(['room_id'=>$roomId , 'teacher_id'=> Auth::guard('teacher-api')->user()->id])->first();
-    //     if(isset($checkRoom)){
-    //         return $this->APIResponse(null, "this room is registered", 400);
-           
-    //     }
-    //     else
-    //    {
-    //     RoomTeacher::create([
-    //         'room_id' => $roomId ,
-    //          'teacher_id' => Auth::guard('teacher-api')->user()->id ,
-    //          'is_private' => 0
-    //     ]);
-    //     return $this->APIResponse(null, null, 200);
-    //    }
-    // }
     public function joinRoom($roomId)
     {
         $checkRoom =  RoomTeacher::where(['room_id'=>$roomId , 'teacher_id'=> Auth::guard('teacher-api')->user()->id])->first();
@@ -89,7 +72,7 @@ class TeacherRoomController extends Controller
         else
         {
             $room = Room::find($roomId);
-            if(isset($room)){
+            if(isset($room) ){
                 RoomTeacher::create([
                     'room_id' => $roomId ,
                     'teacher_id' => Auth::guard('teacher-api')->user()->id,
@@ -110,7 +93,6 @@ class TeacherRoomController extends Controller
         ////////////////////////////// edit after 
         $publicRooms = Room::select('rooms.*')
         ->join('room_teachers', 'room_teachers.room_id', '=', 'rooms.id')
-       
         ->where('room_teachers.teacher_id', Auth::guard('teacher-api')->user()->id)
         ->where('rooms.is_private',0)
         ->where('rooms.approvement','accept')
@@ -120,15 +102,11 @@ class TeacherRoomController extends Controller
        
         ->where('room_teachers.teacher_id', Auth::guard('teacher-api')->user()->id)
         ->where('rooms.is_private',1)
-        // ->where('rooms.approvement','accept')
+        ->where('rooms.approvement','accept')
         ->get();
         if( request()->get('type')  )
         {
             if( request()->get('type') == "public"){
-
-               
-                        
-
                 return $this->APIResponse( $publicRooms , null, 200);
             }
             else
@@ -157,15 +135,20 @@ class TeacherRoomController extends Controller
         return $this->APIResponse(null, null, 200);
     }
 
-    // public function joinPublicRoom($roomId)
-    // {
 
-    //     RoomTeacher::create(['teacher_id' => Auth::guard('teacher-api')->user()->id , 'room_id' => $roomId , 'is_private' => 0 ]);
-    //     return $this->APIResponse(null, null, 200);
-    // }
     public function getRoomDetials($roomId)
     {
         $room = Room::with(['files','lives' , 'newLives'])->find($roomId);
+        $teacherId =  Auth::guard('teacher-api')->user()->id ; 
+        $teacherRoom = RoomTeacher::where('teacher_id' ,$teacherId )->where('room_id' ,$roomId )->first();
+        if(!isset($teacherRoom) ){
+            return $this->APIResponse(null, "هذا المدرس غير مسجل في الغرفة." , 400);
+        }elseif($teacherRoom->approvement == 'blocked'){
+            return $this->APIResponse(null, "هذا المدرس محظور من دخول الغرفة." , 400);
+        }elseif($teacherRoom->approvement == 'under_revision'){
+            return $this->APIResponse(null, "هذا المدرس لم يتم الموافقة علي دخول الغرفة." , 400);
+        }
+
             if(isset($room)){
                 if($room->lastLive()!==null){
                     $room['live_appointment'] = $room->lastLive()->appointment;
@@ -187,6 +170,7 @@ class TeacherRoomController extends Controller
             return $this->APIResponse(null, "الفصل غير موجود", 404);
        
     }
+
     public function updateRoom(Request $request , $roomId)
     {
         $checkRoom =  RoomTeacher::where(['room_id'=>$roomId , 'teacher_id'=> Auth::guard('teacher-api')->user()->id])->first();

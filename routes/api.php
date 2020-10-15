@@ -44,7 +44,8 @@ Route::prefix('teacher')->namespace('Teacher')->group(function(){
         Route::get('show-rooms', 'TeacherRoomController@showRooms');
         Route::get('join-room/{roomId}', 'TeacherRoomController@joinRoom');
         Route::get('show-students/{classRoomId}/{liveId}', 'TeacherRoomController@showStudentsInRoom');
-                            /////////// show registered room
+                            
+                        /////////// show registered room
         Route::get('get-rooms', 'TeacherRoomController@getRooms');
         // Route::get('join-public-room/{roomId}', 'TeacherRoomController@joinPublicRoom');
         Route::post('create-room', 'TeacherRoomController@createRoom');

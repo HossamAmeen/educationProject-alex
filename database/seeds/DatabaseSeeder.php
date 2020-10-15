@@ -41,6 +41,7 @@ class DatabaseSeeder extends Seeder
             'subject'=> "math",
             'teacher_id'=>1,
             'is_private'=> "0",
+            'approvement'=>'accept',
             'user_id' => 1
         ]);
 
@@ -48,6 +49,7 @@ class DatabaseSeeder extends Seeder
             'name' => "Science with hossam",
             'subject'=> "Science",
             'teacher_id'=>1,
+            'approvement'=>'accept',
             'user_id' => 1
         ]);
         \App\Models\RoomTeacher::create([
