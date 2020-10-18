@@ -12,6 +12,11 @@ class Student extends Authenticatable
     protected $fillable = ['full_name' ,'email', 'user_name', 'password', 'phone','parent_phone',
      'level' ,'approvement', 'block_reason' ,'image', 'user_id'];
      protected $hidden = ['password','user_id','created_at' , 'updated_at'] ;
+
+     public function AauthAcessToken(){
+        return $this->hasMany(OauthAccessToken::class , 'user_id');
+    }
+
     public function publicRooms()
     {
         return $this->hasMany(StudentRoom::class , 'student_id');

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Student;
 use App\Http\Controllers\APIResponseTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Room};
+use App\Models\{Room,RoomLive};
 use App\Models\Student;
 use App\Models\{StudentRoom};
 use Auth ,DateTime , DateTimeZone;
@@ -119,30 +119,31 @@ class StudentRoomController extends Controller
         
         if(isset($room ) || $room->approvement == 'accept'){
 
-               
-                if($room->lastLive()!==null){
-                    $room['live_appointment'] = $room->lastLive()->appointment;
-                    $room['live_youtube_video_path'] = $room->lastLive()->youtube_video_path;
-                    $room['live_id'] = $room->lastLive()->id;
-                    $appointment = $room->lastLive()->appointment;
+                $date = Carbon::parse(now())->addHour(2);
+                $date = now();
+               $roomLive = RoomLive::where('room_id' ,$roomId )
+                                    ->where('appointment' ,'>=' , date('Y-m-d'))
+                                    ->whereTime('appointment' ,'>=' ,   $date)
+                                    ->orderBy('appointment')
+                                    ->first();
+                // return $roomLive;
+                if( $roomLive !==null){
+                   
+                    $room['live_appointment'] = $roomLive->appointment;
+                    $room['live_youtube_video_path'] = $roomLive->youtube_video_path;
+                    $room['live_id'] = $roomLive->id;
+                    $appointment = $roomLive->appointment;
 
                    
-                $boostStartDate = (new Carbon)->parse($room->lastLive()->appointment);
-                // $boostEndDate = (new Carbon)->parse($boostProperty->property_boost_end_date);
-                //Check Differences in Hours
-                
-                $curentTime =Carbon::now('Africa/Cairo');
-                // return  $curentTime;
-                // return date("Y-m-d H:i:s");;
-                $diffInStartDate = $curentTime->diffInHours($boostStartDate); //24 means 1 day to d future
-               
-                  
-                   
-                    // return  $diffInStartDate ;
-
-                    $room['status'] = $diffInStartDate <= 2 ? "now" : "no";
-
-                  
+                    $boostStartDate = (new Carbon)->parse($roomLive->appointment);
+                    // $boostEndDate = (new Carbon)->parse($boostProperty->property_boost_end_date);
+                    //Check Differences in Hours
+                    
+                    $curentTime =Carbon::now('Africa/Cairo');
+                    // return  $curentTime;
+                    // return date("Y-m-d H:i:s");;
+                    $diffInStartDate = $curentTime->diffInHours($boostStartDate); //24 means 1 day to d future
+                    $room['status'] = $diffInStartDate <= 2 ? "now" : "no";  
                     return $this->APIResponse($room, null, 200);
                 }
                 else
