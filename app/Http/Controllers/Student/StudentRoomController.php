@@ -120,7 +120,7 @@ class StudentRoomController extends Controller
         if(isset($room ) || $room->approvement == 'accept'){
 
                 $date = Carbon::parse(now())->addHour(2);
-                $date = now();
+                // $date = now();
                $roomLive = RoomLive::where('room_id' ,$roomId )
                                     ->where('appointment' ,'>=' , date('Y-m-d'))
                                     ->whereTime('appointment' ,'>=' ,   $date)
