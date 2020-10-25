@@ -131,7 +131,7 @@ class TeacherRoomController extends Controller
         } 
 
         $room = Room::create($request->except('approvement'));
-        RoomTeacher::create(['teacher_id' => Auth::guard('teacher-api')->user()->id , 'room_id' => $room->id ]);
+        RoomTeacher::create(['teacher_id' => Auth::guard('teacher-api')->user()->id , 'room_id' => $room->id , 'is_private' => 1]);
         return $this->APIResponse(null, null, 200);
     }
 
