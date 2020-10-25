@@ -108,7 +108,7 @@ class StudentRoomController extends Controller
         $room = Room::with(['files','lives'])->find($roomId);
         $studentId =  Auth::guard('student-api')->user()->id ; 
 
-        $studentRoom = StudentRoom::where('student_id' ,$studentId )->where('room_id' ,$roomId)->where('approvement', 'approvement')->first();
+        $studentRoom = StudentRoom::where('student_id' ,$studentId )->where('room_id' ,$roomId)->first();
 
         
         if(!isset($studentRoom) ){
