@@ -108,7 +108,9 @@ class StudentRoomController extends Controller
         $room = Room::with(['files','lives'])->find($roomId);
         $studentId =  Auth::guard('student-api')->user()->id ; 
 
-        $studentRoom = StudentRoom::where('student_id' ,$studentId )->where('room_id' ,$roomId )->first();
+        $studentRoom = StudentRoom::where('student_id' ,$studentId )->where('room_id' ,$roomId)->where('approvement', 'approvement')->first();
+
+        
         if(!isset($studentRoom) ){
             return $this->APIResponse(null, "هذا الطالب غير مسجل في الغرفة." , 400);
         }elseif($studentRoom->approvement == 'blocked'){
