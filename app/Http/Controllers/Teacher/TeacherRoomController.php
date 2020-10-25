@@ -143,11 +143,12 @@ class TeacherRoomController extends Controller
         $teacherRoom = RoomTeacher::where('teacher_id' ,$teacherId )->where('room_id' ,$roomId )->first();
         if(!isset($teacherRoom) ){
             return $this->APIResponse(null, "هذا المدرس غير مسجل في الغرفة." , 400);
-        }elseif($teacherRoom->approvement == 'blocked'){
-            return $this->APIResponse(null, "هذا المدرس محظور من دخول الغرفة." , 400);
-        }elseif($teacherRoom->approvement == 'under_revision'){
-            return $this->APIResponse(null, "هذا المدرس لم يتم الموافقة علي دخول الغرفة." , 400);
         }
+        // elseif($teacherRoom->approvement == 'blocked'){
+        //     return $this->APIResponse(null, "هذا المدرس محظور من دخول الغرفة." , 400);
+        // }elseif($teacherRoom->createRoom == 'under_revision'){
+        //     return $this->APIResponse(null, "هذا المدرس لم يتم الموافقة علي دخول الغرفة." , 400);
+        // }
 
             if(isset($room)){
                 if($room->lastLive()!==null){
@@ -215,7 +216,7 @@ class TeacherRoomController extends Controller
     }
     public function showStudentsInRoom($classRoomId , $liveId)
     {
-        // $studentsId = StudentRoom::where('room_id' , $classRoomId)->pluck('');
+        
         $students = Student::select('students.id','user_name','image')
                     ->join('student_rooms', 'student_rooms.student_id', '=', 'students.id')
                     ->where('student_rooms.room_id', $classRoomId)
