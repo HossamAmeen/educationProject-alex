@@ -5,7 +5,7 @@ use App\Http\Requests\Student\StudentRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Student;
+use App\Models\{Student,StudentRoom};
 class StudentController extends CRUDController
 {
     public function __construct(Student $model)
@@ -48,5 +48,8 @@ class StudentController extends CRUDController
         $row->update($requestArray);
         return $this->APIResponse(null, null, 200);
     }
-    
+    public function deleteRelatedItems($rowId)
+    {
+        StudentRoom::where('student_id' , $rowId)->delete();
+    }
 }

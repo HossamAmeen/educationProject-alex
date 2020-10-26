@@ -70,6 +70,7 @@ class CRUDController extends Controller
             // unlink(asset($row->image));
         }
         $row->delete();
+        $this->deleteRelatedItems($id);
         return $this->APIResponse(null, null, 200);
     }
 
@@ -92,6 +93,11 @@ class CRUDController extends Controller
     protected function attributes()
     {
         return '*';
+    }
+
+    public function deleteRelatedItems($rowId)
+    {
+        
     }
 
     protected function storeFile($file, $folderName)
