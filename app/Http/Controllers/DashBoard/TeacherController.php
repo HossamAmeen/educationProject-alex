@@ -4,7 +4,7 @@ namespace App\Http\Controllers\DashBoard;
 use App\Http\Controllers\APIResponseTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Teacher;
+use App\Models\{Teacher,RoomTeacher};
 use App\Http\Requests\Teacher\TeacherRequest;
 use Illuminate\Support\Facades\Hash;
 
@@ -54,5 +54,8 @@ class TeacherController extends CRUDController
         $row->update($requestArray);
         return $this->APIResponse(null, null, 200);
     }
-
+    public function deleteRelatedItems($rowId)
+    {
+        RoomTeacher::where('teacher_id' , $rowId)->delete();
+    }
 }
