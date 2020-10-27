@@ -56,6 +56,6 @@ class TeacherController extends CRUDController
     }
     public function deleteRelatedItems($rowId)
     {
-        RoomTeacher::where('teacher_id' , $rowId)->delete();
+        // RoomTeacher::where('teacher_id' , $rowId)->delete();
     }
 }
