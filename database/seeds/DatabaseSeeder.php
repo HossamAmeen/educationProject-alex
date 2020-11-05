@@ -64,7 +64,7 @@ class DatabaseSeeder extends Seeder
             'is_private'=> "0",
             'user_id' => 1
         ]);
-        
+
         \App\Models\RoomTeacher::create([
             'room_id'=> "1",
             'teacher_id'=>1,
@@ -93,7 +93,7 @@ class DatabaseSeeder extends Seeder
         $starts_at = Carbon::createFromTimestamp($faker->dateTimeBetween($startDate = '+2 days', $endDate = '+1 week')->getTimeStamp()) ;
 
         $ends_at= Carbon::createFromFormat('Y-m-d H:i:s', $starts_at)->addHours( $faker->numberBetween( 1, 8 ) );
-       
+
         \App\Models\RoomLive::create([
             'name' => "live Science with hossam",
             'youtube_video_path'=> "test path",
@@ -107,7 +107,7 @@ class DatabaseSeeder extends Seeder
         //     'appointment' => "thunday 20:30",
         //     'description'=>"science with hossam  private room",
         //     'room_id'=>1,
-          
+
         // ]);
 
         // factory('App\Models\User',25)->create();
@@ -123,8 +123,8 @@ class DatabaseSeeder extends Seeder
 
 
 
-       
-       
+
+
 
     }
 }

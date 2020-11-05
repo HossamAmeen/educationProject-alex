@@ -21,7 +21,7 @@ Route::prefix('admin')->namespace('DashBoard')->group(function(){
         Route::resource('students' , "StudentController");
         Route::resource('rooms' , "RoomController");
         Route::get('show-join-requests/{roomId?}', 'RoomController@showJoinRequests');
-        Route::put('change-join-request-status', 'RoomController@changeStatusStudentRoom'); 
+        Route::put('change-join-request-status', 'RoomController@changeStatusStudentRoom');
         Route::get('private-rooms' , "RoomController@showPrivateRooms");
         Route::get('show-lessons/{rooom}' , "RoomController@showLessons");
         Route::get('show-files/{rooom}' , "RoomController@showFilesForRoom");
@@ -39,7 +39,7 @@ Route::prefix('teacher')->namespace('Teacher')->group(function(){
         Route::get('get-account', 'TeacherController@getAccount');
         Route::put('update-account', 'TeacherController@updateAccount');
 
-                            ////////////// show rooms 
+                            ////////////// show rooms
         Route::get('show-public-rooms', 'TeacherRoomController@showPublicRooms');
         Route::get('show-private-rooms', 'TeacherRoomController@showPrivateRooms');
         Route::get('show-rooms', 'TeacherRoomController@showRooms');
@@ -53,10 +53,10 @@ Route::prefix('teacher')->namespace('Teacher')->group(function(){
         Route::put('update-room/{id}', 'TeacherRoomController@updateRoom');
 
                             ////////// teacher with student
-         Route::get('show-join-requests', 'TeacherStudentController@showJoinRequests');  
-         Route::put('change-join-request-status/{studentRoomId}/{status}', 'TeacherStudentController@changeStatusStudentRoom');  
-         Route::get('show-teacher-students', 'TeacherStudentController@showTeacherStudents');  
-                          
+         Route::get('show-join-requests', 'TeacherStudentController@showJoinRequests');
+         Route::put('change-join-request-status/{studentRoomId}/{status}', 'TeacherStudentController@changeStatusStudentRoom');
+         Route::get('show-teacher-students', 'TeacherStudentController@showTeacherStudents');
+
                             //////////////// lives
         Route::resource('lives' , "RoomLiveController");
         Route::get('get-lives-room/{room_id}', 'RoomLiveController@getLives');
@@ -78,7 +78,7 @@ Route::prefix('student')->namespace('Student')->group(function(){
     Route::post('register', 'StudentController@register')->name('student.login');
     Route::post('login', 'StudentController@login')->name('student.login');
     Route::middleware('checkLogin:student-api')->group(function () {
-           
+
         Route::get('get-account', 'StudentController@getAccount');
         Route::post('update-account', 'StudentController@updateAccount');
                                 ///// show rooms /////
@@ -87,13 +87,13 @@ Route::prefix('student')->namespace('Student')->group(function(){
         Route::get('show-rooms', 'StudentRoomController@showRooms');
         Route::get('show-room/{id}', 'StudentRoomController@getRoomDetials');
                                 //// show registered room
-        Route::get('get-rooms', 'StudentRoomController@getRegisteredRooms');    ///////////// show all registered room 
+        Route::get('get-rooms', 'StudentRoomController@getRegisteredRooms');    ///////////// show all registered room
         Route::post('join-room/{id}', 'StudentRoomController@joinRoom');
-      
-        
+
+
 
                                         /////////// student lesson
-        Route::get('join-live/{liveId}', 'StudentLessonController@joinLive'); 
+        Route::get('join-live/{liveId}', 'StudentLessonController@joinLive');
         Route::get('left-live/{liveId}', 'StudentLessonController@leftLive');
 
         Route::post('add-comment/{liveId}', 'StudentLessonController@addComment');
