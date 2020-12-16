@@ -13,7 +13,8 @@ class TeacherStudentController extends Controller
     { 
         $rows = 
          StudentRoom::with(['student' , 'room'])
-        ->select(['student_rooms.id','student_rooms.student_id','student_rooms.room_id','student_rooms.approvement'])
+        // ->select(['student_rooms.id','student_rooms.student_id','student_rooms.room_id','student_rooms.approvement'])
+        ->select('student_rooms.*')
         ->join('room_teachers', 'student_rooms.room_id', '=', 'room_teachers.room_id')
         ->where('room_teachers.teacher_id', Auth::guard('teacher-api')->user()->id)
         ->where('room_teachers.is_private', 1)

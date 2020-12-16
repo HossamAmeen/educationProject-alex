@@ -38,7 +38,7 @@ class RoomController extends CRUDController
         if(isset($requestArray['file']) )
         $requestArray['image'] =  $this->storeFile($request->file , 'rooms');
         // $requestArray['user_id'] = Auth::user()->id;
-        $requestArray['is_private'] = 0 ;
+       $requestArray['is_private'] = 0 ;
        $room =  $this->model->create($requestArray);
        if(is_array($request->teacher_id)){
 
@@ -93,7 +93,7 @@ class RoomController extends CRUDController
                 RoomTeacher::create([
                     'teacher_id' => $request->teacher_id[$i],
                     'room_id' => $row->id,
-                    'is_private'=>0]);
+                    'is_private'=> $row->is_private]);
             }
             
         }
