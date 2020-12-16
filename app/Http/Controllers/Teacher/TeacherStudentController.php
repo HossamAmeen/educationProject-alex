@@ -11,8 +11,9 @@ class TeacherStudentController extends Controller
     use APIResponseTrait;
     public function showJoinRequests()
     { 
-        $rows = StudentRoom::with(['student' , 'room'])
-        ->select('student_rooms.*')
+        $rows = 
+         StudentRoom::with(['student' , 'room'])
+        ->select(['student_rooms.id','student_rooms.student_id','student_rooms.room_id','student_rooms.approvement'])
         ->join('room_teachers', 'student_rooms.room_id', '=', 'room_teachers.room_id')
         ->where('room_teachers.teacher_id', Auth::guard('teacher-api')->user()->id)
         ->where('room_teachers.is_private', 1)
