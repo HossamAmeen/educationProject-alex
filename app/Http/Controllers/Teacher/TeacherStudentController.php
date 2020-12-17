@@ -16,7 +16,7 @@ class TeacherStudentController extends Controller
         // ->select(['student_rooms.id','student_rooms.student_id','student_rooms.room_id','student_rooms.approvement'])
         ->select('student_rooms.*')
         ->join('room_teachers', 'student_rooms.room_id', '=', 'room_teachers.room_id')
-        ->join('room', 'rooms.id', '=', 'room_teachers.room_id')
+        ->join('rooms', 'rooms.id', '=', 'room_teachers.room_id')
         ->where('room_teachers.teacher_id', Auth::guard('teacher-api')->user()->id)
         ->where('rooms.is_private', 1)
         ->where('student_rooms.approvement', 'under_revision')
