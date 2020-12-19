@@ -92,18 +92,18 @@ class TeacherRoomController extends Controller
 
         ////////////////////////////// edit after
         $publicRooms = Room::select('rooms.*')
-        ->join('room_teachers', 'room_teachers.room_id', '=', 'rooms.id')
-        ->where('room_teachers.teacher_id', Auth::guard('teacher-api')->user()->id)
-        ->where('rooms.is_private',0)
-        ->where('rooms.approvement','accept')
-        ->get();
+                        ->join('room_teachers', 'room_teachers.room_id', '=', 'rooms.id')
+                        ->where('room_teachers.teacher_id', Auth::guard('teacher-api')->user()->id)
+                        ->where('rooms.is_private',0)
+                        ->where('rooms.approvement','accept')
+                        ->get();
         $privateRooms = Room::select('rooms.*')
-        ->join('room_teachers', 'room_teachers.room_id', '=', 'rooms.id')
-
-        ->where('room_teachers.teacher_id', Auth::guard('teacher-api')->user()->id)
-        ->where('rooms.is_private',1)
-        ->where('rooms.approvement','accept')
-        ->get();
+                        ->join('room_teachers', 'room_teachers.room_id', '=', 'rooms.id')
+                        ->where('room_teachers.teacher_id', Auth::guard('teacher-api')->user()->id)
+                        ->where('rooms.is_private',1)
+                        ->where('rooms.approvement','accept')
+                        ->get();
+        return $privateRooms;
         if( request()->get('type')  )
         {
             if( request()->get('type') == "public"){

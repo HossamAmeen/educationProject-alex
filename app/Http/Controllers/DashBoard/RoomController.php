@@ -16,13 +16,13 @@ class RoomController extends CRUDController
     public function index()
     {
         $rooms = Room::get();
-        
+
         $rows = array();
-      
+
         foreach($rooms as $room ){
             $data = $room;
             // $data['teachers_names'] = array();
-            $datas['names'] =  array(); 
+            $datas['names'] =  array();
             foreach($room->teachers as $x ){
                 $datas['names'][] =    $x->teacher->full_name ?? " ";
             }
@@ -33,7 +33,7 @@ class RoomController extends CRUDController
         return $this->APIResponse($rows, null, 200);
     }
     public function store(Request $request){
-        
+
         $requestArray = $request->all();
         if(isset($requestArray['file']) )
         $requestArray['image'] =  $this->storeFile($request->file , 'rooms');
@@ -47,13 +47,14 @@ class RoomController extends CRUDController
                 RoomTeacher::create([
                     'teacher_id' => $request->teacher_id[$i],
                     'room_id' => $room->id,
-                    'is_private'=>0]);
-                    
+                    'is_private'=>0,
+                    'user_id'=> Auth::user()->id]);
+
             }
-            
+
         }
 
-      
+
         return $this->APIResponse(null, null, 200);
     }
 
@@ -61,16 +62,16 @@ class RoomController extends CRUDController
     {
         $item = $this->model->FindOrFail($id);
         $with = $this->with();
-        
-      
+
+
         // return $teachers;
-       
+
         if (!empty($with))
         {
             $item = $this->model::with($with)->get()->find($id);
             // $rows = $rows->with($with);
         }
-      
+
         $teachers = Teacher::select('teachers.*')
         ->join('room_teachers', 'room_teachers.teacher_id', '=', 'teachers.id')
         ->where('room_teachers.room_id', $id)
@@ -80,22 +81,27 @@ class RoomController extends CRUDController
     }
 
     public function update($id , Request $request){
-       
+
         $row = $this->model->FindOrFail($id);
         $requestArray = $request->all();
         if(isset($requestArray['file']) )
         $requestArray['image'] =  $this->storeFile($request->file , 'rooms');
-        $row->teachers()->delete();
-        if(is_array($request->teacher_id)){
 
-            for($i=0 ; $i<count($request->teacher_id);$i++)
-            {
-                RoomTeacher::create([
-                    'teacher_id' => $request->teacher_id[$i],
-                    'room_id' => $row->id,
-                    'is_private'=> $row->is_private]);
+        if($row->is_private == 0)
+        {
+            $row->teachers()->delete();
+            if(is_array($request->teacher_id)){
+
+                for($i=0 ; $i<count($request->teacher_id);$i++)
+                {
+                    RoomTeacher::create([
+                        'teacher_id' => $request->teacher_id[$i],
+                        'room_id' => $row->id,
+                        'is_private'=> $row->is_private,
+                        'user_id'=> Auth::user()->id]);
+                }
+
             }
-            
         }
         // $requestArray['user_id'] = Auth::user()->id;
         // $requestArray['is_private'] = 0 ;
@@ -106,7 +112,7 @@ class RoomController extends CRUDController
     public function showPrivateRooms()
     {
         $rows = $this->model;
-        
+
         $with = $this->with();
         if (!empty($with))
         {
@@ -133,7 +139,7 @@ class RoomController extends CRUDController
 
     public function showLessons($roomId)
     {
-        
+
         return $this->APIResponse(RoomLive::where('room_id' , $roomId)->get(), null, 200);
     }
 
@@ -143,7 +149,7 @@ class RoomController extends CRUDController
     }
 
     public function showJoinRequests()
-    { 
+    {
         // return request('roomId');
         if(request('roomId') != null)
         $rows = StudentRoom::with(['student' , 'room'])
