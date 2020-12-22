@@ -40,7 +40,7 @@ Route::prefix('teacher')->namespace('Teacher')->group(function(){
         Route::put('update-account', 'TeacherController@updateAccount');
 
                             ////////////// show rooms
-        Route::get('show-public-rooms', 'TeacherRoomController@showPublicRooms');
+        Route::get('show-public-rooms', 'TeacherRoomController@getRoomDetials');
         Route::get('show-private-rooms', 'TeacherRoomController@showPrivateRooms');
         Route::get('show-rooms', 'TeacherRoomController@showRooms');
         Route::get('join-room/{roomId}', 'TeacherRoomController@joinRoom');
@@ -82,7 +82,7 @@ Route::prefix('student')->namespace('Student')->group(function(){
         Route::get('get-account', 'StudentController@getAccount');
         Route::post('update-account', 'StudentController@updateAccount');
                                 ///// show rooms /////
-        Route::get('show-public-rooms', 'StudentRoomController@showPublicRooms');
+        Route::get('show-public-rooms', 'StudentRoomController@getRoomDetials');
         Route::get('show-private-rooms', 'StudentRoomController@showPrivateRooms');
         Route::get('show-rooms', 'StudentRoomController@showRooms');
         Route::get('show-room/{id}', 'StudentRoomController@getRoomDetials');

@@ -125,11 +125,12 @@ class StudentRoomController extends Controller
                 // $date = now();
                 $date = Carbon::parse(now())->subMinutes(118);
                 $roomLive = RoomLive::where('room_id' ,$roomId )
-                                     ->where('appointment' ,'>=' , date('Y-m-d'))
-                                     ->where('appointment' ,'>=' , $date)
-                                     ->orderBy('appointment')
-                                     ->first();
-                // return $roomLive;
+                                ->where('appointment' ,'>=' , date('Y-m-d'))
+                                ->where('appointment' ,'>=' , $date)
+                                ->orderBy('appointment')
+                                ->first();
+
+                $room['status'] =time() > strtotime($room->lastLive()->appointment)  ? "no" : "now";
                 if( $roomLive !==null){
 
                     $room['live_appointment'] = $roomLive->appointment;

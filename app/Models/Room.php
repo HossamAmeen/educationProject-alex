@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Room extends Model
 {
@@ -25,10 +26,12 @@ class Room extends Model
 
     public function lives()
     {
-        return $this->hasMany(RoomLive::class , 'room_id')
-        ->select(['id' , 'youtube_video_path' , 'name' ,'description','appointment', 'room_id'])
-        ->where('appointment' ,'<' , date('Y-m-d'))
-        ->orderBy('id' , 'DESC');
+        $date = Carbon::parse(now())->subMinutes(118);
+        return $this->hasOne(RoomLive::class , 'room_id')
+            ->select(['id' , 'youtube_video_path' , 'name' ,'description','appointment', 'room_id'])
+            ->where('appointment' ,'>=' , date('Y-m-d'))
+            ->where('appointment' ,'>=' , $date)
+            ->orderBy('appointment');
     }
 
     public function newLives()
