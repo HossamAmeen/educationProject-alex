@@ -105,7 +105,7 @@ class StudentRoomController extends Controller
     public function getRoomDetials($roomId)
     {
         date_default_timezone_set("Africa/Cairo");
-        $room = Room::with(['files','lives'])->find($roomId);
+        $room = Room::with(['files','next_live'])->find($roomId);
         $studentId =  Auth::guard('student-api')->user()->id ;
 
         $studentRoom = StudentRoom::where('student_id' ,$studentId )->where('room_id' ,$roomId)->first();

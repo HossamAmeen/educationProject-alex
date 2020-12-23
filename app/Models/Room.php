@@ -24,7 +24,7 @@ class Room extends Model
         return $this->hasMany(FileRoom::class , 'room_id')->select(['id' , 'path' , 'name' , 'room_id']);
     }
 
-    public function lives()
+    public function next_live()
     {
         $date = Carbon::parse(now())->subMinutes(118);
         return $this->hasOne(RoomLive::class , 'room_id')
@@ -32,6 +32,14 @@ class Room extends Model
             ->where('appointment' ,'>=' , date('Y-m-d'))
             ->where('appointment' ,'>=' , $date)
             ->orderBy('appointment');
+    }
+
+    public function lives()
+    {
+        return $this->hasMany(RoomLive::class , 'room_id')
+            ->select(['id' , 'youtube_video_path' , 'name' ,'description','appointment', 'room_id'])
+            ->where('appointment' ,'<' , date('Y-m-d'))
+            ->orderBy('id' , 'DESC');
     }
 
     public function newLives()
