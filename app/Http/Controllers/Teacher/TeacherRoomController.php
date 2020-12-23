@@ -103,7 +103,7 @@ class TeacherRoomController extends Controller
                         ->where('rooms.is_private',1)
                         ->where('rooms.approvement','accept')
                         ->get();
-        return $privateRooms;
+        
         if( request()->get('type')  )
         {
             if( request()->get('type') == "public"){
