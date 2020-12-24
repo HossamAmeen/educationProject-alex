@@ -130,7 +130,8 @@ class StudentRoomController extends Controller
                                 ->orderBy('appointment')
                                 ->first();
 
-                $room['status'] =time() > strtotime($room->lastLive()->appointment)  ? "no" : "now";
+                if($room->lastLive())
+                    $room['status'] =time() > strtotime($room->lastLive()->appointment)  ? "no" : "now";
                 if( $roomLive !==null){
 
                     $room['live_appointment'] = $roomLive->appointment;
